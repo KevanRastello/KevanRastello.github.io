@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progress Tracker with Firebase Notifications</title>
+    <title>Progress Tracker with Webhook Triggers</title>
 
     <style>
         .progress-bar {
@@ -17,123 +17,37 @@
         }
     </style>
 
-    <!-- Add Firebase SDK Scripts -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging.js"></script>
-
     <script>
-        // Your Firebase web app's configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBTwWMQerWMr1C7c5ANKFFI18a9r0dWq4Y",
-            authDomain: "inform-github-page.firebaseapp.com",
-            projectId: "inform-github-page",
-            storageBucket: "inform-github-page.appspot.com",
-            messagingSenderId: "276731489504",
-            appId: "1:276731489504:web:4b75677f6655810b2df485"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        // Initialize Firebase Cloud Messaging
-        const messaging = firebase.messaging();
-
-        // Declare a variable to store the interval ID for periodic fetching
-        let fetchInterval;
-        let totalFiles = 100;  // Default number of iterations (will be updated)
-
-        // Function to start fetching file data every minute
-        function startFetching() {
-            fetchInterval = setInterval(fetchFileData, 60000);  // Fetch every minute (60000 ms)
-            console.log("Started fetching file data every minute.");
-        }
-
-        // Function to stop fetching file data
-        function stopFetching() {
-            clearInterval(fetchInterval);
-            console.log("Stopped fetching file data.");
-        }
-
-        // Request permission to receive notifications
-        messaging.requestPermission()
-            .then(() => {
-                console.log("Notification permission granted.");
-                return messaging.getToken({ vapidKey: "BJ1lk8Ci9-DJApJu4Ko-Hj60yMRvbAlnMn51RujLiqm5C8jpKcllHDkzgulZ1h93Gpu1EehJ8Hi4AaetW16giHc" });
-            })
-            .then((token) => {
-                console.log("FCM Token:", token);
-            })
-            .catch((err) => {
-                console.error("Unable to get permission to notify.", err);
-            });
-
-        // Listen for messages from Firebase
-        messaging.onMessage((payload) => {
-            console.log("Message received: ", payload);
-
-            // Check if the message contains the 'start' or 'stop' trigger
-            if (payload.data && payload.data.action === "start") {
-                startFetching();  // Start fetching data
-            } else if (payload.data && payload.data.action === "stop") {
-                stopFetching();  // Stop fetching data
-            }
-        });
-
-        // Fetch the total number of iterations (from n_iterations.txt)
-        async function fetchTotalIterations(fileId, apiKey) {
-            const url = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
-            try {
-                const response = await fetch(url);
-                const total = await response.text();
-                totalFiles = parseInt(total, 10);  // Update the total number of iterations
-                console.log("Total iterations (files expected):", totalFiles);
-            } catch (error) {
-                console.error("Error fetching total iterations:", error);
-            }
-        }
-
-        // Function to fetch the number of files from Google Drive folder
-        async function fetchFileData() {
-            const folderId = '1Snp8tfM8wvQalM8PqxO8UBuwh2uwI5jK';  // Your Google Drive Folder ID
-            const apiKey = 'AIzaSyAKJalgSbuGwupyxPjEsBEPUpgmc8iCsp0';
-
-            // URL to list files in the folder using the Drive API
-            const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${apiKey}`;
-
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-
-                // Check if files were found
-                if (data && data.files) {
-                    // Look for the 'n_iterations.txt' file and update the totalFiles
-                    const iterationsFile = data.files.find(file => file.name === 'n_iterations.txt');
-                    if (iterationsFile) {
-                        await fetchTotalIterations(iterationsFile.id, apiKey);
-                    }
-
-                    // Count all other files except 'n_iterations.txt'
-                    const numFiles = data.files.filter(file => file.name !== 'n_iterations.txt').length;
-                    updateProgress(numFiles);
-                } else {
-                    console.log("No files found.");
-                }
-            } catch (error) {
-                console.error("Error fetching file data:", error);
-            }
-        }
-
-        // Function to update the progress bar based on the number of files
-        function updateProgress(numFiles) {
-            const progressPercent = (numFiles / totalFiles) * 100;
-
+        // Function to update the progress bar based on the received progress percentage
+        function updateProgress(progressPercent) {
             document.querySelector(".progress").style.width = `${progressPercent}%`;
             document.getElementById("progress-percent").innerText = `Progress: ${progressPercent.toFixed(2)}%`;
         }
 
-        // Start fetching data when the page loads
+        // Function to handle incoming webhook actions
+        async function handleWebhook(progress) {
+            // Update the progress based on webhook data (assumed as percentage)
+            updateProgress(progress);
+        }
+
+        // Simulate receiving a webhook trigger (replace with actual webhook URL)
+        async function listenToWebhook() {
+            const webhookURL = 'https://hook.eu2.make.com/kqxq2k6ym7x88wn7rt9mz53ful77dynj'; 
+            try {
+                const response = await fetch(webhookURL);
+                const data = await response.json();
+                
+                // Example response structure: { "progress": 50 }
+                const progress = data.progress;  // Extract progress value
+                handleWebhook(progress);  // Update the progress bar
+            } catch (error) {
+                console.error("Error receiving webhook data:", error);
+            }
+        }
+
+        // Set an interval to check for webhook updates periodically
         window.onload = function() {
-            startFetching();  // You can trigger this manually via FCM as well
+            setInterval(listenToWebhook, 5000);  // Check for updates every 5 seconds (adjust as needed)
         }
     </script>
 </head>
