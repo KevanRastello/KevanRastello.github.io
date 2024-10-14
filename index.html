@@ -32,7 +32,7 @@
                 const data = await response.json();
                 
                 // Extract progress value and update the progress bar
-                const progress = data.progress;  // Ensure progress is sent in the response body as { "progress": XX }
+                const progress = data.progress.value;  // Adjusted to extract the value from { progress: { value: XX } }
                 if (progress !== undefined) {
                     updateProgress(progress);  // Update the progress bar
                 }
