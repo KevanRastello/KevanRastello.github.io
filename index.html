@@ -25,21 +25,17 @@
         }
 
         // Function to handle incoming webhook actions
-        async function handleWebhook(progress) {
-            // Update the progress based on webhook data (assumed as percentage)
-            updateProgress(progress);
-        }
-
-        // Simulate receiving a webhook trigger (replace with actual webhook URL)
-        async function listenToWebhook() {
-            const webhookURL = 'https://hook.eu2.make.com/kqxq2k6ym7x88wn7rt9mz53ful77dynj'; 
+        async function handleWebhook() {
+            const webhookURL = 'https://hook.eu2.make.com/kqxq2k6ym7x88wn7rt9mz53ful77dynj';  // Your Make webhook URL
             try {
                 const response = await fetch(webhookURL);
                 const data = await response.json();
                 
-                // Example response structure: { "progress": 50 }
-                const progress = data.progress;  // Extract progress value
-                handleWebhook(progress);  // Update the progress bar
+                // Extract progress value and update the progress bar
+                const progress = data.progress;  // Ensure progress is sent in the response body as { "progress": XX }
+                if (progress !== undefined) {
+                    updateProgress(progress);  // Update the progress bar
+                }
             } catch (error) {
                 console.error("Error receiving webhook data:", error);
             }
@@ -47,7 +43,7 @@
 
         // Set an interval to check for webhook updates periodically
         window.onload = function() {
-            setInterval(listenToWebhook, 5000);  // Check for updates every 5 seconds (adjust as needed)
+            setInterval(handleWebhook, 5000);  // Check for updates every 5 seconds
         }
     </script>
 </head>
