@@ -18,10 +18,14 @@
     </style>
 
     <script>
+        let intervalId = null;
+        let lastUpdateTime = null;
+
         // Function to update the progress bar based on the received progress percentage
         function updateProgress(progressPercent) {
             document.querySelector(".progress").style.width = `${progressPercent}%`;
             document.getElementById("progress-percent").innerText = `Progress: ${progressPercent.toFixed(2)}%`;
+            lastUpdateTime = new Date();  // Track the time of the latest progress update
         }
 
         // Function to handle incoming webhook actions
@@ -32,7 +36,7 @@
                 const data = await response.json();
                 
                 // Extract progress value and update the progress bar
-                const progress = data.progress.value;  // Adjusted to extract the value from { progress: { value: XX } }
+                const progress = data.progress.value;  // Extract the value from { progress: { value: XX } }
                 if (progress !== undefined) {
                     updateProgress(progress);  // Update the progress bar
                 }
@@ -41,9 +45,57 @@
             }
         }
 
-        // Set an interval to check for webhook updates periodically
+        // Function to start checking for updates
+        function startCheckingForUpdates() {
+            if (!intervalId) {  // Only start if it's not already running
+                intervalId = setInterval(handleWebhook, 30000);  // Check for updates every 5 seconds
+                lastUpdateTime = new Date();  // Set the start time
+                console.log("Started checking for updates...");
+            }
+        }
+
+        // Function to stop checking for updates
+        function stopCheckingForUpdates() {
+            if (intervalId) {
+                clearInterval(intervalId);  // Stop the interval
+                intervalId = null;
+                console.log("Stopped checking for updates due to inactivity.");
+            }
+        }
+
+        // Monitor for inactivity (15 minutes without updates)
+        function monitorInactivity() {
+            const now = new Date();
+            const timeSinceLastUpdate = (now - lastUpdateTime) / (1000 * 60);  // Time in minutes
+
+            if (timeSinceLastUpdate >= 15) {  // 15 minutes of no updates
+                stopCheckingForUpdates();
+            }
+        }
+
+        // Function to handle the first webhook and trigger updates
+        async function handleFirstWebhook() {
+            const webhookURL = 'https://hook.eu2.make.com/kqxq2k6ym7x88wn7rt9mz53ful77dynj';  // Your Make webhook URL
+            try {
+                const response = await fetch(webhookURL);
+                const data = await response.json();
+                
+                // Extract progress value and update the progress bar
+                const progress = data.progress.value;  // Extract the value from { progress: { value: XX } }
+                if (progress !== undefined) {
+                    updateProgress(progress);  // Update the progress bar
+                    startCheckingForUpdates();  // Start checking for continuous updates
+                }
+            } catch (error) {
+                console.error("Error receiving initial webhook data:", error);
+            }
+        }
+
         window.onload = function() {
-            setInterval(handleWebhook, 5000);  // Check for updates every 5 seconds
+            handleFirstWebhook();  // Trigger the first webhook action when the page loads
+
+            // Start monitoring inactivity in the background
+            setInterval(monitorInactivity, 60 * 1000);  // Check inactivity every minute
         }
     </script>
 </head>
