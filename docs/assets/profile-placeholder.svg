@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 210" width="210" height="210">
+  <rect width="210" height="210" fill="#eef3f2"/>
+  <circle cx="105" cy="82" r="34" fill="#c3d4d0"/>
+  <path d="M40 185 C 40 138, 170 138, 170 185 Z" fill="#c3d4d0"/>
+  <text x="105" y="203" text-anchor="middle" font-family="sans-serif"
+        font-size="12" fill="#7d918d">add assets/profile.jpg</text>
+</svg>

@@ -1,0 +1,55 @@
+---
+title: "CV"
+---
+
+::: {.placeholder-note}
+**Placeholder.** Keeping a short web version here and linking a full PDF is the
+usual pattern — visitors skim the page, committees download the PDF. Drop the PDF
+at `assets/cv.pdf`.
+:::
+
+[**Download full CV (PDF)**](assets/cv.pdf){.btn}
+
+## Education
+
+::: {.entry}
+[**PhD**, *[Field]* — *[Institution]*]{.entry-title}
+[*[Year]*–present. Advisor: *[Name]*. Thesis: *[working title]*.]{.entry-meta}
+:::
+
+::: {.entry}
+[**MSc**, *[Field]* — *[Institution]*]{.entry-title}
+[*[Year]*. Thesis: *[title]*.]{.entry-meta}
+:::
+
+::: {.entry}
+[**BSc**, *[Field]* — *[Institution]*]{.entry-title}
+[*[Year]*.]{.entry-meta}
+:::
+
+## Positions
+
+::: {.entry}
+[*[Position title]* — *[Institution / lab]*]{.entry-title}
+[*[Year]*–*[Year]*.]{.entry-meta}
+:::
+
+## Awards and fellowships
+
+- *[Award name]*, *[Awarding body]*, *[Year]*
+- *[Fellowship name]*, *[Awarding body]*, *[Year]*
+
+## Skills
+
+**Modelling** — *[e.g. ODE/PDE models, stochastic processes, individual-based simulation]*
+
+**Statistics** — *[e.g. Bayesian inference, hierarchical models, state-space models]*
+
+**Computing** — R, *[Python, C++, Stan, Julia — whichever apply]*, Git, LaTeX/Quarto
+
+**Languages** — *[e.g. French (native), English (fluent)]*
+
+## Service
+
+- Reviewer for *[Journal name]*
+- *[Committee, outreach, or organising role]*

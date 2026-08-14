@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" width="640" height="300">
+  <rect width="640" height="300" fill="#f7faf9" stroke="#e2e8e7"/>
+  <line x1="60" y1="250" x2="600" y2="250" stroke="#b9c6c4" stroke-width="1.5"/>
+  <line x1="60" y1="250" x2="60" y2="40" stroke="#b9c6c4" stroke-width="1.5"/>
+  <path d="M60 245 C 200 240, 260 90, 600 70" fill="none" stroke="#2c6e63" stroke-width="2.5"/>
+  <line x1="60" y1="70" x2="600" y2="70" stroke="#c0563f" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="330" y="285" text-anchor="middle" font-family="sans-serif"
+        font-size="13" fill="#8b9a98">figure placeholder</text>
+</svg>

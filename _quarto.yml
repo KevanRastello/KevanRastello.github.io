@@ -1,0 +1,64 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Kevan Rastello"
+  description: "Research in ecology and mathematical biology."
+  site-url: "https://kevanrastello.github.io"
+  favicon: assets/favicon.svg
+
+  navbar:
+    logo: assets/logo.svg
+    title: "Kevan Rastello"
+    left:
+      - href: index.qmd
+        text: Home
+      - href: research.qmd
+        text: Research
+      - href: resources/index.qmd
+        text: Resources
+      - href: publications.qmd
+        text: Publications
+      - href: teaching.qmd
+        text: Teaching
+      - href: talks.qmd
+        text: Talks
+      - href: cv.qmd
+        text: CV
+    right:
+      - href: contact.qmd
+        text: Contact
+      - icon: github
+        href: https://github.com/KevanRastello
+        aria-label: GitHub
+
+  page-footer:
+    left: "© 2026 Kevan Rastello"
+    right:
+      - icon: github
+        href: https://github.com/KevanRastello
+      - icon: envelope
+        href: mailto:kevan.rastello@gmail.com
+
+format:
+  html:
+    theme:
+      - cosmo
+      - styles.scss
+    toc: true
+    toc-depth: 3
+    anchor-sections: true
+    smooth-scroll: true
+    code-copy: true
+    code-overflow: wrap
+    link-external-newwindow: true
+    html-math-method: katex
+
+# Copy .nojekyll into docs/ so GitHub Pages serves Quarto's _files directories
+resources:
+  - .nojekyll
+  - assets/
+
+execute:
+  freeze: auto

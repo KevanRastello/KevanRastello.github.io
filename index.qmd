@@ -1,0 +1,68 @@
+---
+title: ""
+page-layout: full
+toc: false
+---
+
+::: {.hero}
+::: {.hero-photo}
+![](assets/profile-placeholder.svg)
+:::
+
+::: {.hero-text}
+# Kevan Rastello
+
+::: {.hero-tagline}
+PhD candidate in ecology and mathematical biology
+:::
+
+I study *[one-sentence description of your research area — e.g. how spatial
+structure and demographic stochasticity shape population persistence]*. My work
+combines mathematical models with data to understand *[the systems you work
+on]*.
+
+Alongside my research I write [**explainers**](resources/index.qmd) — interactive
+walkthroughs of the models and methods I use, aimed at anyone who wants to build
+intuition rather than just read the equations.
+:::
+:::
+
+::: {.placeholder-note}
+**Placeholder.** Replace the bracketed text above with your own description, and
+drop a photo at `assets/profile.jpg` (then point the image path here at it).
+:::
+
+## Explore
+
+::: {.card-grid}
+::: {.card-item}
+### [Research](research.qmd)
+Current projects, questions I'm working on, and the systems I study.
+:::
+
+::: {.card-item}
+### [Resources](resources/index.qmd)
+Interactive explainers on population models, dynamical systems, and methods.
+:::
+
+::: {.card-item}
+### [Publications](publications.qmd)
+Papers, preprints, and the code and data behind them.
+:::
+
+::: {.card-item}
+### [Teaching](teaching.qmd)
+Courses, lecture material, and student supervision.
+:::
+:::
+
+## Recent
+
+::: {.placeholder-note}
+**Placeholder.** A short running list of news — new preprint, talk given, resource
+published. Delete this section if you'd rather not maintain it.
+:::
+
+- *[Month Year]* — New resource: [Logistic growth](resources/logistic-growth.qmd)
+- *[Month Year]* — Preprint posted: *[title]*
+- *[Month Year]* — Talk at *[conference]*

@@ -1,0 +1,26 @@
+---
+title: "Contact"
+toc: false
+---
+
+::: {.placeholder-note}
+**Placeholder.** Fill in the address and profile links. Anything you'd rather not
+make public, just delete the line.
+:::
+
+I'm happy to hear from people interested in the work, potential collaborators, and
+students looking for projects.
+
+**Email** — [kevan.rastello@gmail.com](mailto:kevan.rastello@gmail.com)
+
+**Office** — *[Building, room number]*
+*[Department]*
+*[Institution]*
+*[Street address, City, Country]*
+
+## Elsewhere
+
+- [GitHub](https://github.com/KevanRastello)
+- [Google Scholar](#) — *[add link]*
+- [ORCID](#) — *[add link]*
+- [Bluesky / Mastodon](#) — *[add link, or delete]*

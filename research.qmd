@@ -1,0 +1,50 @@
+---
+title: "Research"
+---
+
+::: {.placeholder-note}
+**Placeholder.** Structure below is a suggestion — one section per project, each
+with the question, the approach, and where the work stands. Delete what you don't
+need.
+:::
+
+## Overview
+
+*[Two or three paragraphs framing your research programme. What broad question
+connects your projects? What kinds of tools do you bring to it — analytical
+models, simulation, statistical inference, fieldwork? Written for a scientist
+outside your immediate subfield.]*
+
+## Project 1 — *[Short project title]*
+
+**The question.** *[What don't we know, and why does it matter?]*
+
+**The approach.** *[The model, dataset, or method. One paragraph.]*
+
+**Where it stands.** *[In progress / preprint / published — link out if relevant.]*
+
+![*[Figure caption — a model schematic or key result works well here.]*](assets/placeholder-figure.svg)
+
+## Project 2 — *[Short project title]*
+
+**The question.** *[...]*
+
+**The approach.** *[...]*
+
+**Where it stands.** *[...]*
+
+## Project 3 — *[Short project title]*
+
+**The question.** *[...]*
+
+**The approach.** *[...]*
+
+**Where it stands.** *[...]*
+
+## Collaborators
+
+*[Optional — people and groups you work with, linked to their pages.]*
+
+## Funding
+
+*[Optional — grants and fellowships supporting this work.]*

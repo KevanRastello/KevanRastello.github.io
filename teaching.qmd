@@ -1,0 +1,38 @@
+---
+title: "Teaching"
+---
+
+::: {.placeholder-note}
+**Placeholder.** Adapt the headings to how your teaching is actually organised.
+Material you're happy to share publicly can live under `resources/` and be linked
+from here.
+:::
+
+## Courses
+
+### *[Course title]* — *[Institution, Year]*
+
+*[Role: teaching assistant / lecturer / lab instructor. One or two sentences on
+the course content and level, plus the size of the group.]*
+
+Materials: *[link to slides, problem sets, or a resource page]*
+
+### *[Course title]* — *[Institution, Year]*
+
+*[...]*
+
+## Workshops and short courses
+
+### *[Workshop title]* — *[Venue, Year]*
+
+*[One or two sentences. If the material is online, link it.]*
+
+## Supervision
+
+- *[Student name]* — *[degree level]*, *[year]*. Project: *[topic]*.
+- *[Student name]* — *[degree level]*, *[year]*. Project: *[topic]*.
+
+## Teaching philosophy
+
+*[Optional — a short paragraph. Useful to have written down when applying for
+positions, and cheap to keep here.]*

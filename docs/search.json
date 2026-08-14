@@ -1,0 +1,289 @@
+[
+  {
+    "objectID": "teaching.html",
+    "href": "teaching.html",
+    "title": "Teaching",
+    "section": "",
+    "text": "Placeholder. Adapt the headings to how your teaching is actually organised. Material you’re happy to share publicly can live under resources/ and be linked from here."
+  },
+  {
+    "objectID": "teaching.html#courses",
+    "href": "teaching.html#courses",
+    "title": "Teaching",
+    "section": "Courses",
+    "text": "Courses\n\n[Course title] — [Institution, Year]\n[Role: teaching assistant / lecturer / lab instructor. One or two sentences on the course content and level, plus the size of the group.]\nMaterials: [link to slides, problem sets, or a resource page]\n\n\n[Course title] — [Institution, Year]\n[…]"
+  },
+  {
+    "objectID": "teaching.html#workshops-and-short-courses",
+    "href": "teaching.html#workshops-and-short-courses",
+    "title": "Teaching",
+    "section": "Workshops and short courses",
+    "text": "Workshops and short courses\n\n[Workshop title] — [Venue, Year]\n[One or two sentences. If the material is online, link it.]"
+  },
+  {
+    "objectID": "teaching.html#supervision",
+    "href": "teaching.html#supervision",
+    "title": "Teaching",
+    "section": "Supervision",
+    "text": "Supervision\n\n[Student name] — [degree level], [year]. Project: [topic].\n[Student name] — [degree level], [year]. Project: [topic]."
+  },
+  {
+    "objectID": "teaching.html#teaching-philosophy",
+    "href": "teaching.html#teaching-philosophy",
+    "title": "Teaching",
+    "section": "Teaching philosophy",
+    "text": "Teaching philosophy\n[Optional — a short paragraph. Useful to have written down when applying for positions, and cheap to keep here.]"
+  },
+  {
+    "objectID": "resources/logistic-growth.html",
+    "href": "resources/logistic-growth.html",
+    "title": "Logistic growth",
+    "section": "",
+    "text": "The simplest population model says each individual contributes offspring at a constant per-capita rate r:\n\n\\frac{dN}{dt} = rN\n\nwhich gives N(t) = N_0 e^{rt}. This is a fine description of a population that has just arrived somewhere empty, and a terrible description of one that has been there a while — it predicts unbounded growth forever.\nThe fix is to let the per-capita growth rate decline as the population fills up. The logistic model makes that decline linear:\n\n\\frac{1}{N}\\frac{dN}{dt} = r\\left(1 - \\frac{N}{K}\\right)\n\nRead the right-hand side as the correction term it is. When N \\ll K, the bracket is close to 1 and growth is nearly exponential. When N = K, the bracket is zero and growth stops. When N &gt; K, the bracket is negative and the population declines. The parameter K — the carrying capacity — is the density at which births exactly balance deaths.\nRearranged, this is the form you’ll usually see:\n\n\\frac{dN}{dt} = rN\\left(1 - \\frac{N}{K}\\right)"
+  },
+  {
+    "objectID": "resources/logistic-growth.html#the-problem-with-exponential-growth",
+    "href": "resources/logistic-growth.html#the-problem-with-exponential-growth",
+    "title": "Logistic growth",
+    "section": "",
+    "text": "The simplest population model says each individual contributes offspring at a constant per-capita rate r:\n\n\\frac{dN}{dt} = rN\n\nwhich gives N(t) = N_0 e^{rt}. This is a fine description of a population that has just arrived somewhere empty, and a terrible description of one that has been there a while — it predicts unbounded growth forever.\nThe fix is to let the per-capita growth rate decline as the population fills up. The logistic model makes that decline linear:\n\n\\frac{1}{N}\\frac{dN}{dt} = r\\left(1 - \\frac{N}{K}\\right)\n\nRead the right-hand side as the correction term it is. When N \\ll K, the bracket is close to 1 and growth is nearly exponential. When N = K, the bracket is zero and growth stops. When N &gt; K, the bracket is negative and the population declines. The parameter K — the carrying capacity — is the density at which births exactly balance deaths.\nRearranged, this is the form you’ll usually see:\n\n\\frac{dN}{dt} = rN\\left(1 - \\frac{N}{K}\\right)"
+  },
+  {
+    "objectID": "resources/logistic-growth.html#play-with-it",
+    "href": "resources/logistic-growth.html#play-with-it",
+    "title": "Logistic growth",
+    "section": "Play with it",
+    "text": "Play with it\nThe logistic equation has a closed-form solution, which is unusual and convenient:\n\nN(t) = \\frac{K}{1 + \\left(\\frac{K - N_0}{N_0}\\right)e^{-rt}}\n\nMove the sliders and watch what each parameter actually controls.\n\n\nviewof r = Inputs.range([0.05, 1.5], {value: 0.4, step: 0.05, label: \"Intrinsic growth rate r\"})\n\n\n\n\n\n\n\nviewof K = Inputs.range([20, 400], {value: 200, step: 10, label: \"Carrying capacity K\"})\n\n\n\n\n\n\n\nviewof N0 = Inputs.range([1, 400], {value: 10, step: 1, label: \"Initial population N₀\"})\n\n\n\n\n\n\n\ntraj = {\n  const out = [];\n  for (let t = 0; t &lt;= 40; t += 0.2) {\n    const N = K / (1 + ((K - N0) / N0) * Math.exp(-r * t));\n    out.push({t: t, N: N});\n  }\n  return out;\n}\n\n\n\n\n\n\n\nPlot.plot({\n  width: Math.min(width, 720),\n  height: 380,\n  marginLeft: 60,\n  marginBottom: 45,\n  style: {fontSize: \"13px\", background: \"transparent\"},\n  x: {label: \"Time →\", grid: true},\n  y: {label: \"↑ Population N(t)\", grid: true,\n      domain: [0, Math.max(K, N0) * 1.15]},\n  marks: [\n    Plot.ruleY([K], {stroke: \"#c0563f\", strokeDasharray: \"5,4\"}),\n    Plot.text([{t: 39, N: K}], {x: \"t\", y: \"N\", text: [\"K\"],\n      dy: -10, fill: \"#c0563f\", fontWeight: \"bold\"}),\n    Plot.line(traj, {x: \"t\", y: \"N\", stroke: \"#2c6e63\", strokeWidth: 2.5}),\n    Plot.ruleY([0], {stroke: \"#999\"})\n  ]\n})\n\n\n\n\n\n\n\nThree things are worth noticing as you move the sliders:\n\nr controls the speed, not the destination. Every trajectory ends at K regardless of r — a larger r just gets there sooner. This is why r and K are often described as separable “how fast” and “how much” parameters.\nStarting above K decays smoothly down to it. Set N_0 &gt; K: there is no overshoot, no oscillation. The continuous-time logistic model simply cannot produce cycles. (Its discrete-time cousin can, and does — that’s a separate resource.)\nThe inflection sits at exactly K/2. Growth is fastest when the population is at half its carrying capacity, which is the origin of the maximum sustainable yield idea in fisheries management."
+  },
+  {
+    "objectID": "resources/logistic-growth.html#where-the-growth-rate-peaks",
+    "href": "resources/logistic-growth.html#where-the-growth-rate-peaks",
+    "title": "Logistic growth",
+    "section": "Where the growth rate peaks",
+    "text": "Where the growth rate peaks\nThat third point falls straight out of the model. The growth rate dN/dt is a quadratic in N:\n\n\\frac{dN}{dt} = rN - \\frac{r}{K}N^2\n\nDifferentiate with respect to N and set to zero:\n\n\\frac{d}{dN}\\left(\\frac{dN}{dt}\\right) = r - \\frac{2r}{K}N = 0\n\\quad \\Longrightarrow \\quad\nN^* = \\frac{K}{2}\n\nso the maximum growth rate is r K / 4, achieved at half carrying capacity."
+  },
+  {
+    "objectID": "resources/logistic-growth.html#stability",
+    "href": "resources/logistic-growth.html#stability",
+    "title": "Logistic growth",
+    "section": "Stability",
+    "text": "Stability\nThe model has two equilibria, where dN/dt = 0: extinction at N = 0 and the carrying capacity at N = K. To classify them, evaluate the derivative of f(N) = rN(1 - N/K):\n\nf'(N) = r - \\frac{2r}{K}N\n\nAt N = 0: f'(0) = r &gt; 0, so extinction is unstable — a small population grows away from zero. At N = K: f'(K) = -r &lt; 0, so the carrying capacity is stable — perturbations in either direction decay back to it, at rate r.\nThis is the whole qualitative story of the model, and it’s why the continuous logistic is well-behaved to the point of being boring: one attracting state, approached monotonically from anywhere."
+  },
+  {
+    "objectID": "resources/logistic-growth.html#in-r",
+    "href": "resources/logistic-growth.html#in-r",
+    "title": "Logistic growth",
+    "section": "In R",
+    "text": "In R\nSolving it numerically is overkill given the closed form, but the numerical setup generalises to models that have no analytical solution, so it’s worth having:\nlibrary(deSolve)\nlibrary(ggplot2)\n\nlogistic &lt;- function(t, state, parms) {\n  with(as.list(c(state, parms)), {\n    dN &lt;- r * N * (1 - N / K)\n    list(dN)\n  })\n}\n\nout &lt;- ode(\n  y     = c(N = 10),\n  times = seq(0, 40, by = 0.1),\n  func  = logistic,\n  parms = c(r = 0.4, K = 200)\n) |&gt; as.data.frame()\n\nggplot(out, aes(times, N)) +\n  geom_hline(yintercept = 200, linetype = \"dashed\", colour = \"#c0563f\") +\n  geom_line(linewidth = 1, colour = \"#2c6e63\") +\n  labs(x = \"Time\", y = \"Population size N(t)\") +\n  theme_minimal(base_size = 13)\n\n\n\n\n\n\nMaking code chunks executable\n\n\n\nThe block above is a plain fenced block (```r), so it’s displayed but not run — the site renders on any machine, with or without R. To have Quarto actually execute a chunk and embed the resulting ggplot, change the fence to ```{r} and add chunk options underneath:\n```{r}\n#| label: fig-logistic\n#| fig-cap: \"Logistic growth towards carrying capacity.\"\n#| code-fold: show\n\n# ... your code ...\n```\nThat switches the page to the knitr engine, so R and the packages used need to be installed wherever you render. Since you render locally in RStudio, that’s fine."
+  },
+  {
+    "objectID": "resources/logistic-growth.html#assumptions-worth-remembering",
+    "href": "resources/logistic-growth.html#assumptions-worth-remembering",
+    "title": "Logistic growth",
+    "section": "Assumptions worth remembering",
+    "text": "Assumptions worth remembering\nThe logistic model earns its simplicity by assuming a great deal:\n\nDensity dependence is linear. Real per-capita growth rates often decline non-linearly, and the theta-logistic model exists precisely to relax this.\nNo time lags. Individuals respond to current density instantly. Adding a delay to the density term is enough to generate oscillations.\nNo age or stage structure. Everyone reproduces identically, regardless of age or size.\nNo stochasticity. Both environmental variation and demographic noise are absent, which matters enormously at small N.\nClosed population. No immigration or emigration.\nConstant environment. r and K don’t vary through time.\n\nEach of these is a door to a more realistic model, and most of them are worth walking through only when the data demand it."
+  },
+  {
+    "objectID": "resources/logistic-growth.html#further-reading",
+    "href": "resources/logistic-growth.html#further-reading",
+    "title": "Logistic growth",
+    "section": "Further reading",
+    "text": "Further reading\n\nVerhulst, P.-F. (1838). Notice sur la loi que la population suit dans son accroissement. The original.\nKingsland, S. (1995). Modeling Nature. On how the logistic became central to ecology, and the arguments it caused.\n[Add the textbook chapters you actually point students at.]\n\n\n\nThis page is the template. Copy it when writing a new resource — the structure (intuition → mathematics → interactive figure → code → assumptions) transfers to most modelling topics."
+  },
+  {
+    "objectID": "research.html",
+    "href": "research.html",
+    "title": "Research",
+    "section": "",
+    "text": "Placeholder. Structure below is a suggestion — one section per project, each with the question, the approach, and where the work stands. Delete what you don’t need."
+  },
+  {
+    "objectID": "research.html#overview",
+    "href": "research.html#overview",
+    "title": "Research",
+    "section": "Overview",
+    "text": "Overview\n[Two or three paragraphs framing your research programme. What broad question connects your projects? What kinds of tools do you bring to it — analytical models, simulation, statistical inference, fieldwork? Written for a scientist outside your immediate subfield.]"
+  },
+  {
+    "objectID": "research.html#project-1-short-project-title",
+    "href": "research.html#project-1-short-project-title",
+    "title": "Research",
+    "section": "Project 1 — [Short project title]",
+    "text": "Project 1 — [Short project title]\nThe question. [What don’t we know, and why does it matter?]\nThe approach. [The model, dataset, or method. One paragraph.]\nWhere it stands. [In progress / preprint / published — link out if relevant.]\n\n\n\n[Figure caption — a model schematic or key result works well here.]"
+  },
+  {
+    "objectID": "research.html#project-2-short-project-title",
+    "href": "research.html#project-2-short-project-title",
+    "title": "Research",
+    "section": "Project 2 — [Short project title]",
+    "text": "Project 2 — [Short project title]\nThe question. […]\nThe approach. […]\nWhere it stands. […]"
+  },
+  {
+    "objectID": "research.html#project-3-short-project-title",
+    "href": "research.html#project-3-short-project-title",
+    "title": "Research",
+    "section": "Project 3 — [Short project title]",
+    "text": "Project 3 — [Short project title]\nThe question. […]\nThe approach. […]\nWhere it stands. […]"
+  },
+  {
+    "objectID": "research.html#collaborators",
+    "href": "research.html#collaborators",
+    "title": "Research",
+    "section": "Collaborators",
+    "text": "Collaborators\n[Optional — people and groups you work with, linked to their pages.]"
+  },
+  {
+    "objectID": "research.html#funding",
+    "href": "research.html#funding",
+    "title": "Research",
+    "section": "Funding",
+    "text": "Funding\n[Optional — grants and fellowships supporting this work.]"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Kevan Rastello",
+    "section": "",
+    "text": "PhD candidate in ecology and mathematical biology\n\nI study [one-sentence description of your research area — e.g. how spatial structure and demographic stochasticity shape population persistence]. My work combines mathematical models with data to understand [the systems you work on].\nAlongside my research I write explainers — interactive walkthroughs of the models and methods I use, aimed at anyone who wants to build intuition rather than just read the equations."
+  },
+  {
+    "objectID": "index.html#explore",
+    "href": "index.html#explore",
+    "title": "Kevan Rastello",
+    "section": "Explore",
+    "text": "Explore\n\n\nResearch\nCurrent projects, questions I’m working on, and the systems I study.\n\n\nResources\nInteractive explainers on population models, dynamical systems, and methods.\n\n\nPublications\nPapers, preprints, and the code and data behind them.\n\n\nTeaching\nCourses, lecture material, and student supervision."
+  },
+  {
+    "objectID": "index.html#recent",
+    "href": "index.html#recent",
+    "title": "Kevan Rastello",
+    "section": "Recent",
+    "text": "Recent\n\nPlaceholder. A short running list of news — new preprint, talk given, resource published. Delete this section if you’d rather not maintain it.\n\n\n[Month Year] — New resource: Logistic growth\n[Month Year] — Preprint posted: [title]\n[Month Year] — Talk at [conference]"
+  },
+  {
+    "objectID": "contact.html",
+    "href": "contact.html",
+    "title": "Contact",
+    "section": "",
+    "text": "Placeholder. Fill in the address and profile links. Anything you’d rather not make public, just delete the line.\nI’m happy to hear from people interested in the work, potential collaborators, and students looking for projects.\nEmail — kevan.rastello@gmail.com\nOffice — [Building, room number] [Department] [Institution] [Street address, City, Country]"
+  },
+  {
+    "objectID": "contact.html#elsewhere",
+    "href": "contact.html#elsewhere",
+    "title": "Contact",
+    "section": "Elsewhere",
+    "text": "Elsewhere\n\nGitHub\nGoogle Scholar — [add link]\nORCID — [add link]\nBluesky / Mastodon — [add link, or delete]"
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "CV",
+    "section": "",
+    "text": "Placeholder. Keeping a short web version here and linking a full PDF is the usual pattern — visitors skim the page, committees download the PDF. Drop the PDF at assets/cv.pdf.\nDownload full CV (PDF)"
+  },
+  {
+    "objectID": "cv.html#education",
+    "href": "cv.html#education",
+    "title": "CV",
+    "section": "Education",
+    "text": "Education\n\nPhD, [Field] — [Institution] [Year]–present. Advisor: [Name]. Thesis: [working title].\n\n\nMSc, [Field] — [Institution] [Year]. Thesis: [title].\n\n\nBSc, [Field] — [Institution] [Year]."
+  },
+  {
+    "objectID": "cv.html#positions",
+    "href": "cv.html#positions",
+    "title": "CV",
+    "section": "Positions",
+    "text": "Positions\n\n[Position title] — [Institution / lab] [Year]–[Year]."
+  },
+  {
+    "objectID": "cv.html#awards-and-fellowships",
+    "href": "cv.html#awards-and-fellowships",
+    "title": "CV",
+    "section": "Awards and fellowships",
+    "text": "Awards and fellowships\n\n[Award name], [Awarding body], [Year]\n[Fellowship name], [Awarding body], [Year]"
+  },
+  {
+    "objectID": "cv.html#skills",
+    "href": "cv.html#skills",
+    "title": "CV",
+    "section": "Skills",
+    "text": "Skills\nModelling — [e.g. ODE/PDE models, stochastic processes, individual-based simulation]\nStatistics — [e.g. Bayesian inference, hierarchical models, state-space models]\nComputing — R, [Python, C++, Stan, Julia — whichever apply], Git, LaTeX/Quarto\nLanguages — [e.g. French (native), English (fluent)]"
+  },
+  {
+    "objectID": "cv.html#service",
+    "href": "cv.html#service",
+    "title": "CV",
+    "section": "Service",
+    "text": "Service\n\nReviewer for [Journal name]\n[Committee, outreach, or organising role]"
+  },
+  {
+    "objectID": "publications.html",
+    "href": "publications.html",
+    "title": "Publications",
+    "section": "",
+    "text": "Placeholder. Two example entries below show the formatting. Newest first is the usual convention. If your list grows past ~20 items, this is worth converting to a .bib file that Quarto renders automatically — say the word and I’ll set that up.\nGoogle Scholar · ORCID · add your profile links here"
+  },
+  {
+    "objectID": "publications.html#preprints",
+    "href": "publications.html#preprints",
+    "title": "Publications",
+    "section": "Preprints",
+    "text": "Preprints\n\n[Title of the preprint] Rastello K., Coauthor A., Coauthor B. (2026). bioRxiv.\n\nPDF bioRxiv Code Data"
+  },
+  {
+    "objectID": "publications.html#peer-reviewed-articles",
+    "href": "publications.html#peer-reviewed-articles",
+    "title": "Publications",
+    "section": "Peer-reviewed articles",
+    "text": "Peer-reviewed articles\n\n[Title of the paper] Rastello K., Coauthor A. (2025). Journal Name, 12(3), 45–67.\n\nPDF DOI Code\n\n\n\n[Title of an earlier paper] Coauthor A., Rastello K. (2024). Journal Name, 8(1), 1–20.\n\nPDF DOI"
+  },
+  {
+    "objectID": "publications.html#theses",
+    "href": "publications.html#theses",
+    "title": "Publications",
+    "section": "Theses",
+    "text": "Theses\n\n[Thesis title] PhD thesis, [Institution], in progress."
+  },
+  {
+    "objectID": "publications.html#software",
+    "href": "publications.html#software",
+    "title": "Publications",
+    "section": "Software",
+    "text": "Software\n\n[packagename] — [one-line description of what it does] R package.\n\nGitHub Docs"
+  },
+  {
+    "objectID": "resources/index.html",
+    "href": "resources/index.html",
+    "title": "Resources",
+    "section": "",
+    "text": "Explainers on the models and methods I use — written to build intuition, with interactive figures you can push around rather than static plots you have to take on faith.\nEach page states the assumptions plainly, works through the mathematics, and shows the R code so you can reproduce everything.\n\nPlaceholder. One worked example is live below. New resources are just new .qmd files dropped in this folder — they appear here automatically, no index to maintain. See resources/_template.qmd for a starting point.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLogistic growth\n\n\n6 min\n\n\n\npopulation dynamics\n\n\nODEs\n\n\nintuition\n\n\n\nWhy populations stop growing: density dependence, carrying capacity, and the shape of the S-curve.\n\n\n\nAug 14, 2026\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "talks.html",
+    "href": "talks.html",
+    "title": "Talks & Posters",
+    "section": "",
+    "text": "Placeholder. Put slide decks and poster PDFs in assets/talks/ and link them from the entries below. Newest first."
+  },
+  {
+    "objectID": "talks.html#invited-talks",
+    "href": "talks.html#invited-talks",
+    "title": "Talks & Posters",
+    "section": "Invited talks",
+    "text": "Invited talks\n\n[Talk title] [Seminar series / department], [Institution], [Month Year].\n\nSlides"
+  },
+  {
+    "objectID": "talks.html#contributed-talks",
+    "href": "talks.html#contributed-talks",
+    "title": "Talks & Posters",
+    "section": "Contributed talks",
+    "text": "Contributed talks\n\n[Talk title] [Conference name], [City], [Month Year].\n\nSlides Abstract\n\n\n\n[Talk title] [Conference name], [City], [Month Year].\n\nSlides"
+  },
+  {
+    "objectID": "talks.html#posters",
+    "href": "talks.html#posters",
+    "title": "Talks & Posters",
+    "section": "Posters",
+    "text": "Posters\n\n[Poster title] [Conference name], [City], [Month Year].\n\nPoster PDF"
+  }
+]

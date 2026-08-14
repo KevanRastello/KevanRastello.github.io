@@ -1,0 +1,234 @@
+/*-- scss:defaults --*/
+
+// Palette — muted ecological greens with a warm accent
+$primary:        #2c6e63 !default;
+$body-color:     #22282b !default;
+$body-bg:        #ffffff !default;
+$link-color:     #1f5c52 !default;
+
+$font-family-sans-serif: "Source Sans 3", "Source Sans Pro", -apple-system,
+  BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !default;
+$font-family-monospace: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace !default;
+
+$font-size-root: 17px !default;
+$headings-font-weight: 600 !default;
+
+$navbar-bg: #ffffff !default;
+$navbar-fg: #22282b !default;
+
+$code-bg: #f6f8f8 !default;
+$code-color: #1f5c52 !default;
+
+/*-- scss:rules --*/
+
+body {
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.65;
+}
+
+main {
+  max-width: 62rem;
+}
+
+// ---------- Navbar ----------
+.navbar {
+  border-bottom: 1px solid #e6eae9;
+  box-shadow: none;
+}
+
+.navbar-brand {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.navbar .nav-link {
+  font-size: 0.95rem;
+  position: relative;
+}
+
+.navbar .nav-link:hover {
+  color: $primary !important;
+}
+
+.navbar .nav-link.active {
+  color: $primary !important;
+  font-weight: 600;
+}
+
+// ---------- Headings ----------
+h1, .h1 {
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6rem;
+}
+
+h2 {
+  margin-top: 2.4rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid #eceeee;
+}
+
+// ---------- Hero block on the landing page ----------
+.hero {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1.5rem 0 2.5rem 0;
+}
+
+.hero-text {
+  flex: 1 1 340px;
+}
+
+.hero-text h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.hero-tagline {
+  font-size: 1.2rem;
+  color: #5b6a6c;
+  margin-bottom: 1.1rem;
+}
+
+.hero-photo img {
+  width: 210px;
+  height: 210px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #f0f3f2;
+}
+
+// ---------- Card grid ----------
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 1.15rem;
+  margin: 1.75rem 0;
+}
+
+.card-item {
+  border: 1px solid #e6eae9;
+  border-radius: 10px;
+  padding: 1.3rem 1.4rem;
+  background: #fff;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.card-item:hover {
+  transform: translateY(-2px);
+  border-color: #cfdcd9;
+  box-shadow: 0 6px 20px rgba(20, 50, 45, 0.07);
+}
+
+.card-item h3 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.card-item p {
+  margin-bottom: 0;
+  color: #5b6a6c;
+  font-size: 0.95rem;
+}
+
+.card-item a {
+  text-decoration: none;
+}
+
+// ---------- Placeholder marker ----------
+.placeholder-note {
+  border-left: 3px solid #d9b451;
+  background: #fdf9ef;
+  padding: 0.85rem 1.1rem;
+  border-radius: 0 6px 6px 0;
+  color: #6b5a2c;
+  font-size: 0.92rem;
+  margin: 1.4rem 0;
+}
+
+.placeholder-note p:last-child {
+  margin-bottom: 0;
+}
+
+// ---------- Publication / talk entries ----------
+.entry {
+  padding: 1.05rem 0;
+  border-bottom: 1px solid #eef1f0;
+}
+
+.entry:last-child {
+  border-bottom: none;
+}
+
+.entry-title {
+  font-weight: 600;
+  display: block;
+}
+
+.entry-meta {
+  color: #6b7a7c;
+  font-size: 0.92rem;
+}
+
+.entry-links a {
+  font-size: 0.85rem;
+  margin-right: 0.7rem;
+  text-decoration: none;
+  border: 1px solid #d8e0de;
+  border-radius: 4px;
+  padding: 0.1rem 0.5rem;
+  display: inline-block;
+  margin-top: 0.4rem;
+}
+
+.entry-links a:hover {
+  background: #f2f7f6;
+  border-color: $primary;
+}
+
+// ---------- Interactive figure container ----------
+.model-explorer {
+  border: 1px solid #e6eae9;
+  border-radius: 10px;
+  padding: 1.4rem;
+  background: #fbfcfc;
+  margin: 1.75rem 0;
+}
+
+// Give Observable Inputs labels room so they don't wrap onto two lines
+.model-explorer form {
+  margin-bottom: 0.4rem;
+  --label-width: 200px !important;
+}
+
+.model-explorer form > label {
+  width: 200px !important;
+  min-width: 200px !important;
+}
+
+.model-explorer svg {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 620px) {
+  .model-explorer form {
+    --label-width: 100% !important;
+  }
+}
+
+// ---------- Listing tweaks ----------
+.quarto-listing {
+  margin-top: 1.5rem;
+}
+
+.listing-title {
+  font-weight: 600;
+}
+
+// ---------- Dark mode friendliness for code ----------
+pre.sourceCode {
+  border-radius: 7px;
+  border: 1px solid #e6eae9;
+}

@@ -1,0 +1,237 @@
+---
+title: "Logistic growth"
+description: "Why populations stop growing: density dependence, carrying capacity, and the shape of the S-curve."
+date: 2026-08-14
+categories: [population dynamics, ODEs, intuition]
+image: /assets/thumb-logistic.svg
+---
+
+## The problem with exponential growth
+
+The simplest population model says each individual contributes offspring at a
+constant per-capita rate $r$:
+
+$$
+\frac{dN}{dt} = rN
+$$
+
+which gives $N(t) = N_0 e^{rt}$. This is a fine description of a population that
+has just arrived somewhere empty, and a terrible description of one that has been
+there a while — it predicts unbounded growth forever.
+
+The fix is to let the per-capita growth rate *decline* as the population fills up.
+The logistic model makes that decline linear:
+
+$$
+\frac{1}{N}\frac{dN}{dt} = r\left(1 - \frac{N}{K}\right)
+$$
+
+Read the right-hand side as the correction term it is. When $N \ll K$, the bracket
+is close to 1 and growth is nearly exponential. When $N = K$, the bracket is zero
+and growth stops. When $N > K$, the bracket is negative and the population
+declines. The parameter $K$ — the **carrying capacity** — is the density at which
+births exactly balance deaths.
+
+Rearranged, this is the form you'll usually see:
+
+$$
+\frac{dN}{dt} = rN\left(1 - \frac{N}{K}\right)
+$$
+
+## Play with it
+
+The logistic equation has a closed-form solution, which is unusual and convenient:
+
+$$
+N(t) = \frac{K}{1 + \left(\frac{K - N_0}{N_0}\right)e^{-rt}}
+$$
+
+Move the sliders and watch what each parameter actually controls.
+
+::: {.model-explorer}
+
+```{ojs}
+//| echo: false
+viewof r = Inputs.range([0.05, 1.5], {value: 0.4, step: 0.05, label: "Intrinsic growth rate r"})
+```
+
+```{ojs}
+//| echo: false
+viewof K = Inputs.range([20, 400], {value: 200, step: 10, label: "Carrying capacity K"})
+```
+
+```{ojs}
+//| echo: false
+viewof N0 = Inputs.range([1, 400], {value: 10, step: 1, label: "Initial population N₀"})
+```
+
+```{ojs}
+//| echo: false
+traj = {
+  const out = [];
+  for (let t = 0; t <= 40; t += 0.2) {
+    const N = K / (1 + ((K - N0) / N0) * Math.exp(-r * t));
+    out.push({t: t, N: N});
+  }
+  return out;
+}
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  width: Math.min(width, 720),
+  height: 380,
+  marginLeft: 60,
+  marginBottom: 45,
+  style: {fontSize: "13px", background: "transparent"},
+  x: {label: "Time →", grid: true},
+  y: {label: "↑ Population N(t)", grid: true,
+      domain: [0, Math.max(K, N0) * 1.15]},
+  marks: [
+    Plot.ruleY([K], {stroke: "#c0563f", strokeDasharray: "5,4"}),
+    Plot.text([{t: 39, N: K}], {x: "t", y: "N", text: ["K"],
+      dy: -10, fill: "#c0563f", fontWeight: "bold"}),
+    Plot.line(traj, {x: "t", y: "N", stroke: "#2c6e63", strokeWidth: 2.5}),
+    Plot.ruleY([0], {stroke: "#999"})
+  ]
+})
+```
+
+:::
+
+Three things are worth noticing as you move the sliders:
+
+1. **$r$ controls the speed, not the destination.** Every trajectory ends at $K$
+   regardless of $r$ — a larger $r$ just gets there sooner. This is why $r$ and $K$
+   are often described as separable "how fast" and "how much" parameters.
+2. **Starting above $K$ decays smoothly down to it.** Set $N_0 > K$: there is no
+   overshoot, no oscillation. The continuous-time logistic model simply cannot
+   produce cycles. (Its discrete-time cousin can, and does — that's a separate
+   resource.)
+3. **The inflection sits at exactly $K/2$.** Growth is fastest when the population
+   is at half its carrying capacity, which is the origin of the maximum sustainable
+   yield idea in fisheries management.
+
+## Where the growth rate peaks
+
+That third point falls straight out of the model. The growth rate $dN/dt$ is a
+quadratic in $N$:
+
+$$
+\frac{dN}{dt} = rN - \frac{r}{K}N^2
+$$
+
+Differentiate with respect to $N$ and set to zero:
+
+$$
+\frac{d}{dN}\left(\frac{dN}{dt}\right) = r - \frac{2r}{K}N = 0
+\quad \Longrightarrow \quad
+N^* = \frac{K}{2}
+$$
+
+so the maximum growth rate is $r K / 4$, achieved at half carrying capacity.
+
+## Stability
+
+The model has two equilibria, where $dN/dt = 0$: extinction at $N = 0$ and the
+carrying capacity at $N = K$. To classify them, evaluate the derivative of
+$f(N) = rN(1 - N/K)$:
+
+$$
+f'(N) = r - \frac{2r}{K}N
+$$
+
+At $N = 0$: $f'(0) = r > 0$, so extinction is **unstable** — a small population
+grows away from zero. At $N = K$: $f'(K) = -r < 0$, so the carrying capacity is
+**stable** — perturbations in either direction decay back to it, at rate $r$.
+
+This is the whole qualitative story of the model, and it's why the continuous
+logistic is well-behaved to the point of being boring: one attracting state,
+approached monotonically from anywhere.
+
+## In R
+
+Solving it numerically is overkill given the closed form, but the numerical setup
+generalises to models that have no analytical solution, so it's worth having:
+
+```r
+library(deSolve)
+library(ggplot2)
+
+logistic <- function(t, state, parms) {
+  with(as.list(c(state, parms)), {
+    dN <- r * N * (1 - N / K)
+    list(dN)
+  })
+}
+
+out <- ode(
+  y     = c(N = 10),
+  times = seq(0, 40, by = 0.1),
+  func  = logistic,
+  parms = c(r = 0.4, K = 200)
+) |> as.data.frame()
+
+ggplot(out, aes(times, N)) +
+  geom_hline(yintercept = 200, linetype = "dashed", colour = "#c0563f") +
+  geom_line(linewidth = 1, colour = "#2c6e63") +
+  labs(x = "Time", y = "Population size N(t)") +
+  theme_minimal(base_size = 13)
+```
+
+::: {.callout-note}
+## Making code chunks executable
+
+The block above is a plain fenced block (` ```r `), so it's displayed but not run —
+the site renders on any machine, with or without R. To have Quarto actually
+execute a chunk and embed the resulting ggplot, change the fence to ` ```{r} ` and
+add chunk options underneath:
+
+````
+```{{r}}
+#| label: fig-logistic
+#| fig-cap: "Logistic growth towards carrying capacity."
+#| code-fold: show
+
+# ... your code ...
+```
+````
+
+That switches the page to the knitr engine, so R and the packages used need to be
+installed wherever you render. Since you render locally in RStudio, that's fine.
+:::
+
+## Assumptions worth remembering
+
+The logistic model earns its simplicity by assuming a great deal:
+
+- **Density dependence is linear.** Real per-capita growth rates often decline
+  non-linearly, and the theta-logistic model exists precisely to relax this.
+- **No time lags.** Individuals respond to current density instantly. Adding a
+  delay to the density term is enough to generate oscillations.
+- **No age or stage structure.** Everyone reproduces identically, regardless of
+  age or size.
+- **No stochasticity.** Both environmental variation and demographic noise are
+  absent, which matters enormously at small $N$.
+- **Closed population.** No immigration or emigration.
+- **Constant environment.** $r$ and $K$ don't vary through time.
+
+Each of these is a door to a more realistic model, and most of them are worth
+walking through only when the data demand it.
+
+## Further reading
+
+- Verhulst, P.-F. (1838). *Notice sur la loi que la population suit dans son
+  accroissement.* The original.
+- Kingsland, S. (1995). *Modeling Nature.* On how the logistic became central to
+  ecology, and the arguments it caused.
+- *[Add the textbook chapters you actually point students at.]*
+
+---
+
+::: {.placeholder-note}
+**This page is the template.** Copy it when writing a new resource — the structure
+(intuition → mathematics → interactive figure → code → assumptions) transfers to
+most modelling topics.
+:::

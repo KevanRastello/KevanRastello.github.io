@@ -1,0 +1,24 @@
+---
+title: "Resources"
+listing:
+  contents: "*.qmd"
+  type: grid
+  sort: "date desc"
+  categories: true
+  fields: [image, title, description, categories, date, reading-time]
+  image-height: "180px"
+  feed: true
+---
+
+Explainers on the models and methods I use — written to build intuition, with
+interactive figures you can push around rather than static plots you have to take
+on faith.
+
+Each page states the assumptions plainly, works through the mathematics, and shows
+the R code so you can reproduce everything.
+
+::: {.placeholder-note}
+**Placeholder.** One worked example is live below. New resources are just new
+`.qmd` files dropped in this folder — they appear here automatically, no index to
+maintain. See `resources/_template.qmd` for a starting point.
+:::

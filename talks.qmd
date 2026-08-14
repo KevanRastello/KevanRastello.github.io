@@ -1,0 +1,50 @@
+---
+title: "Talks & Posters"
+---
+
+::: {.placeholder-note}
+**Placeholder.** Put slide decks and poster PDFs in `assets/talks/` and link them
+from the entries below. Newest first.
+:::
+
+## Invited talks
+
+::: {.entry}
+[*[Talk title]*]{.entry-title}
+[*[Seminar series / department]*, *[Institution]*, *[Month Year]*.]{.entry-meta}
+
+::: {.entry-links}
+[Slides](#){.btn}
+:::
+:::
+
+## Contributed talks
+
+::: {.entry}
+[*[Talk title]*]{.entry-title}
+[*[Conference name]*, *[City]*, *[Month Year]*.]{.entry-meta}
+
+::: {.entry-links}
+[Slides](#){.btn} [Abstract](#){.btn}
+:::
+:::
+
+::: {.entry}
+[*[Talk title]*]{.entry-title}
+[*[Conference name]*, *[City]*, *[Month Year]*.]{.entry-meta}
+
+::: {.entry-links}
+[Slides](#){.btn}
+:::
+:::
+
+## Posters
+
+::: {.entry}
+[*[Poster title]*]{.entry-title}
+[*[Conference name]*, *[City]*, *[Month Year]*.]{.entry-meta}
+
+::: {.entry-links}
+[Poster PDF](#){.btn}
+:::
+:::

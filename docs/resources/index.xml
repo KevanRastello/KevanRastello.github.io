@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Kevan Rastello</title>
+<link>https://kevanrastello.github.io/resources/index.html</link>
+<atom:link href="https://kevanrastello.github.io/resources/index.xml" rel="self" type="application/rss+xml"/>
+<description>Research in ecology and mathematical biology.</description>
+<generator>quarto-1.3.450</generator>
+<lastBuildDate>Fri, 14 Aug 2026 07:00:00 GMT</lastBuildDate>
+<item>
+  <title>Logistic growth</title>
+  <link>https://kevanrastello.github.io/resources/logistic-growth.html</link>
+  <description><![CDATA[ 
+
+
+
+<section id="the-problem-with-exponential-growth" class="level2">
+<h2 class="anchored" data-anchor-id="the-problem-with-exponential-growth">The problem with exponential growth</h2>
+<p>The simplest population model says each individual contributes offspring at a constant per-capita rate <img src="https://latex.codecogs.com/png.latex?r">:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cfrac%7BdN%7D%7Bdt%7D%20=%20rN%0A"></p>
+<p>which gives <img src="https://latex.codecogs.com/png.latex?N(t)%20=%20N_0%20e%5E%7Brt%7D">. This is a fine description of a population that has just arrived somewhere empty, and a terrible description of one that has been there a while — it predicts unbounded growth forever.</p>
+<p>The fix is to let the per-capita growth rate <em>decline</em> as the population fills up. The logistic model makes that decline linear:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cfrac%7B1%7D%7BN%7D%5Cfrac%7BdN%7D%7Bdt%7D%20=%20r%5Cleft(1%20-%20%5Cfrac%7BN%7D%7BK%7D%5Cright)%0A"></p>
+<p>Read the right-hand side as the correction term it is. When <img src="https://latex.codecogs.com/png.latex?N%20%5Cll%20K">, the bracket is close to 1 and growth is nearly exponential. When <img src="https://latex.codecogs.com/png.latex?N%20=%20K">, the bracket is zero and growth stops. When <img src="https://latex.codecogs.com/png.latex?N%20%3E%20K">, the bracket is negative and the population declines. The parameter <img src="https://latex.codecogs.com/png.latex?K"> — the <strong>carrying capacity</strong> — is the density at which births exactly balance deaths.</p>
+<p>Rearranged, this is the form you’ll usually see:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cfrac%7BdN%7D%7Bdt%7D%20=%20rN%5Cleft(1%20-%20%5Cfrac%7BN%7D%7BK%7D%5Cright)%0A"></p>
+</section>
+<section id="play-with-it" class="level2">
+<h2 class="anchored" data-anchor-id="play-with-it">Play with it</h2>
+<p>The logistic equation has a closed-form solution, which is unusual and convenient:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0AN(t)%20=%20%5Cfrac%7BK%7D%7B1%20+%20%5Cleft(%5Cfrac%7BK%20-%20N_0%7D%7BN_0%7D%5Cright)e%5E%7B-rt%7D%7D%0A"></p>
+<p>Move the sliders and watch what each parameter actually controls.</p>
+<div class="model-explorer">
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="54" data-source-offset="0" style="background: #f1f3f5;"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 53;"><span id="cb1-54">viewof r <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Inputs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">range</span>([<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.05</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.5</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> {<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">value</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.4</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">step</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.05</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">label</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Intrinsic growth rate r"</span>})</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="59" data-source-offset="0" style="background: #f1f3f5;"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 58;"><span id="cb2-59">viewof K <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Inputs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">range</span>([<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">400</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> {<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">value</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">200</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">step</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">label</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Carrying capacity K"</span>})</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="64" data-source-offset="0" style="background: #f1f3f5;"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 63;"><span id="cb3-64">viewof N0 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Inputs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">range</span>([<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">400</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> {<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">value</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">step</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">label</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Initial population N₀"</span>})</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="69" data-source-offset="0" style="background: #f1f3f5;"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 68;"><span id="cb4-69">traj <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb4-70">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">const</span> out <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb4-71">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> (<span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">let</span> t <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span> t <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">40</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span> t <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.2</span>) {</span>
+<span id="cb4-72">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">const</span> N <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> K <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> (<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> ((K <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> N0) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> N0) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">Math</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">exp</span>(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>r <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> t))<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb4-73">    out<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">push</span>({<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">t</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> t<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">N</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> N})<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb4-74">  }</span>
+<span id="cb4-75">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> out<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb4-76">}</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb5" data-startfrom="81" data-source-offset="0" style="background: #f1f3f5;"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 80;"><span id="cb5-81">Plot<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plot</span>({</span>
+<span id="cb5-82">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">width</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">Math</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">min</span>(width<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">720</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-83">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">height</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">380</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-84">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">marginLeft</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">60</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-85">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">marginBottom</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">45</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-86">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">style</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> {<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">fontSize</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"13px"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">background</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"transparent"</span>}<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-87">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">x</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> {<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">label</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Time →"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">grid</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">true</span>}<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-88">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">y</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> {<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">label</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"↑ Population N(t)"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">grid</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">true</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-89">      <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">domain</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">Math</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">max</span>(K<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> N0) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.15</span>]}<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-90">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">marks</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> [</span>
+<span id="cb5-91">    Plot<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ruleY</span>([K]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> {<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">stroke</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#c0563f"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">strokeDasharray</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"5,4"</span>})<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-92">    Plot<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">text</span>([{<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">t</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">39</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">N</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> K}]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> {<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">x</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"t"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">y</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"N"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">text</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"K"</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-93">      <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">dy</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">fill</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#c0563f"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">fontWeight</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bold"</span>})<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-94">    Plot<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">line</span>(traj<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> {<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">x</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"t"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">y</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"N"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">stroke</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#2c6e63"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">strokeWidth</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2.5</span>})<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb5-95">    Plot<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ruleY</span>([<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> {<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">stroke</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#999"</span>})</span>
+<span id="cb5-96">  ]</span>
+<span id="cb5-97">})</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-5" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+<p>Three things are worth noticing as you move the sliders:</p>
+<ol type="1">
+<li><strong><img src="https://latex.codecogs.com/png.latex?r"> controls the speed, not the destination.</strong> Every trajectory ends at <img src="https://latex.codecogs.com/png.latex?K"> regardless of <img src="https://latex.codecogs.com/png.latex?r"> — a larger <img src="https://latex.codecogs.com/png.latex?r"> just gets there sooner. This is why <img src="https://latex.codecogs.com/png.latex?r"> and <img src="https://latex.codecogs.com/png.latex?K"> are often described as separable “how fast” and “how much” parameters.</li>
+<li><strong>Starting above <img src="https://latex.codecogs.com/png.latex?K"> decays smoothly down to it.</strong> Set <img src="https://latex.codecogs.com/png.latex?N_0%20%3E%20K">: there is no overshoot, no oscillation. The continuous-time logistic model simply cannot produce cycles. (Its discrete-time cousin can, and does — that’s a separate resource.)</li>
+<li><strong>The inflection sits at exactly <img src="https://latex.codecogs.com/png.latex?K/2">.</strong> Growth is fastest when the population is at half its carrying capacity, which is the origin of the maximum sustainable yield idea in fisheries management.</li>
+</ol>
+</section>
+<section id="where-the-growth-rate-peaks" class="level2">
+<h2 class="anchored" data-anchor-id="where-the-growth-rate-peaks">Where the growth rate peaks</h2>
+<p>That third point falls straight out of the model. The growth rate <img src="https://latex.codecogs.com/png.latex?dN/dt"> is a quadratic in <img src="https://latex.codecogs.com/png.latex?N">:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cfrac%7BdN%7D%7Bdt%7D%20=%20rN%20-%20%5Cfrac%7Br%7D%7BK%7DN%5E2%0A"></p>
+<p>Differentiate with respect to <img src="https://latex.codecogs.com/png.latex?N"> and set to zero:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cfrac%7Bd%7D%7BdN%7D%5Cleft(%5Cfrac%7BdN%7D%7Bdt%7D%5Cright)%20=%20r%20-%20%5Cfrac%7B2r%7D%7BK%7DN%20=%200%0A%5Cquad%20%5CLongrightarrow%20%5Cquad%0AN%5E*%20=%20%5Cfrac%7BK%7D%7B2%7D%0A"></p>
+<p>so the maximum growth rate is <img src="https://latex.codecogs.com/png.latex?r%20K%20/%204">, achieved at half carrying capacity.</p>
+</section>
+<section id="stability" class="level2">
+<h2 class="anchored" data-anchor-id="stability">Stability</h2>
+<p>The model has two equilibria, where <img src="https://latex.codecogs.com/png.latex?dN/dt%20=%200">: extinction at <img src="https://latex.codecogs.com/png.latex?N%20=%200"> and the carrying capacity at <img src="https://latex.codecogs.com/png.latex?N%20=%20K">. To classify them, evaluate the derivative of <img src="https://latex.codecogs.com/png.latex?f(N)%20=%20rN(1%20-%20N/K)">:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0Af'(N)%20=%20r%20-%20%5Cfrac%7B2r%7D%7BK%7DN%0A"></p>
+<p>At <img src="https://latex.codecogs.com/png.latex?N%20=%200">: <img src="https://latex.codecogs.com/png.latex?f'(0)%20=%20r%20%3E%200">, so extinction is <strong>unstable</strong> — a small population grows away from zero. At <img src="https://latex.codecogs.com/png.latex?N%20=%20K">: <img src="https://latex.codecogs.com/png.latex?f'(K)%20=%20-r%20%3C%200">, so the carrying capacity is <strong>stable</strong> — perturbations in either direction decay back to it, at rate <img src="https://latex.codecogs.com/png.latex?r">.</p>
+<p>This is the whole qualitative story of the model, and it’s why the continuous logistic is well-behaved to the point of being boring: one attracting state, approached monotonically from anywhere.</p>
+</section>
+<section id="in-r" class="level2">
+<h2 class="anchored" data-anchor-id="in-r">In R</h2>
+<p>Solving it numerically is overkill given the closed form, but the numerical setup generalises to models that have no analytical solution, so it’s worth having:</p>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(deSolve)</span>
+<span id="cb6-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(ggplot2)</span>
+<span id="cb6-3"></span>
+<span id="cb6-4">logistic <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span>(t, state, parms) {</span>
+<span id="cb6-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">with</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.list</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(state, parms)), {</span>
+<span id="cb6-6">    dN <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> r <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> N <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> (<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> N <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> K)</span>
+<span id="cb6-7">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(dN)</span>
+<span id="cb6-8">  })</span>
+<span id="cb6-9">}</span>
+<span id="cb6-10"></span>
+<span id="cb6-11">out <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ode</span>(</span>
+<span id="cb6-12">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y     =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">N =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>),</span>
+<span id="cb6-13">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">times =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">seq</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">40</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.1</span>),</span>
+<span id="cb6-14">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">func  =</span> logistic,</span>
+<span id="cb6-15">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">parms =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">r =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.4</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">K =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">200</span>)</span>
+<span id="cb6-16">) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.data.frame</span>()</span>
+<span id="cb6-17"></span>
+<span id="cb6-18"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(out, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(times, N)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-19">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_hline</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">yintercept =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">200</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">linetype =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dashed"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#c0563f"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-20">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_line</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">linewidth =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#2c6e63"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-21">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Time"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Population size N(t)"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-22">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">base_size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">13</span>)</span></code></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Making code chunks executable
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The block above is a plain fenced block (<code>```r</code>), so it’s displayed but not run — the site renders on any machine, with or without R. To have Quarto actually execute a chunk and embed the resulting ggplot, change the fence to <code>```{r}</code> and add chunk options underneath:</p>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><span class="in" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">```{r}</span></span>
+<span id="cb7-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#| label: fig-logistic</span></span>
+<span id="cb7-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#| fig-cap: "Logistic growth towards carrying capacity."</span></span>
+<span id="cb7-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#| code-fold: show</span></span>
+<span id="cb7-5"></span>
+<span id="cb7-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># ... your code ...</span></span>
+<span id="cb7-7"><span class="in" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">```</span></span></code></pre></div>
+<p>That switches the page to the knitr engine, so R and the packages used need to be installed wherever you render. Since you render locally in RStudio, that’s fine.</p>
+</div>
+</div>
+</section>
+<section id="assumptions-worth-remembering" class="level2">
+<h2 class="anchored" data-anchor-id="assumptions-worth-remembering">Assumptions worth remembering</h2>
+<p>The logistic model earns its simplicity by assuming a great deal:</p>
+<ul>
+<li><strong>Density dependence is linear.</strong> Real per-capita growth rates often decline non-linearly, and the theta-logistic model exists precisely to relax this.</li>
+<li><strong>No time lags.</strong> Individuals respond to current density instantly. Adding a delay to the density term is enough to generate oscillations.</li>
+<li><strong>No age or stage structure.</strong> Everyone reproduces identically, regardless of age or size.</li>
+<li><strong>No stochasticity.</strong> Both environmental variation and demographic noise are absent, which matters enormously at small <img src="https://latex.codecogs.com/png.latex?N">.</li>
+<li><strong>Closed population.</strong> No immigration or emigration.</li>
+<li><strong>Constant environment.</strong> <img src="https://latex.codecogs.com/png.latex?r"> and <img src="https://latex.codecogs.com/png.latex?K"> don’t vary through time.</li>
+</ul>
+<p>Each of these is a door to a more realistic model, and most of them are worth walking through only when the data demand it.</p>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<ul>
+<li>Verhulst, P.-F. (1838). <em>Notice sur la loi que la population suit dans son accroissement.</em> The original.</li>
+<li>Kingsland, S. (1995). <em>Modeling Nature.</em> On how the logistic became central to ecology, and the arguments it caused.</li>
+<li><em>[Add the textbook chapters you actually point students at.]</em></li>
+</ul>
+<hr>
+<div class="placeholder-note">
+<p><strong>This page is the template.</strong> Copy it when writing a new resource — the structure (intuition → mathematics → interactive figure → code → assumptions) transfers to most modelling topics.</p>
+</div>
+
+
+</section>
+
+ ]]></description>
+  <category>population dynamics</category>
+  <category>ODEs</category>
+  <category>intuition</category>
+  <guid>https://kevanrastello.github.io/resources/logistic-growth.html</guid>
+  <pubDate>Fri, 14 Aug 2026 07:00:00 GMT</pubDate>
+  <media:content url="https://kevanrastello.github.io/assets/thumb-logistic.svg" medium="image" type="image/svg+xml"/>
+</item>
+</channel>
+</rss>

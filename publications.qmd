@@ -1,0 +1,61 @@
+---
+title: "Publications"
+---
+
+::: {.placeholder-note}
+**Placeholder.** Two example entries below show the formatting. Newest first is
+the usual convention. If your list grows past ~20 items, this is worth converting
+to a `.bib` file that Quarto renders automatically — say the word and I'll set
+that up.
+:::
+
+Google Scholar · ORCID · [add your profile links here]{.entry-meta}
+
+## Preprints
+
+::: {.entry}
+[*[Title of the preprint]*]{.entry-title}
+[**Rastello K.**, Coauthor A., Coauthor B. (2026). *bioRxiv*.]{.entry-meta}
+
+::: {.entry-links}
+[PDF](#){.btn} [bioRxiv](#){.btn} [Code](#){.btn} [Data](#){.btn}
+:::
+:::
+
+## Peer-reviewed articles
+
+::: {.entry}
+[*[Title of the paper]*]{.entry-title}
+[**Rastello K.**, Coauthor A. (2025). *Journal Name*, 12(3), 45–67.]{.entry-meta}
+
+::: {.entry-links}
+[PDF](#){.btn} [DOI](#){.btn} [Code](#){.btn}
+:::
+:::
+
+::: {.entry}
+[*[Title of an earlier paper]*]{.entry-title}
+[Coauthor A., **Rastello K.** (2024). *Journal Name*, 8(1), 1–20.]{.entry-meta}
+
+::: {.entry-links}
+[PDF](#){.btn} [DOI](#){.btn}
+:::
+:::
+
+## Theses
+
+::: {.entry}
+[*[Thesis title]*]{.entry-title}
+[PhD thesis, *[Institution]*, in progress.]{.entry-meta}
+:::
+
+## Software
+
+::: {.entry}
+[**[packagename]** — *[one-line description of what it does]*]{.entry-title}
+[R package.]{.entry-meta}
+
+::: {.entry-links}
+[GitHub](#){.btn} [Docs](#){.btn}
+:::
+:::
