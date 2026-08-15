@@ -2,6 +2,7 @@
   {
     "listing": "/resources/index.html",
     "items": [
+      "/resources/global-sensitivity-analysis.html",
       "/resources/logistic-growth.html"
     ]
   }

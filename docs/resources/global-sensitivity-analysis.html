@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-08-15">
+<meta name="description" content="Which of your uncertain parameters is actually driving the uncertainty in your prediction — and how to compute that properly, step by step.">
+
+<title>Kevan Rastello - Global sensitivity analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../assets/logo.svg" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Kevan Rastello</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../research.html" rel="" target="">
+ <span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../resources/index.html" rel="" target="">
+ <span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../publications.html" rel="" target="">
+ <span class="menu-text">Publications</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../teaching.html" rel="" target="">
+ <span class="menu-text">Teaching</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../talks.html" rel="" target="">
+ <span class="menu-text">Talks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../cv.html" rel="" target="">
+ <span class="menu-text">CV</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../contact.html" rel="" target="">
+ <span class="menu-text">Contact</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/KevanRastello" rel="" target=""><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-situation-this-solves" id="toc-the-situation-this-solves" class="nav-link active" data-scroll-target="#the-situation-this-solves">The situation this solves</a></li>
+  <li><a href="#step-0.-why-not-just-change-one-parameter-at-a-time" id="toc-step-0.-why-not-just-change-one-parameter-at-a-time" class="nav-link" data-scroll-target="#step-0.-why-not-just-change-one-parameter-at-a-time">Step 0. Why not just change one parameter at a time?</a>
+  <ul class="collapse">
+  <li><a href="#it-only-describes-one-point" id="toc-it-only-describes-one-point" class="nav-link" data-scroll-target="#it-only-describes-one-point">It only describes one point</a></li>
+  <li><a href="#it-cannot-see-interactions" id="toc-it-cannot-see-interactions" class="nav-link" data-scroll-target="#it-cannot-see-interactions">It cannot see interactions</a></li>
+  <li><a href="#it-explores-almost-nothing" id="toc-it-explores-almost-nothing" class="nav-link" data-scroll-target="#it-explores-almost-nothing">It explores almost nothing</a></li>
+  </ul></li>
+  <li><a href="#step-1.-understand-what-the-answer-will-look-like" id="toc-step-1.-understand-what-the-answer-will-look-like" class="nav-link" data-scroll-target="#step-1.-understand-what-the-answer-will-look-like">Step 1. Understand what the answer will look like</a></li>
+  <li><a href="#step-2.-the-formal-version" id="toc-step-2.-the-formal-version" class="nav-link" data-scroll-target="#step-2.-the-formal-version">Step 2. The formal version</a>
+  <ul class="collapse">
+  <li><a href="#the-two-indices-you-report" id="toc-the-two-indices-you-report" class="nav-link" data-scroll-target="#the-two-indices-you-report">The two indices you report</a></li>
+  </ul></li>
+  <li><a href="#step-3.-choose-the-parameter-ranges" id="toc-step-3.-choose-the-parameter-ranges" class="nav-link" data-scroll-target="#step-3.-choose-the-parameter-ranges">Step 3. Choose the parameter ranges</a></li>
+  <li><a href="#step-4.-choose-the-design" id="toc-step-4.-choose-the-design" class="nav-link" data-scroll-target="#step-4.-choose-the-design">Step 4. Choose the design</a>
+  <ul class="collapse">
+  <li><a href="#how-efast-samples" id="toc-how-efast-samples" class="nav-link" data-scroll-target="#how-efast-samples">How eFAST samples</a></li>
+  </ul></li>
+  <li><a href="#step-5.-run-the-model" id="toc-step-5.-run-the-model" class="nav-link" data-scroll-target="#step-5.-run-the-model">Step 5. Run the model</a></li>
+  <li><a href="#step-6.-reduce-the-output-with-pca" id="toc-step-6.-reduce-the-output-with-pca" class="nav-link" data-scroll-target="#step-6.-reduce-the-output-with-pca">Step 6. Reduce the output with PCA</a>
+  <ul class="collapse">
+  <li><a href="#why-orthogonality-is-the-whole-point" id="toc-why-orthogonality-is-the-whole-point" class="nav-link" data-scroll-target="#why-orthogonality-is-the-whole-point">Why orthogonality is the whole point</a></li>
+  </ul></li>
+  <li><a href="#step-7.-decompose-the-variance" id="toc-step-7.-decompose-the-variance" class="nav-link" data-scroll-target="#step-7.-decompose-the-variance">Step 7. Decompose the variance</a></li>
+  <li><a href="#step-8.-aggregate-to-one-number-per-parameter" id="toc-step-8.-aggregate-to-one-number-per-parameter" class="nav-link" data-scroll-target="#step-8.-aggregate-to-one-number-per-parameter">Step 8. Aggregate to one number per parameter</a></li>
+  <li><a href="#the-whole-thing-in-r" id="toc-the-whole-thing-in-r" class="nav-link" data-scroll-target="#the-whole-thing-in-r">The whole thing in R</a></li>
+  <li><a href="#reading-the-results" id="toc-reading-the-results" class="nav-link" data-scroll-target="#reading-the-results">Reading the results</a>
+  <ul class="collapse">
+  <li><a href="#what-to-do-with-the-answer" id="toc-what-to-do-with-the-answer" class="nav-link" data-scroll-target="#what-to-do-with-the-answer">What to do with the answer</a></li>
+  </ul></li>
+  <li><a href="#pitfalls" id="toc-pitfalls" class="nav-link" data-scroll-target="#pitfalls">Pitfalls</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Global sensitivity analysis</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">sensitivity analysis</div>
+    <div class="quarto-category">uncertainty</div>
+    <div class="quarto-category">methods</div>
+    <div class="quarto-category">R</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Which of your uncertain parameters is actually driving the uncertainty in your prediction — and how to compute that properly, step by step.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 15, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="the-situation-this-solves" class="level2">
+<h2 class="anchored" data-anchor-id="the-situation-this-solves">The situation this solves</h2>
+<p>You have a model. It has parameters. You do not know most of them exactly — you know roughly what each one could be, because somebody measured it once in a different system, or estimated it from a figure, or nobody has ever measured it at all.</p>
+<p>So your prediction is not a number. It is a spread. Run the model across everything you might plausibly believe and the answers come out wildly different.</p>
+<p>The question worth asking is not “what does the model predict?” It is:</p>
+<blockquote class="blockquote">
+<p><strong>Which of the numbers I don’t know is responsible for the answers coming out so differently?</strong></p>
+</blockquote>
+<p>That is all global sensitivity analysis is. Answer it and you know exactly which measurement would be worth making — which is the most useful thing a model can tell you before the fieldwork is done.</p>
+<p>The worked example throughout is a winter tick–moose model with 13 uncertain parameters, analysed over 50 years.</p>
+</section>
+<section id="step-0.-why-not-just-change-one-parameter-at-a-time" class="level2">
+<h2 class="anchored" data-anchor-id="step-0.-why-not-just-change-one-parameter-at-a-time">Step 0. Why not just change one parameter at a time?</h2>
+<p>The instinct is to take your baseline parameter set, nudge one parameter by 10%, see how much the answer moves, and repeat. This is <strong>local</strong> sensitivity, also called OAT (one-at-a-time). Three things go wrong with it.</p>
+<section id="it-only-describes-one-point" class="level3">
+<h3 class="anchored" data-anchor-id="it-only-describes-one-point">It only describes one point</h3>
+<p>The derivative at your baseline tells you nothing about behaviour anywhere else. Our model has an attachment probability that saturates at 1. Near saturation the local sensitivity to the attachment rate <span class="math inline">\beta_M</span> is <em>exactly zero</em> — every tick already finds a host, so making them better at finding hosts changes nothing.</p>
+<p>Across its full plausible range, <span class="math inline">\beta_M</span> is the single most important parameter in the model.</p>
+<p>A local analysis run from a host-rich baseline would have reported “attachment doesn’t matter” and been completely wrong. Drag the baseline below to watch this happen:</p>
+<div class="model-explorer">
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="55" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 54;"><span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>viewof lbeta0 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="op">-</span><span class="fl">7.3</span><span class="op">,</span> <span class="op">-</span><span class="fl">4.7</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="op">-</span><span class="fl">5.0</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Baseline log₁₀ β"</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="61" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 60;"><span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>viewof hosts <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">500</span><span class="op">,</span> <span class="dv">6000</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">3000</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">100</span><span class="op">,</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Host abundance"</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="67" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 66;"><span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a><span class="co">// Schematic saturating attachment: P = 1 - exp(-beta * H * tau)</span></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>attach <span class="op">=</span> (lb) <span class="kw">=&gt;</span> <span class="dv">1</span> <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span><span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">10</span><span class="op">,</span> lb) <span class="op">*</span> hosts <span class="op">*</span> <span class="dv">165</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="73" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 72;"><span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>satCurve <span class="op">=</span> {</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> out <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> lb <span class="op">=</span> <span class="op">-</span><span class="fl">7.3</span><span class="op">;</span> lb <span class="op">&lt;=</span> <span class="op">-</span><span class="fl">4.7</span><span class="op">;</span> lb <span class="op">+=</span> <span class="fl">0.02</span>) out<span class="op">.</span><span class="fu">push</span>({<span class="dt">lb</span><span class="op">:</span> lb<span class="op">,</span> <span class="dt">P</span><span class="op">:</span> <span class="fu">attach</span>(lb)})<span class="op">;</span></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> out<span class="op">;</span></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb5" data-startfrom="82" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 81;"><span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a><span class="co">// Local slope at the baseline, drawn as a short tangent segment</span></span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>tangent <span class="op">=</span> {</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> h <span class="op">=</span> <span class="fl">0.02</span><span class="op">;</span></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> slope <span class="op">=</span> (<span class="fu">attach</span>(lbeta0 <span class="op">+</span> h) <span class="op">-</span> <span class="fu">attach</span>(lbeta0 <span class="op">-</span> h)) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> h)<span class="op">;</span></span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> y0 <span class="op">=</span> <span class="fu">attach</span>(lbeta0)<span class="op">;</span></span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>    <span class="dt">slope</span><span class="op">:</span> slope<span class="op">,</span></span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>    <span class="dt">seg</span><span class="op">:</span> [{<span class="dt">lb</span><span class="op">:</span> lbeta0 <span class="op">-</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">P</span><span class="op">:</span> y0 <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> slope}<span class="op">,</span></span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>          {<span class="dt">lb</span><span class="op">:</span> lbeta0 <span class="op">+</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">P</span><span class="op">:</span> y0 <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> slope}]</span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb6" data-startfrom="97" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 96;"><span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a>  <span class="dt">width</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(width<span class="op">,</span> <span class="dv">720</span>)<span class="op">,</span></span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">340</span><span class="op">,</span></span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span></span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">45</span><span class="op">,</span></span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"13px"</span><span class="op">,</span> <span class="dt">background</span><span class="op">:</span> <span class="st">"transparent"</span>}<span class="op">,</span></span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"log₁₀ attachment rate β →"</span><span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="op">-</span><span class="fl">7.3</span><span class="op">,</span> <span class="op">-</span><span class="fl">4.7</span>]}<span class="op">,</span></span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"↑ Attachment probability"</span><span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="op">-</span><span class="fl">0.05</span><span class="op">,</span> <span class="fl">1.05</span>]}<span class="op">,</span></span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">areaY</span>(satCurve<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"lb"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"P"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#2c6e63"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.08</span>})<span class="op">,</span></span>
+<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">line</span>(satCurve<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"lb"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"P"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#2c6e63"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.5</span>})<span class="op">,</span></span>
+<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">line</span>(tangent<span class="op">.</span><span class="at">seg</span><span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"lb"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"P"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#c0563f"</span><span class="op">,</span></span>
+<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.5</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"4,3"</span>})<span class="op">,</span></span>
+<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">dot</span>([{<span class="dt">lb</span><span class="op">:</span> lbeta0<span class="op">,</span> <span class="dt">P</span><span class="op">:</span> <span class="fu">attach</span>(lbeta0)}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"lb"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"P"</span><span class="op">,</span></span>
+<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"#c0563f"</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">5</span>})<span class="op">,</span></span>
+<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#999"</span>})</span>
+<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a>  ]</span>
+<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-6" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb7" data-startfrom="119" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 118;"><span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a><span class="fu">html</span><span class="vs">`&lt;p style="margin:0.6rem 0 0 0; font-size:0.95rem;"&gt;</span></span>
+<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a><span class="vs">Local slope at this baseline: &lt;b&gt;</span><span class="sc">${</span>tangent<span class="op">.</span><span class="at">slope</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">&lt;/b&gt; per decade of β.</span></span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a><span class="vs">Full range of the output across all plausible β: &lt;b&gt;</span><span class="sc">${</span></span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a>  (<span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="op">...</span>satCurve<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">P</span>)) <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(<span class="op">...</span>satCurve<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">P</span>)))<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)</span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a><span class="sc">}</span><span class="vs">&lt;/b&gt;.</span></span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a><span class="sc">${</span>tangent<span class="op">.</span><span class="at">slope</span> <span class="op">&lt;</span> <span class="fl">0.02</span></span>
+<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a>  <span class="op">?</span> <span class="st">"&lt;span style='color:#c0563f'&gt;&lt;b&gt;The local analysis says β is irrelevant. It is not.&lt;/b&gt;&lt;/span&gt;"</span></span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a>  <span class="op">:</span> <span class="st">"Here the baseline sits on the steep part, so local and global happen to agree."</span><span class="sc">}</span></span>
+<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;/p&gt;`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-7" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="it-cannot-see-interactions" class="level3">
+<h3 class="anchored" data-anchor-id="it-cannot-see-interactions">It cannot see interactions</h3>
+<p>Holding everything else fixed means you never observe that <span class="math inline">\beta_M</span> behaves differently depending on the aggregation parameter <span class="math inline">k</span>. In our run the total indices sum to about <strong>2.4</strong>, against 1.0 for a purely additive model — so most of what the model is doing is interaction. OAT would have missed nearly all of it.</p>
+</section>
+<section id="it-explores-almost-nothing" class="level3">
+<h3 class="anchored" data-anchor-id="it-explores-almost-nothing">It explores almost nothing</h3>
+<p>With 13 parameters, moving along 13 axes out from a single point covers a vanishingly small fraction of a 13-dimensional box.</p>
+<p><strong>Global</strong> sensitivity analysis instead varies <em>all</em> parameters <em>simultaneously</em> across their <em>full plausible ranges</em>, and asks: of all the variation we see in the output, how much is attributable to each input?</p>
+</section>
+</section>
+<section id="step-1.-understand-what-the-answer-will-look-like" class="level2">
+<h2 class="anchored" data-anchor-id="step-1.-understand-what-the-answer-will-look-like">Step 1. Understand what the answer will look like</h2>
+<p>Before any machinery, it is worth understanding what a variance decomposition actually claims. It is simpler than the notation suggests, and you can see the whole idea in four model runs.</p>
+<p>Two parameters, each set Low or High. Four runs, four answers. <strong>Drag the answers and watch the split change:</strong></p>
+<div class="model-explorer">
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb8" data-startfrom="162" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 161;"><span id="cb8-162"><a href="#cb8-162" aria-hidden="true" tabindex="-1"></a>viewof LL <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">20</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"β low, μ low"</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-8" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb9" data-startfrom="167" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 166;"><span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a>viewof HL <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">20</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">9</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"β high, μ low"</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-9" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb10" data-startfrom="172" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 171;"><span id="cb10-172"><a href="#cb10-172" aria-hidden="true" tabindex="-1"></a>viewof LH <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">20</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"β low, μ high"</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-10" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb11" data-startfrom="177" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 176;"><span id="cb11-177"><a href="#cb11-177" aria-hidden="true" tabindex="-1"></a>viewof HH <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">20</span>]<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="dv">18</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"β high, μ high"</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-11" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb12" data-startfrom="182" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 181;"><span id="cb12-182"><a href="#cb12-182" aria-hidden="true" tabindex="-1"></a>sob <span class="op">=</span> {</span>
+<span id="cb12-183"><a href="#cb12-183" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> y <span class="op">=</span> [LL<span class="op">,</span> HL<span class="op">,</span> LH<span class="op">,</span> HH]<span class="op">;</span></span>
+<span id="cb12-184"><a href="#cb12-184" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> m <span class="op">=</span> (LL <span class="op">+</span> HL <span class="op">+</span> LH <span class="op">+</span> HH) <span class="op">/</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb12-185"><a href="#cb12-185" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> V <span class="op">=</span> y<span class="op">.</span><span class="fu">reduce</span>((s<span class="op">,</span> v) <span class="kw">=&gt;</span> s <span class="op">+</span> (v <span class="op">-</span> m) <span class="op">**</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">0</span>) <span class="op">/</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb12-186"><a href="#cb12-186" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> bL <span class="op">=</span> (LL <span class="op">+</span> LH) <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> bH <span class="op">=</span> (HL <span class="op">+</span> HH) <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb12-187"><a href="#cb12-187" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> uL <span class="op">=</span> (LL <span class="op">+</span> HL) <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> uH <span class="op">=</span> (LH <span class="op">+</span> HH) <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb12-188"><a href="#cb12-188" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> Vb <span class="op">=</span> ((bL <span class="op">-</span> m) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> (bH <span class="op">-</span> m) <span class="op">**</span> <span class="dv">2</span>) <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb12-189"><a href="#cb12-189" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> Vu <span class="op">=</span> ((uL <span class="op">-</span> m) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> (uH <span class="op">-</span> m) <span class="op">**</span> <span class="dv">2</span>) <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb12-190"><a href="#cb12-190" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> Vs <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="dv">0</span><span class="op">,</span> V <span class="op">-</span> Vb <span class="op">-</span> Vu)<span class="op">;</span></span>
+<span id="cb12-191"><a href="#cb12-191" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
+<span id="cb12-192"><a href="#cb12-192" aria-hidden="true" tabindex="-1"></a>    <span class="dt">V</span><span class="op">:</span> V<span class="op">,</span> <span class="dt">bL</span><span class="op">:</span> bL<span class="op">,</span> <span class="dt">bH</span><span class="op">:</span> bH<span class="op">,</span> <span class="dt">uL</span><span class="op">:</span> uL<span class="op">,</span> <span class="dt">uH</span><span class="op">:</span> uH<span class="op">,</span></span>
+<span id="cb12-193"><a href="#cb12-193" aria-hidden="true" tabindex="-1"></a>    <span class="dt">beta</span><span class="op">:</span>   V <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">?</span> Vb <span class="op">/</span> V <span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb12-194"><a href="#cb12-194" aria-hidden="true" tabindex="-1"></a>    <span class="dt">mu</span><span class="op">:</span>     V <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">?</span> Vu <span class="op">/</span> V <span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb12-195"><a href="#cb12-195" aria-hidden="true" tabindex="-1"></a>    <span class="dt">shared</span><span class="op">:</span> V <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">?</span> Vs <span class="op">/</span> V <span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb12-196"><a href="#cb12-196" aria-hidden="true" tabindex="-1"></a>    <span class="dt">effLo</span><span class="op">:</span> HL <span class="op">-</span> LL<span class="op">,</span></span>
+<span id="cb12-197"><a href="#cb12-197" aria-hidden="true" tabindex="-1"></a>    <span class="dt">effHi</span><span class="op">:</span> HH <span class="op">-</span> LH</span>
+<span id="cb12-198"><a href="#cb12-198" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb12-199"><a href="#cb12-199" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-12" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb13" data-startfrom="204" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 203;"><span id="cb13-204"><a href="#cb13-204" aria-hidden="true" tabindex="-1"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb13-205"><a href="#cb13-205" aria-hidden="true" tabindex="-1"></a>  <span class="dt">width</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(width<span class="op">,</span> <span class="dv">720</span>)<span class="op">,</span></span>
+<span id="cb13-206"><a href="#cb13-206" aria-hidden="true" tabindex="-1"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">150</span><span class="op">,</span></span>
+<span id="cb13-207"><a href="#cb13-207" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">70</span><span class="op">,</span></span>
+<span id="cb13-208"><a href="#cb13-208" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span></span>
+<span id="cb13-209"><a href="#cb13-209" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb13-210"><a href="#cb13-210" aria-hidden="true" tabindex="-1"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"13px"</span><span class="op">,</span> <span class="dt">background</span><span class="op">:</span> <span class="st">"transparent"</span>}<span class="op">,</span></span>
+<span id="cb13-211"><a href="#cb13-211" aria-hidden="true" tabindex="-1"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Share of the spread →"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb13-212"><a href="#cb13-212" aria-hidden="true" tabindex="-1"></a>      <span class="dt">tickFormat</span><span class="op">:</span> d <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span>(d <span class="op">*</span> <span class="dv">100</span>) <span class="op">+</span> <span class="st">"%"</span>}<span class="op">,</span></span>
+<span id="cb13-213"><a href="#cb13-213" aria-hidden="true" tabindex="-1"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="kw">null</span>}<span class="op">,</span></span>
+<span id="cb13-214"><a href="#cb13-214" aria-hidden="true" tabindex="-1"></a>  <span class="dt">color</span><span class="op">:</span> {</span>
+<span id="cb13-215"><a href="#cb13-215" aria-hidden="true" tabindex="-1"></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="st">"β alone"</span><span class="op">,</span> <span class="st">"μ alone"</span><span class="op">,</span> <span class="st">"shared"</span>]<span class="op">,</span></span>
+<span id="cb13-216"><a href="#cb13-216" aria-hidden="true" tabindex="-1"></a>    <span class="dt">range</span><span class="op">:</span> [<span class="st">"#2c6e63"</span><span class="op">,</span> <span class="st">"#7a9e6b"</span><span class="op">,</span> <span class="st">"#b9b4a8"</span>]<span class="op">,</span></span>
+<span id="cb13-217"><a href="#cb13-217" aria-hidden="true" tabindex="-1"></a>    <span class="dt">legend</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb13-218"><a href="#cb13-218" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb13-219"><a href="#cb13-219" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb13-220"><a href="#cb13-220" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">barX</span>(</span>
+<span id="cb13-221"><a href="#cb13-221" aria-hidden="true" tabindex="-1"></a>      [{<span class="dt">p</span><span class="op">:</span> <span class="st">"β alone"</span><span class="op">,</span> <span class="dt">v</span><span class="op">:</span> sob<span class="op">.</span><span class="at">beta</span>}<span class="op">,</span> {<span class="dt">p</span><span class="op">:</span> <span class="st">"μ alone"</span><span class="op">,</span> <span class="dt">v</span><span class="op">:</span> sob<span class="op">.</span><span class="at">mu</span>}<span class="op">,</span></span>
+<span id="cb13-222"><a href="#cb13-222" aria-hidden="true" tabindex="-1"></a>       {<span class="dt">p</span><span class="op">:</span> <span class="st">"shared"</span><span class="op">,</span> <span class="dt">v</span><span class="op">:</span> sob<span class="op">.</span><span class="at">shared</span>}]<span class="op">,</span></span>
+<span id="cb13-223"><a href="#cb13-223" aria-hidden="true" tabindex="-1"></a>      {<span class="dt">x</span><span class="op">:</span> <span class="st">"v"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> () <span class="kw">=&gt;</span> <span class="st">""</span><span class="op">,</span> <span class="dt">sort</span><span class="op">:</span> <span class="kw">null</span>}</span>
+<span id="cb13-224"><a href="#cb13-224" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb13-225"><a href="#cb13-225" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([<span class="dv">0</span>])</span>
+<span id="cb13-226"><a href="#cb13-226" aria-hidden="true" tabindex="-1"></a>  ]</span>
+<span id="cb13-227"><a href="#cb13-227" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-13" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb14" data-startfrom="232" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 231;"><span id="cb14-232"><a href="#cb14-232" aria-hidden="true" tabindex="-1"></a><span class="fu">html</span><span class="vs">`&lt;p style="margin:0.4rem 0 0.9rem 0; font-size:0.95rem;"&gt;</span><span class="sc">${</span></span>
+<span id="cb14-233"><a href="#cb14-233" aria-hidden="true" tabindex="-1"></a>  sob<span class="op">.</span><span class="at">V</span> <span class="op">===</span> <span class="dv">0</span></span>
+<span id="cb14-234"><a href="#cb14-234" aria-hidden="true" tabindex="-1"></a>    <span class="op">?</span> <span class="st">"All four answers are the same, so there is no spread to divide."</span></span>
+<span id="cb14-235"><a href="#cb14-235" aria-hidden="true" tabindex="-1"></a>    <span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(sob<span class="op">.</span><span class="at">effHi</span> <span class="op">-</span> sob<span class="op">.</span><span class="at">effLo</span>) <span class="op">&lt;</span> <span class="fl">0.5</span></span>
+<span id="cb14-236"><a href="#cb14-236" aria-hidden="true" tabindex="-1"></a>      <span class="op">?</span> <span class="vs">`β lifts the answer by &lt;b&gt;</span><span class="sc">${</span>sob<span class="op">.</span><span class="at">effLo</span><span class="sc">}</span><span class="vs">&lt;/b&gt; whether μ is low or high. Its</span></span>
+<span id="cb14-237"><a href="#cb14-237" aria-hidden="true" tabindex="-1"></a><span class="vs">         effect does not depend on μ, so &lt;b&gt;the shared piece is zero&lt;/b&gt; and the</span></span>
+<span id="cb14-238"><a href="#cb14-238" aria-hidden="true" tabindex="-1"></a><span class="vs">         two totals add to exactly 1.`</span></span>
+<span id="cb14-239"><a href="#cb14-239" aria-hidden="true" tabindex="-1"></a>      <span class="op">:</span> <span class="vs">`β lifts the answer by &lt;b&gt;</span><span class="sc">${</span>sob<span class="op">.</span><span class="at">effLo</span><span class="sc">}</span><span class="vs">&lt;/b&gt; when μ is low, but by</span></span>
+<span id="cb14-240"><a href="#cb14-240" aria-hidden="true" tabindex="-1"></a><span class="vs">         &lt;b&gt;</span><span class="sc">${</span>sob<span class="op">.</span><span class="at">effHi</span><span class="sc">}</span><span class="vs">&lt;/b&gt; when μ is high. That inconsistency is the shared</span></span>
+<span id="cb14-241"><a href="#cb14-241" aria-hidden="true" tabindex="-1"></a><span class="vs">         piece — it belongs to neither parameter on its own.`</span></span>
+<span id="cb14-242"><a href="#cb14-242" aria-hidden="true" tabindex="-1"></a><span class="sc">}</span><span class="vs">&lt;/p&gt;`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-14" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb15" data-startfrom="247" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 246;"><span id="cb15-247"><a href="#cb15-247" aria-hidden="true" tabindex="-1"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb15-248"><a href="#cb15-248" aria-hidden="true" tabindex="-1"></a>  <span class="dt">width</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(width<span class="op">,</span> <span class="dv">720</span>)<span class="op">,</span></span>
+<span id="cb15-249"><a href="#cb15-249" aria-hidden="true" tabindex="-1"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">190</span><span class="op">,</span></span>
+<span id="cb15-250"><a href="#cb15-250" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">70</span><span class="op">,</span></span>
+<span id="cb15-251"><a href="#cb15-251" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span></span>
+<span id="cb15-252"><a href="#cb15-252" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb15-253"><a href="#cb15-253" aria-hidden="true" tabindex="-1"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">"13px"</span><span class="op">,</span> <span class="dt">background</span><span class="op">:</span> <span class="st">"transparent"</span>}<span class="op">,</span></span>
+<span id="cb15-254"><a href="#cb15-254" aria-hidden="true" tabindex="-1"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Total index →"</span><span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span>}<span class="op">,</span></span>
+<span id="cb15-255"><a href="#cb15-255" aria-hidden="true" tabindex="-1"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="kw">null</span>}<span class="op">,</span></span>
+<span id="cb15-256"><a href="#cb15-256" aria-hidden="true" tabindex="-1"></a>  <span class="dt">color</span><span class="op">:</span> {</span>
+<span id="cb15-257"><a href="#cb15-257" aria-hidden="true" tabindex="-1"></a>    <span class="dt">domain</span><span class="op">:</span> [<span class="st">"on its own"</span><span class="op">,</span> <span class="st">"via interaction"</span>]<span class="op">,</span></span>
+<span id="cb15-258"><a href="#cb15-258" aria-hidden="true" tabindex="-1"></a>    <span class="dt">range</span><span class="op">:</span> [<span class="st">"#2c6e63"</span><span class="op">,</span> <span class="st">"#d6d2c6"</span>]<span class="op">,</span></span>
+<span id="cb15-259"><a href="#cb15-259" aria-hidden="true" tabindex="-1"></a>    <span class="dt">legend</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb15-260"><a href="#cb15-260" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb15-261"><a href="#cb15-261" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb15-262"><a href="#cb15-262" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">barX</span>(</span>
+<span id="cb15-263"><a href="#cb15-263" aria-hidden="true" tabindex="-1"></a>      [{<span class="dt">p</span><span class="op">:</span> <span class="st">"β"</span><span class="op">,</span> <span class="dt">part</span><span class="op">:</span> <span class="st">"on its own"</span><span class="op">,</span> <span class="dt">v</span><span class="op">:</span> sob<span class="op">.</span><span class="at">beta</span>}<span class="op">,</span></span>
+<span id="cb15-264"><a href="#cb15-264" aria-hidden="true" tabindex="-1"></a>       {<span class="dt">p</span><span class="op">:</span> <span class="st">"β"</span><span class="op">,</span> <span class="dt">part</span><span class="op">:</span> <span class="st">"via interaction"</span><span class="op">,</span> <span class="dt">v</span><span class="op">:</span> sob<span class="op">.</span><span class="at">shared</span>}<span class="op">,</span></span>
+<span id="cb15-265"><a href="#cb15-265" aria-hidden="true" tabindex="-1"></a>       {<span class="dt">p</span><span class="op">:</span> <span class="st">"μ"</span><span class="op">,</span> <span class="dt">part</span><span class="op">:</span> <span class="st">"on its own"</span><span class="op">,</span> <span class="dt">v</span><span class="op">:</span> sob<span class="op">.</span><span class="at">mu</span>}<span class="op">,</span></span>
+<span id="cb15-266"><a href="#cb15-266" aria-hidden="true" tabindex="-1"></a>       {<span class="dt">p</span><span class="op">:</span> <span class="st">"μ"</span><span class="op">,</span> <span class="dt">part</span><span class="op">:</span> <span class="st">"via interaction"</span><span class="op">,</span> <span class="dt">v</span><span class="op">:</span> sob<span class="op">.</span><span class="at">shared</span>}]<span class="op">,</span></span>
+<span id="cb15-267"><a href="#cb15-267" aria-hidden="true" tabindex="-1"></a>      {<span class="dt">x</span><span class="op">:</span> <span class="st">"v"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"p"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"part"</span><span class="op">,</span> <span class="dt">sort</span><span class="op">:</span> <span class="kw">null</span>}</span>
+<span id="cb15-268"><a href="#cb15-268" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb15-269"><a href="#cb15-269" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([<span class="dv">0</span>])</span>
+<span id="cb15-270"><a href="#cb15-270" aria-hidden="true" tabindex="-1"></a>  ]</span>
+<span id="cb15-271"><a href="#cb15-271" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-15" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb16" data-startfrom="276" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 275;"><span id="cb16-276"><a href="#cb16-276" aria-hidden="true" tabindex="-1"></a><span class="fu">html</span><span class="vs">`&lt;p style="margin:0.4rem 0 0 0; font-size:0.95rem;"&gt;</span></span>
+<span id="cb16-277"><a href="#cb16-277" aria-hidden="true" tabindex="-1"></a><span class="vs">Totals add to &lt;b&gt;</span><span class="sc">${</span>(sob<span class="op">.</span><span class="at">beta</span> <span class="op">+</span> sob<span class="op">.</span><span class="at">mu</span> <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> sob<span class="op">.</span><span class="at">shared</span>)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="vs">&lt;/b&gt;.</span></span>
+<span id="cb16-278"><a href="#cb16-278" aria-hidden="true" tabindex="-1"></a><span class="sc">${</span>sob<span class="op">.</span><span class="at">shared</span> <span class="op">&gt;</span> <span class="fl">0.005</span></span>
+<span id="cb16-279"><a href="#cb16-279" aria-hidden="true" tabindex="-1"></a>  <span class="op">?</span> <span class="st">"They exceed 1 because the shared piece is counted in both parameters' totals — it genuinely belongs to both."</span></span>
+<span id="cb16-280"><a href="#cb16-280" aria-hidden="true" tabindex="-1"></a>  <span class="op">:</span> <span class="st">"With no interaction, they add to exactly 1."</span><span class="sc">}</span></span>
+<span id="cb16-281"><a href="#cb16-281" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;/p&gt;`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-16" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+<p>At the default values the arithmetic is:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\beta</span></th>
+<th><span class="math inline">\mu</span></th>
+<th>answer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>L</td>
+<td>L</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>H</td>
+<td>L</td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<td>L</td>
+<td>H</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>H</td>
+<td>H</td>
+<td>18</td>
+</tr>
+</tbody>
+</table>
+<p>Total spread (variance) = 46.25.</p>
+<p><strong><span class="math inline">\beta</span>’s own piece.</strong> Average when <span class="math inline">\beta</span> is low = 1.5, when high = 13.5. Far apart, so <span class="math inline">\beta</span>’s piece is 36.0 — that is <strong>77.8%</strong> of the spread.</p>
+<p><strong><span class="math inline">\mu</span>’s own piece.</strong> Average when low = 5.0, when high = 10.0. Closer, so <span class="math inline">\mu</span>’s piece is 6.25 — <strong>13.5%</strong>.</p>
+<p><strong>Left over: 4.0, or 8.6%.</strong> This is the shared piece, and here is why it exists: <span class="math inline">\beta</span> lifts the answer by 8 when <span class="math inline">\mu</span> is low, but by 16 when <span class="math inline">\mu</span> is high. <span class="math inline">\beta</span>’s effect <em>depends on</em> <span class="math inline">\mu</span>. That inconsistency cannot be credited to either one alone, so it gets a piece of its own.</p>
+<p><span class="math display">
+77.8\% + 13.5\% + 8.6\% = 100\%
+</span></p>
+<p>Exactly. Nothing lost, nothing double counted. There is only one way to do this split and it always adds up — that exactness is the point.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The one sentence to remember
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>How much the average answer moves when you learn a parameter’s value</em> is that parameter’s piece of the spread. We cannot rerun history with <span class="math inline">\beta</span> held fixed, so instead we compare the average over every run where <span class="math inline">\beta</span> was low against the average over every run where it was high.</p>
+</div>
+</div>
+</section>
+<section id="step-2.-the-formal-version" class="level2">
+<h2 class="anchored" data-anchor-id="step-2.-the-formal-version">Step 2. The formal version</h2>
+<p>That four-run split generalises. For a model <span class="math inline">Y = f(X_1, \dots, X_p)</span> with <strong>independent</strong> inputs, the output variance decomposes uniquely:</p>
+<p><span class="math display">
+V(Y) = \sum_i V_i + \sum_{i&lt;j} V_{ij} + \sum_{i&lt;j&lt;l} V_{ijl} + \dots + V_{12\dots p}
+</span></p>
+<ul>
+<li><span class="math inline">V_i</span> — variance explained by <span class="math inline">X_i</span> <strong>on its own</strong></li>
+<li><span class="math inline">V_{ij}</span> — the extra variance from <span class="math inline">X_i</span> and <span class="math inline">X_j</span> <strong>acting together</strong>, beyond their separate effects</li>
+<li>and so on for higher orders.</li>
+</ul>
+<p>Divide through by <span class="math inline">V(Y)</span> and every term becomes a share summing to 1. This is the <strong>Sobol decomposition</strong> — three plain words wearing a disguise. <em>Variance</em> is just how spread out the answers are. <em>Decomposition</em> is cutting that spread into pieces. <em>Sobol</em> is a person’s name (Ilya Sobol, who worked it out) and carries no meaning at all.</p>
+<section id="the-two-indices-you-report" class="level3">
+<h3 class="anchored" data-anchor-id="the-two-indices-you-report">The two indices you report</h3>
+<p><strong>First-order index</strong></p>
+<p><span class="math display">
+S_i = \frac{V_i}{V(Y)}
+</span></p>
+<p>The share of variance explained by <span class="math inline">X_i</span> alone. Equivalently: the fraction of uncertainty you would eliminate by learning <span class="math inline">X_i</span> exactly.</p>
+<p><strong>Total index</strong></p>
+<p><span class="math display">
+S_{T_i} = \frac{\sum_{\text{all terms containing } X_i} V_{\dots}}{V(Y)}
+</span></p>
+<p><span class="math inline">X_i</span> alone <em>plus</em> everything it does through interactions. Equivalently: the uncertainty that would remain if you learned every parameter <em>except</em> <span class="math inline">X_i</span>.</p>
+<p>Three diagnostics fall straight out:</p>
+<table class="table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Reading</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">S_{T_i} - S_i</span></td>
+<td>how much of this parameter’s influence runs through interactions</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\sum_i S_i \approx 1</span></td>
+<td>model is additive; parameters act independently</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\sum_i S_{T_i} \gg 1</span></td>
+<td>strong interactions; the same variance is attributed to several parameters because it belongs to none of them alone</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">S_{T_i} \approx 0</span></td>
+<td>genuinely negligible — safe to fix and drop from the analysis</td>
+</tr>
+</tbody>
+</table>
+<p>Variance is the right currency because it is <strong>model-free</strong>: no assumption of linearity, monotonicity or additivity. Compare a correlation coefficient, which only sees monotonic trends. In our run <span class="math inline">\mu_E</span> showed a large Sobol index but a near-zero Spearman correlation, because its effect is hump-shaped. A correlation-based method would have declared it unimportant.</p>
+</section>
+</section>
+<section id="step-3.-choose-the-parameter-ranges" class="level2">
+<h2 class="anchored" data-anchor-id="step-3.-choose-the-parameter-ranges">Step 3. Choose the parameter ranges</h2>
+<p>This is the step with the least mathematics and by far the most consequence.</p>
+<p>Every index is <strong>conditional on the ranges</strong>. A parameter given a wide range will tend to look important; the same parameter pinned to a narrow range will look irrelevant. This is not a flaw — it is correct behaviour, because the question being asked is <em>“given what we don’t know, what drives the uncertainty in our prediction?”</em> A parameter you know precisely <strong>should</strong> rank low, even if the model is mechanistically very sensitive to it.</p>
+<p>What that meant in our case:</p>
+<ul>
+<li><code>log10_beta_M</code> spans three decades because nobody has ever measured it. It came out top. That ranking is a statement about <strong>our ignorance</strong>, not purely about the biology.</li>
+<li><code>lambda</code> spans ±40% because Drew &amp; Samuel counted eggs directly. It ranked low partly because we know it well.</li>
+<li><code>mu_E</code>’s two endpoints are the two competing readings of the same paper, so its index measures <strong>what the unresolved argument costs us</strong>.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Always report the ranges next to the indices
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An index without its range is not interpretable. A parameter can score low for three completely different reasons — we know it well, it genuinely does nothing, or it <em>cannot</em> do anything however wide the range. Those are three different findings. Say which one you mean.</p>
+</div>
+</div>
+<p>Three practical rules that made the ranges defensible:</p>
+<p><strong>Set ranges on the interpretable quantity, then invert.</strong> We set the virulence <span class="math inline">\alpha_M</span> by asking “how many ticks kill half a moose?” and solving</p>
+<p><span class="math display">
+\alpha = \frac{\ln 2}{\text{burden} \times \tau_A}
+</span></p>
+<p>Nobody can eyeball whether <span class="math inline">2 \times 10^{-7}</span> is sensible. Everybody can judge 38,000 ticks.</p>
+<p><strong>Sample on a log scale when a range spans decades</strong>, otherwise 90% of your draws land in the top decade.</p>
+<p><strong>Make ranges track the model’s structure.</strong> Our <code>beta_for()</code> helper derives <span class="math inline">\beta</span>’s range from the current host numbers, because what matters is <span class="math inline">\beta \times \text{hosts}</span>, never <span class="math inline">\beta</span> alone.</p>
+<p>Where nothing is measured at all, bound it by something you do know. Winter tick <em>is</em> established in Yukon, so <span class="math inline">R_0 &gt; 1</span>; it is at its northern range edge, so <span class="math inline">R_0</span> is not enormous. We set <span class="math inline">\beta_M</span>’s range to the values putting <span class="math inline">R_0</span> between roughly 1 and 70. Indirect, but a real constraint and far better than three arbitrary decades.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>rng_dyn2 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># beta_M: never measured. Bounded so R0 runs from ~1 to ~67.</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">log10_beta_M  =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">7.3</span>, <span class="sc">-</span><span class="fl">4.7</span>),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mu_E: egg + free-living larval mortality, from egg-to-questing</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># survival of 30% down to 2%:  mu_E = -log(survival) / tau_E</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">mu_E          =</span> <span class="fu">c</span>(<span class="fl">0.01003</span>, <span class="fl">0.03260</span>),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mu_N: attached nymph mortality, nymph-to-adult survival 50% to 10%</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">mu_N          =</span> <span class="fu">c</span>(<span class="fl">0.00420</span>, <span class="fl">0.01396</span>),</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">lambda        =</span> <span class="fu">c</span>(<span class="dv">1500</span>, <span class="dv">5000</span>),      <span class="co"># eggs per surviving female</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Stage durations: the climate levers. Arthropod development runs</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 2-3x faster per 10 C, and Yukon is projected 4-6 C warmer.</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">tau_E         =</span> <span class="fu">c</span>(<span class="dv">75</span>, <span class="dv">180</span>),</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">tau_Q         =</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">120</span>),</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">tau_A         =</span> <span class="fu">c</span>(<span class="dv">140</span>, <span class="dv">200</span>),</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">M0            =</span> <span class="fu">c</span>(<span class="dv">500</span>, <span class="dv">6000</span>),       <span class="co"># host abundance</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">U0            =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">6000</span>),</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># alpha_M: set as the burden that kills half a moose, then inverted</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   150,000 ticks -&gt; log10 = -7.29  (tolerant)</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>  <span class="co">#     5,000 ticks -&gt; log10 = -5.81  (vulnerable)</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">log10_alpha_M =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">7.29</span>, <span class="sc">-</span><span class="fl">5.81</span>),</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">k             =</span> <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">1.00</span>),      <span class="co"># aggregation; small = more clumped</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">rho_M         =</span> <span class="fu">c</span>(<span class="fl">1.00</span>, <span class="fl">1.20</span>),      <span class="co"># moose finite rate of increase</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">rho_U         =</span> <span class="fu">c</span>(<span class="fl">1.00</span>, <span class="fl">1.35</span>)</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-4.-choose-the-design" class="level2">
+<h2 class="anchored" data-anchor-id="step-4.-choose-the-design">Step 4. Choose the design</h2>
+<p>You need parameter sets that cover the space efficiently. The options, with cost for <span class="math inline">p</span> parameters:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Design</th>
+<th>Cost</th>
+<th>Analysis it supports</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Full factorial, <span class="math inline">L</span> levels</td>
+<td><span class="math inline">L^p</span></td>
+<td>ANOVA</td>
+</tr>
+<tr class="even">
+<td>Fractional factorial</td>
+<td><span class="math inline">L^{p-k}</span></td>
+<td>ANOVA</td>
+</tr>
+<tr class="odd">
+<td><strong>eFAST (<code>fast99</code>)</strong></td>
+<td><strong><span class="math inline">n \cdot p</span></strong></td>
+<td><strong>Fourier decomposition</strong></td>
+</tr>
+<tr class="even">
+<td>Sobol Monte Carlo</td>
+<td><span class="math inline">n(p+2)</span></td>
+<td>Sobol estimators</td>
+</tr>
+<tr class="odd">
+<td>Morris</td>
+<td><span class="math inline">r(p+1)</span></td>
+<td>screening only — ranks, no quantities</td>
+</tr>
+<tr class="even">
+<td>Latin hypercube</td>
+<td><span class="math inline">n</span></td>
+<td>PRCC, regression — <strong>not</strong> ANOVA</td>
+</tr>
+</tbody>
+</table>
+<p>We used <strong>eFAST</strong>, for three reasons:</p>
+<ol type="1">
+<li>A full factorial at 3 levels samples each parameter at only three points. Our output spans about 10 orders of magnitude, and three points cannot describe a surface that curved. The curvature you miss gets misattributed as “interaction”.</li>
+<li>eFAST samples <strong>continuously</strong> along space-filling curves, so it handles nonlinearity properly.</li>
+<li>Cost is <strong>linear in the number of parameters</strong>. Going from 7 to 13 parameters cost us 2,100 → 3,900 runs instead of 2,187 → 1.6 million.</li>
+</ol>
+<section id="how-efast-samples" class="level3">
+<h3 class="anchored" data-anchor-id="how-efast-samples">How eFAST samples</h3>
+<p>Every parameter gets its own <strong>frequency</strong>, and the design walks a single curve through parameter space. As a scalar <span class="math inline">s</span> advances, each parameter oscillates:</p>
+<p><span class="math display">
+X_i(s) = G_i\big(\sin(\omega_i s)\big)
+</span></p>
+<p>where <span class="math inline">\omega_i</span> is parameter <span class="math inline">i</span>’s distinct frequency and <span class="math inline">G_i</span> is the transform making <span class="math inline">X_i</span> uniform over its range.</p>
+<p>That sounds like a strange thing to do. Here is the trick: because each parameter wiggles at a <em>different rate</em>, the model’s answer wiggles back at that same rate. Take the Fourier spectrum of the output, and the power sitting at parameter <span class="math inline">i</span>’s frequency is <span class="math inline">V_i</span>. It is the same idea as picking one instrument out of a recording because you know its pitch. No fitting, no guessing.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Why LHS does not work with ANOVA
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>multisensi</code>’s default engine is ANOVA, which needs each factor to take a few <em>repeated</em> levels so there are residual degrees of freedom. A continuous Latin hypercube gives every factor <span class="math inline">n</span> distinct values, the model is saturated, and the decomposition fails. LHS is a perfectly good design — but pair it with PRCC or regression, not ANOVA.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="step-5.-run-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="step-5.-run-the-model">Step 5. Run the model</h2>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">run_design</span>(X, <span class="at">years =</span> <span class="dv">50</span>, <span class="at">out_var =</span> <span class="st">"M"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>takes the design table and returns:</p>
+<pre><code>IN   3900 rows (parameter sets)  x  13 columns (parameters)
+OUT  3900 rows (parameter sets)  x  51 columns (years)</code></pre>
+<p>Row <span class="math inline">i</span> out is the trajectory produced by row <span class="math inline">i</span> in. Note the output is <strong>multivariate</strong> — 51 numbers per run, not one. That is what the next step is for.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Analyse the log when the process is multiplicative
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Our tick population is multiplicative — each year is last year times a growth factor — so over 50 years small parameter differences compound into orders of magnitude. On a raw scale the variance is then owned by the handful of runs that exploded, no single parameter explains the level (because the level is a <em>product</em> of all of them), first-order indices collapse to nearly zero, and everything piles into interaction.</p>
+<p>Taking logs turns that product into a sum, which is exactly the additive structure a variance decomposition is built for, and the main effects reappear. Host populations vary far less, so they don’t need it.</p>
+</div>
+</div>
+</section>
+<section id="step-6.-reduce-the-output-with-pca" class="level2">
+<h2 class="anchored" data-anchor-id="step-6.-reduce-the-output-with-pca">Step 6. Reduce the output with PCA</h2>
+<p>We have 51 outputs, one per year. We could run 51 separate sensitivity analyses and get 51 sets of indices. Two reasons not to:</p>
+<ol type="1">
+<li><strong>It is unreadable.</strong> 13 parameters × 51 years × 2 index types = 1,326 numbers. There is no ranking in there a person can act on.</li>
+<li><strong>The outputs are massively redundant.</strong> Year 30 and year 31 are almost the same number. Naively averaging 51 sets of indices would count the same information dozens of times over.</li>
+</ol>
+<p>PCA finds a small set of <strong>orthogonal shapes</strong> that trajectories vary along. Instead of 51 correlated numbers per run, each run is described by a handful of uncorrelated component scores. In our run:</p>
+<table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Variance explained</th>
+<th>What it represents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PC1</td>
+<td>75.4%</td>
+<td>the overall <strong>level</strong> — how high or low the herd sits</td>
+</tr>
+<tr class="even">
+<td>PC2</td>
+<td>14.2%</td>
+<td>the <strong>transient shape</strong> — early crash and partial recovery</td>
+</tr>
+<tr class="odd">
+<td>PC3</td>
+<td>3.8%</td>
+<td>early oscillation</td>
+</tr>
+<tr class="even">
+<td>PC4</td>
+<td>2.6%</td>
+<td>negligible</td>
+</tr>
+</tbody>
+</table>
+<p>Three components carry <strong>93.4%</strong> of everything that varies between trajectories.</p>
+<section id="why-orthogonality-is-the-whole-point" class="level3">
+<h3 class="anchored" data-anchor-id="why-orthogonality-is-the-whole-point">Why orthogonality is the whole point</h3>
+<p>This is the part usually glossed over, and it is the reason the PCA is there at all. PCA components are <strong>uncorrelated by construction</strong>, which means the total variance splits <em>additively</em> across them:</p>
+<p><span class="math display">
+V(\text{trajectories}) = \lambda_1 + \lambda_2 + \lambda_3 + \dots
+</span></p>
+<p>Because there is no overlap between components, you may analyse each one separately and then combine the results by a weighted sum <strong>without double counting</strong>. If the components were correlated — as the 51 yearly outputs are — that combination step would be invalid.</p>
+<p>So the PCA is not cosmetic dimension reduction. It is what makes Step 8 mathematically legitimate.</p>
+<p>There is an interpretation bonus too. Each component has a temporal loading profile showing how it weights each year, so you are no longer decomposing variance “at year 37” — you are decomposing variance in <strong>trajectory shape</strong>. Asking which parameters drive the overall level, and which drive the transient, is a better question than asking about any single year.</p>
+</section>
+</section>
+<section id="step-7.-decompose-the-variance" class="level2">
+<h2 class="anchored" data-anchor-id="step-7.-decompose-the-variance">Step 7. Decompose the variance</h2>
+<p>Each component’s scores are one number per run, so this is now an ordinary scalar problem. eFAST estimates the decomposition from the Fourier spectrum:</p>
+<table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Index</th>
+<th>How it is read off the spectrum</th>
+<th>Plain English</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">S_i</span></td>
+<td>power at <span class="math inline">\omega_i</span> and its harmonics</td>
+<td>learn this one number and this much guesswork goes away</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">S_{T_i}</span></td>
+<td><span class="math inline">1 - V_{\sim i}/V</span>: everything except the <em>other</em> parameters’ frequencies</td>
+<td>learn all the others but not this one, and this much guesswork is left</td>
+</tr>
+</tbody>
+</table>
+<p>Because it reads variance off a spectrum rather than fitting a model, there is <strong>no residual term</strong>. Nothing is left over.</p>
+</section>
+<section id="step-8.-aggregate-to-one-number-per-parameter" class="level2">
+<h2 class="anchored" data-anchor-id="step-8.-aggregate-to-one-number-per-parameter">Step 8. Aggregate to one number per parameter</h2>
+<p>Steps 6 and 7 give indices <em>per component</em>. To get one number per parameter, use the <strong>Generalised Sensitivity Index</strong> (Lamboni et al.) — the inertia-weighted average:</p>
+<p><span class="math display">
+\text{GSI}_i = \frac{\sum_c \lambda_c \, S_{ic}}{\sum_c \lambda_c}
+</span></p>
+<p>where <span class="math inline">S_{ic}</span> is the index of parameter <span class="math inline">i</span> on component <span class="math inline">c</span> and <span class="math inline">\lambda_c</span> is that component’s eigenvalue. Components are weighted by how much trajectory variation they actually explain, so PC1 at 75.4% dominates and PC3 at 3.8% barely contributes.</p>
+<p><strong>This weighted sum is only valid because the components are orthogonal.</strong> That is the payoff from Step 6. Averaging the 51 raw yearly indices instead would count the same information dozens of times over.</p>
+</section>
+<section id="the-whole-thing-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="the-whole-thing-in-r">The whole thing in R</h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multisensi)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>gsa_time <span class="ot">&lt;-</span> <span class="fu">multisensi</span>(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">design        =</span> fast99,               <span class="co"># 1. how the sample is built</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">model         =</span> run_design,           <span class="co"># 2. run the model on every row</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">reduction     =</span> basis.ACP,            <span class="co"># 3. PCA the 51 yearly outputs</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale         =</span> <span class="cn">FALSE</span>,                <span class="co">#    covariance, not correlation</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">design.args   =</span> <span class="fu">list</span>(</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">factors =</span> <span class="fu">names</span>(parameters_range),</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">n       =</span> <span class="dv">1000</span>,                     <span class="co"># runs per parameter</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">q       =</span> <span class="st">"qunif"</span>,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">q.arg   =</span> <span class="fu">lapply</span>(parameters_range,</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>                     <span class="cf">function</span>(r) <span class="fu">list</span>(<span class="at">min =</span> r[<span class="dv">1</span>], <span class="at">max =</span> r[<span class="dv">2</span>]))</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">analysis      =</span> analysis.sensitivity, <span class="co"># 4. decompose the variance</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">analysis.args =</span> <span class="fu">list</span>(<span class="at">keep.outputs =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gsa_time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>What comes back:</p>
+<table class="table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Object</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>gsa$L</code></td>
+<td>loadings — the shape over time of each component, length 51</td>
+</tr>
+<tr class="even">
+<td><code>gsa$H</code></td>
+<td>scores — one per run, how strongly that run shows the shape</td>
+</tr>
+<tr class="odd">
+<td><code>gsa$lambda</code></td>
+<td>eigenvalues, the variance of each component</td>
+</tr>
+<tr class="even">
+<td><code>gsa$mSI</code></td>
+<td>first-order indices <span class="math inline">S_i</span></td>
+</tr>
+<tr class="odd">
+<td><code>gsa$tSI</code></td>
+<td>total indices <span class="math inline">S_{T_i}</span></td>
+</tr>
+</tbody>
+</table>
+<p><code>scale = FALSE</code> means PCA on the <strong>covariance</strong>, not the correlation matrix. That is correct here because all 51 columns are the same quantity in the same units — standardising would give a quiet year the same weight as a year of collapse.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>design = fast99</code> means this is <em>not</em> ANOVA
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>design = fast99</code> with <code>analysis = analysis.sensitivity</code> is the eFAST route. ANOVA (<code>analysis.anoasg</code>) is the other engine, used when you pass discrete levels through <code>design.args</code> instead of ranges. They estimate the same quantity by different means — see the comparison at the end.</p>
+</div>
+</div>
+</section>
+<section id="reading-the-results" class="level2">
+<h2 class="anchored" data-anchor-id="reading-the-results">Reading the results</h2>
+<p>Our run, watching the moose herd:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th><span class="math inline">S_i</span> (alone)</th>
+<th><span class="math inline">S_{T_i}</span> (total)</th>
+<th>via interactions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>log10_beta_M</code></td>
+<td>0.31</td>
+<td><strong>0.80</strong></td>
+<td>61%</td>
+</tr>
+<tr class="even">
+<td><code>mu_E</code></td>
+<td>0.10</td>
+<td>0.42</td>
+<td>76%</td>
+</tr>
+<tr class="odd">
+<td><code>k</code></td>
+<td>0.26</td>
+<td>0.41</td>
+<td>37%</td>
+</tr>
+<tr class="even">
+<td><code>rho_M</code></td>
+<td>0.03</td>
+<td>0.27</td>
+<td>89%</td>
+</tr>
+<tr class="odd">
+<td><code>lambda</code></td>
+<td>0.01</td>
+<td>0.17</td>
+<td>94%</td>
+</tr>
+<tr class="even">
+<td><code>log10_alpha_M</code></td>
+<td>0.005</td>
+<td>0.16</td>
+<td>97%</td>
+</tr>
+<tr class="odd">
+<td><code>rho_U</code></td>
+<td>0.03</td>
+<td>0.16</td>
+<td>81%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Totals sum to about 2.4, not 1.</strong> The model is strongly non-additive. The practical consequence is blunt: <em>“increasing X does Y to moose” is not a sentence this model supports</em> without stating what the other parameters are doing. Any single-parameter policy claim needs a caveat.</p>
+<p><strong>A big gap between <span class="math inline">S_i</span> and <span class="math inline">S_{T_i}</span> means context-dependent.</strong> <code>log10_alpha_M</code> has a first-order index of 0.005 and a total of 0.16 — on its own it does essentially nothing, but it matters in combination. Virulence only bites once attachment has already put enough ticks on the animal.</p>
+<p><strong>A small gap means the parameter acts independently.</strong> <code>k</code> at 0.26 / 0.41 has the most autonomous effect in the model.</p>
+<p><strong>Indices are unsigned.</strong> They tell you <em>how much</em>, never <em>which way</em>. Direction has to come from somewhere else — a scatter of output against each parameter, or PRCC on a random or LHS sample. This matters: <code>rho_U</code> turned out <strong>negative</strong> (more alternative hosts → fewer moose), which no sensitivity index would have told us.</p>
+<section id="what-to-do-with-the-answer" class="level3">
+<h3 class="anchored" data-anchor-id="what-to-do-with-the-answer">What to do with the answer</h3>
+<ol type="1">
+<li><strong>Measure the top-ranked uncertain parameter.</strong> <code>beta_M</code> at 0.80 total, with no empirical basis at all. That is the highest-value fieldwork in the system.</li>
+<li><strong>Settle cheap disputes.</strong> <code>mu_E</code> at 0.42 comes down to one sentence in a 1986 paper.</li>
+<li><strong>Fix and forget the negligible ones.</strong> Anything with <span class="math inline">S_{T_i} \approx 0</span> can be pinned at its baseline in future work.</li>
+<li><strong>Report ranges alongside indices. Always.</strong></li>
+</ol>
+</section>
+</section>
+<section id="pitfalls" class="level2">
+<h2 class="anchored" data-anchor-id="pitfalls">Pitfalls</h2>
+<p><strong>Indices are conditional on the ranges.</strong> <code>beta_M</code> was allowed three decades; <code>rho_M</code> was allowed 12%. Some of beta’s dominance is that, and you must say so.</p>
+<p><strong>eFAST assumes independent inputs.</strong> We have a live violation: <code>mu_E</code> and <code>mu_N</code> are the same disputed reading of the same paper. If one value is right, the other almost certainly is too — so the sweep explores combinations that cannot both be true, while the indices are computed as though the two are independent. State this in the methods rather than hoping nobody notices.</p>
+<p><strong>eFAST cannot warn you when it fails.</strong> It has no residual by construction. If <span class="math inline">n</span> is too small or frequencies interfere, you get plausible-looking numbers with no signal that anything went wrong. ANOVA’s residual is a <em>feature</em> — a built-in confession that “27% of this I could not explain”.</p>
+<p>The trade-off runs opposite to intuition:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th>eFAST</th>
+<th>ANOVA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Functional form</td>
+<td>agnostic</td>
+<td>limited by grid and formula order</td>
+</tr>
+<tr class="even">
+<td>Cost</td>
+<td><span class="math inline">n \cdot p</span></td>
+<td><span class="math inline">L^p</span></td>
+</tr>
+<tr class="odd">
+<td><strong>Warns you when it fails</strong></td>
+<td><strong>no</strong></td>
+<td><strong>yes — the residual</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Both engines estimate the <em>same</em> Sobol decomposition. They differ in the estimator, not the target. Which is the argument for running both on a small subset once and checking they agree:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>top6 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"log10_beta_M"</span>, <span class="st">"mu_E"</span>, <span class="st">"k"</span>, <span class="st">"rho_M"</span>, <span class="st">"lambda"</span>, <span class="st">"log10_alpha_M"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">run_gsa_dyn</span>(<span class="fu">as_levels</span>(rng_dyn2[top6]))   <span class="co"># ANOVA, has a residual</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">run_gsa_dyn</span>(rng_dyn2[top6])              <span class="co"># eFAST, does not</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_gsi</span>(a); <span class="fu">plot_gsi</span>(b)                      <span class="co"># same ranking?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Watch for near-zero variance.</strong> Indices summing above 1 in the early years of our run were exactly this: tiny variance plus a finite sample gives noisy estimates.</p>
+<p><strong>Different questions need different analyses.</strong> <span class="math inline">R_0</span> cannot rank <code>alpha_M</code>, <code>k</code>, <code>rho_M</code> or <code>rho_U</code> — they do not appear in it, because <span class="math inline">R_0</span> is a low-density quantity. Establishment and host collapse are different questions.</p>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<ul>
+<li>Saltelli, A. et al.&nbsp;(2008). <em>Global Sensitivity Analysis: The Primer.</em> The standard reference.</li>
+<li>Lamboni, M., Monod, H. &amp; Makowski, D. (2011). Multivariate sensitivity analysis to measure global contribution of input factors in dynamic models. <em>Reliability Engineering &amp; System Safety.</em> The GSI.</li>
+<li>Marino, S. et al.&nbsp;(2008). A methodology for performing global uncertainty and sensitivity analysis in systems biology. <em>Journal of Theoretical Biology.</em> The LHS/PRCC route, widely used in epidemiology.</li>
+<li>The <code>multisensi</code>, <code>sensitivity</code> and <code>sensobol</code> R packages.</li>
+</ul>
+<hr>
+<p><em>The winter tick model behind this page was built at the PIMS summer school on Mathematics of Multiscale Interactions, 2026.</em></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
+{"contents":[{"methodName":"interpret","cellName":"ojs-cell-1","inline":false,"source":"viewof lbeta0 = Inputs.range([-7.3, -4.7], {value: -5.0, step: 0.05,\n  label: \"Baseline log₁₀ β\"})\n"},{"methodName":"interpret","cellName":"ojs-cell-2","inline":false,"source":"viewof hosts = Inputs.range([500, 6000], {value: 3000, step: 100,\n  label: \"Host abundance\"})\n"},{"methodName":"interpret","cellName":"ojs-cell-3","inline":false,"source":"// Schematic saturating attachment: P = 1 - exp(-beta * H * tau)\nattach = (lb) => 1 - Math.exp(-Math.pow(10, lb) * hosts * 165)\n"},{"methodName":"interpret","cellName":"ojs-cell-4","inline":false,"source":"satCurve = {\n  const out = [];\n  for (let lb = -7.3; lb <= -4.7; lb += 0.02) out.push({lb: lb, P: attach(lb)});\n  return out;\n}\n"},{"methodName":"interpret","cellName":"ojs-cell-5","inline":false,"source":"// Local slope at the baseline, drawn as a short tangent segment\ntangent = {\n  const h = 0.02;\n  const slope = (attach(lbeta0 + h) - attach(lbeta0 - h)) / (2 * h);\n  const y0 = attach(lbeta0);\n  return {\n    slope: slope,\n    seg: [{lb: lbeta0 - 0.5, P: y0 - 0.5 * slope},\n          {lb: lbeta0 + 0.5, P: y0 + 0.5 * slope}]\n  };\n}\n"},{"methodName":"interpret","cellName":"ojs-cell-6","inline":false,"source":"Plot.plot({\n  width: Math.min(width, 720),\n  height: 340,\n  marginLeft: 60,\n  marginBottom: 45,\n  style: {fontSize: \"13px\", background: \"transparent\"},\n  x: {label: \"log₁₀ attachment rate β →\", grid: true, domain: [-7.3, -4.7]},\n  y: {label: \"↑ Attachment probability\", grid: true, domain: [-0.05, 1.05]},\n  marks: [\n    Plot.areaY(satCurve, {x: \"lb\", y: \"P\", fill: \"#2c6e63\", fillOpacity: 0.08}),\n    Plot.line(satCurve, {x: \"lb\", y: \"P\", stroke: \"#2c6e63\", strokeWidth: 2.5}),\n    Plot.line(tangent.seg, {x: \"lb\", y: \"P\", stroke: \"#c0563f\",\n      strokeWidth: 2.5, strokeDasharray: \"4,3\"}),\n    Plot.dot([{lb: lbeta0, P: attach(lbeta0)}], {x: \"lb\", y: \"P\",\n      fill: \"#c0563f\", r: 5}),\n    Plot.ruleY([0], {stroke: \"#999\"})\n  ]\n})\n"},{"methodName":"interpret","cellName":"ojs-cell-7","inline":false,"source":"html`<p style=\"margin:0.6rem 0 0 0; font-size:0.95rem;\">\nLocal slope at this baseline: <b>${tangent.slope.toFixed(3)}</b> per decade of β.\nFull range of the output across all plausible β: <b>${\n  (Math.max(...satCurve.map(d => d.P)) - Math.min(...satCurve.map(d => d.P))).toFixed(3)\n}</b>.\n${tangent.slope < 0.02\n  ? \"<span style='color:#c0563f'><b>The local analysis says β is irrelevant. It is not.</b></span>\"\n  : \"Here the baseline sits on the steep part, so local and global happen to agree.\"}\n</p>`\n"},{"methodName":"interpret","cellName":"ojs-cell-8","inline":false,"source":"viewof LL = Inputs.range([0, 20], {value: 1, step: 0.5, label: \"β low, μ low\"})\n"},{"methodName":"interpret","cellName":"ojs-cell-9","inline":false,"source":"viewof HL = Inputs.range([0, 20], {value: 9, step: 0.5, label: \"β high, μ low\"})\n"},{"methodName":"interpret","cellName":"ojs-cell-10","inline":false,"source":"viewof LH = Inputs.range([0, 20], {value: 2, step: 0.5, label: \"β low, μ high\"})\n"},{"methodName":"interpret","cellName":"ojs-cell-11","inline":false,"source":"viewof HH = Inputs.range([0, 20], {value: 18, step: 0.5, label: \"β high, μ high\"})\n"},{"methodName":"interpret","cellName":"ojs-cell-12","inline":false,"source":"sob = {\n  const y = [LL, HL, LH, HH];\n  const m = (LL + HL + LH + HH) / 4;\n  const V = y.reduce((s, v) => s + (v - m) ** 2, 0) / 4;\n  const bL = (LL + LH) / 2, bH = (HL + HH) / 2;\n  const uL = (LL + HL) / 2, uH = (LH + HH) / 2;\n  const Vb = ((bL - m) ** 2 + (bH - m) ** 2) / 2;\n  const Vu = ((uL - m) ** 2 + (uH - m) ** 2) / 2;\n  const Vs = Math.max(0, V - Vb - Vu);\n  return {\n    V: V, bL: bL, bH: bH, uL: uL, uH: uH,\n    beta:   V > 0 ? Vb / V : 0,\n    mu:     V > 0 ? Vu / V : 0,\n    shared: V > 0 ? Vs / V : 0,\n    effLo: HL - LL,\n    effHi: HH - LH\n  };\n}\n"},{"methodName":"interpret","cellName":"ojs-cell-13","inline":false,"source":"Plot.plot({\n  width: Math.min(width, 720),\n  height: 150,\n  marginLeft: 70,\n  marginTop: 30,\n  marginBottom: 50,\n  style: {fontSize: \"13px\", background: \"transparent\"},\n  x: {label: \"Share of the spread →\", domain: [0, 1], grid: true,\n      tickFormat: d => Math.round(d * 100) + \"%\"},\n  y: {label: null},\n  color: {\n    domain: [\"β alone\", \"μ alone\", \"shared\"],\n    range: [\"#2c6e63\", \"#7a9e6b\", \"#b9b4a8\"],\n    legend: true\n  },\n  marks: [\n    Plot.barX(\n      [{p: \"β alone\", v: sob.beta}, {p: \"μ alone\", v: sob.mu},\n       {p: \"shared\", v: sob.shared}],\n      {x: \"v\", fill: \"p\", y: () => \"\", sort: null}\n    ),\n    Plot.ruleX([0])\n  ]\n})\n"},{"methodName":"interpret","cellName":"ojs-cell-14","inline":false,"source":"html`<p style=\"margin:0.4rem 0 0.9rem 0; font-size:0.95rem;\">${\n  sob.V === 0\n    ? \"All four answers are the same, so there is no spread to divide.\"\n    : Math.abs(sob.effHi - sob.effLo) < 0.5\n      ? `β lifts the answer by <b>${sob.effLo}</b> whether μ is low or high. Its\n         effect does not depend on μ, so <b>the shared piece is zero</b> and the\n         two totals add to exactly 1.`\n      : `β lifts the answer by <b>${sob.effLo}</b> when μ is low, but by\n         <b>${sob.effHi}</b> when μ is high. That inconsistency is the shared\n         piece — it belongs to neither parameter on its own.`\n}</p>`\n"},{"methodName":"interpret","cellName":"ojs-cell-15","inline":false,"source":"Plot.plot({\n  width: Math.min(width, 720),\n  height: 190,\n  marginLeft: 70,\n  marginTop: 30,\n  marginBottom: 50,\n  style: {fontSize: \"13px\", background: \"transparent\"},\n  x: {label: \"Total index →\", grid: true},\n  y: {label: null},\n  color: {\n    domain: [\"on its own\", \"via interaction\"],\n    range: [\"#2c6e63\", \"#d6d2c6\"],\n    legend: true\n  },\n  marks: [\n    Plot.barX(\n      [{p: \"β\", part: \"on its own\", v: sob.beta},\n       {p: \"β\", part: \"via interaction\", v: sob.shared},\n       {p: \"μ\", part: \"on its own\", v: sob.mu},\n       {p: \"μ\", part: \"via interaction\", v: sob.shared}],\n      {x: \"v\", y: \"p\", fill: \"part\", sort: null}\n    ),\n    Plot.ruleX([0])\n  ]\n})\n"},{"methodName":"interpret","cellName":"ojs-cell-16","inline":false,"source":"html`<p style=\"margin:0.4rem 0 0 0; font-size:0.95rem;\">\nTotals add to <b>${(sob.beta + sob.mu + 2 * sob.shared).toFixed(3)}</b>.\n${sob.shared > 0.005\n  ? \"They exceed 1 because the shared piece is counted in both parameters' totals — it genuinely belongs to both.\"\n  : \"With no interaction, they add to exactly 1.\"}\n</p>`\n"},{"methodName":"interpretQuiet","source":"shinyInput('lbeta0')"},{"methodName":"interpretQuiet","source":"shinyInput('hosts')"},{"methodName":"interpretQuiet","source":"shinyInput('LL')"},{"methodName":"interpretQuiet","source":"shinyInput('HL')"},{"methodName":"interpretQuiet","source":"shinyInput('LH')"},{"methodName":"interpretQuiet","source":"shinyInput('HH')"}]}
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../resources";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp("https:\/\/kevanrastello\.github\.io");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© 2026 Kevan Rastello</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/KevanRastello">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="mailto:kevan.rastello@gmail.com">
+      <i class="bi bi-envelope" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

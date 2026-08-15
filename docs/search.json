@@ -91,6 +91,223 @@
     "text": "Further reading\n\nVerhulst, P.-F. (1838). Notice sur la loi que la population suit dans son accroissement. The original.\nKingsland, S. (1995). Modeling Nature. On how the logistic became central to ecology, and the arguments it caused.\n[Add the textbook chapters you actually point students at.]\n\n\n\nThis page is the template. Copy it when writing a new resource — the structure (intuition → mathematics → interactive figure → code → assumptions) transfers to most modelling topics."
   },
   {
+    "objectID": "resources/global-sensitivity-analysis.html",
+    "href": "resources/global-sensitivity-analysis.html",
+    "title": "Global sensitivity analysis",
+    "section": "",
+    "text": "You have a model. It has parameters. You do not know most of them exactly — you know roughly what each one could be, because somebody measured it once in a different system, or estimated it from a figure, or nobody has ever measured it at all.\nSo your prediction is not a number. It is a spread. Run the model across everything you might plausibly believe and the answers come out wildly different.\nThe question worth asking is not “what does the model predict?” It is:\n\nWhich of the numbers I don’t know is responsible for the answers coming out so differently?\n\nThat is all global sensitivity analysis is. Answer it and you know exactly which measurement would be worth making — which is the most useful thing a model can tell you before the fieldwork is done.\nThe worked example throughout is a winter tick–moose model with 13 uncertain parameters, analysed over 50 years."
+  },
+  {
+    "objectID": "resources/global-sensitivity-analysis.html#the-situation-this-solves",
+    "href": "resources/global-sensitivity-analysis.html#the-situation-this-solves",
+    "title": "Global sensitivity analysis",
+    "section": "",
+    "text": "You have a model. It has parameters. You do not know most of them exactly — you know roughly what each one could be, because somebody measured it once in a different system, or estimated it from a figure, or nobody has ever measured it at all.\nSo your prediction is not a number. It is a spread. Run the model across everything you might plausibly believe and the answers come out wildly different.\nThe question worth asking is not “what does the model predict?” It is:\n\nWhich of the numbers I don’t know is responsible for the answers coming out so differently?\n\nThat is all global sensitivity analysis is. Answer it and you know exactly which measurement would be worth making — which is the most useful thing a model can tell you before the fieldwork is done.\nThe worked example throughout is a winter tick–moose model with 13 uncertain parameters, analysed over 50 years."
+  },
+  {
+    "objectID": "resources/global-sensitivity-analysis.html#step-0.-why-not-just-change-one-parameter-at-a-time",
+    "href": "resources/global-sensitivity-analysis.html#step-0.-why-not-just-change-one-parameter-at-a-time",
+    "title": "Global sensitivity analysis",
+    "section": "Step 0. Why not just change one parameter at a time?",
+    "text": "Step 0. Why not just change one parameter at a time?\nThe instinct is to take your baseline parameter set, nudge one parameter by 10%, see how much the answer moves, and repeat. This is local sensitivity, also called OAT (one-at-a-time). Three things go wrong with it.\n\nIt only describes one point\nThe derivative at your baseline tells you nothing about behaviour anywhere else. Our model has an attachment probability that saturates at 1. Near saturation the local sensitivity to the attachment rate \\beta_M is exactly zero — every tick already finds a host, so making them better at finding hosts changes nothing.\nAcross its full plausible range, \\beta_M is the single most important parameter in the model.\nA local analysis run from a host-rich baseline would have reported “attachment doesn’t matter” and been completely wrong. Drag the baseline below to watch this happen:\n\n\nviewof lbeta0 = Inputs.range([-7.3, -4.7], {value: -5.0, step: 0.05,\n  label: \"Baseline log₁₀ β\"})\n\n\n\n\n\n\n\nviewof hosts = Inputs.range([500, 6000], {value: 3000, step: 100,\n  label: \"Host abundance\"})\n\n\n\n\n\n\n\n// Schematic saturating attachment: P = 1 - exp(-beta * H * tau)\nattach = (lb) =&gt; 1 - Math.exp(-Math.pow(10, lb) * hosts * 165)\n\n\n\n\n\n\n\nsatCurve = {\n  const out = [];\n  for (let lb = -7.3; lb &lt;= -4.7; lb += 0.02) out.push({lb: lb, P: attach(lb)});\n  return out;\n}\n\n\n\n\n\n\n\n// Local slope at the baseline, drawn as a short tangent segment\ntangent = {\n  const h = 0.02;\n  const slope = (attach(lbeta0 + h) - attach(lbeta0 - h)) / (2 * h);\n  const y0 = attach(lbeta0);\n  return {\n    slope: slope,\n    seg: [{lb: lbeta0 - 0.5, P: y0 - 0.5 * slope},\n          {lb: lbeta0 + 0.5, P: y0 + 0.5 * slope}]\n  };\n}\n\n\n\n\n\n\n\nPlot.plot({\n  width: Math.min(width, 720),\n  height: 340,\n  marginLeft: 60,\n  marginBottom: 45,\n  style: {fontSize: \"13px\", background: \"transparent\"},\n  x: {label: \"log₁₀ attachment rate β →\", grid: true, domain: [-7.3, -4.7]},\n  y: {label: \"↑ Attachment probability\", grid: true, domain: [-0.05, 1.05]},\n  marks: [\n    Plot.areaY(satCurve, {x: \"lb\", y: \"P\", fill: \"#2c6e63\", fillOpacity: 0.08}),\n    Plot.line(satCurve, {x: \"lb\", y: \"P\", stroke: \"#2c6e63\", strokeWidth: 2.5}),\n    Plot.line(tangent.seg, {x: \"lb\", y: \"P\", stroke: \"#c0563f\",\n      strokeWidth: 2.5, strokeDasharray: \"4,3\"}),\n    Plot.dot([{lb: lbeta0, P: attach(lbeta0)}], {x: \"lb\", y: \"P\",\n      fill: \"#c0563f\", r: 5}),\n    Plot.ruleY([0], {stroke: \"#999\"})\n  ]\n})\n\n\n\n\n\n\n\nhtml`&lt;p style=\"margin:0.6rem 0 0 0; font-size:0.95rem;\"&gt;\nLocal slope at this baseline: &lt;b&gt;${tangent.slope.toFixed(3)}&lt;/b&gt; per decade of β.\nFull range of the output across all plausible β: &lt;b&gt;${\n  (Math.max(...satCurve.map(d =&gt; d.P)) - Math.min(...satCurve.map(d =&gt; d.P))).toFixed(3)\n}&lt;/b&gt;.\n${tangent.slope &lt; 0.02\n  ? \"&lt;span style='color:#c0563f'&gt;&lt;b&gt;The local analysis says β is irrelevant. It is not.&lt;/b&gt;&lt;/span&gt;\"\n  : \"Here the baseline sits on the steep part, so local and global happen to agree.\"}\n&lt;/p&gt;`\n\n\n\n\n\n\n\n\n\nIt cannot see interactions\nHolding everything else fixed means you never observe that \\beta_M behaves differently depending on the aggregation parameter k. In our run the total indices sum to about 2.4, against 1.0 for a purely additive model — so most of what the model is doing is interaction. OAT would have missed nearly all of it.\n\n\nIt explores almost nothing\nWith 13 parameters, moving along 13 axes out from a single point covers a vanishingly small fraction of a 13-dimensional box.\nGlobal sensitivity analysis instead varies all parameters simultaneously across their full plausible ranges, and asks: of all the variation we see in the output, how much is attributable to each input?"
+  },
+  {
+    "objectID": "resources/global-sensitivity-analysis.html#step-1.-understand-what-the-answer-will-look-like",
+    "href": "resources/global-sensitivity-analysis.html#step-1.-understand-what-the-answer-will-look-like",
+    "title": "Global sensitivity analysis",
+    "section": "Step 1. Understand what the answer will look like",
+    "text": "Step 1. Understand what the answer will look like\nBefore any machinery, it is worth understanding what a variance decomposition actually claims. It is simpler than the notation suggests, and you can see the whole idea in four model runs.\nTwo parameters, each set Low or High. Four runs, four answers. Drag the answers and watch the split change:\n\n\nviewof LL = Inputs.range([0, 20], {value: 1, step: 0.5, label: \"β low, μ low\"})\n\n\n\n\n\n\n\nviewof HL = Inputs.range([0, 20], {value: 9, step: 0.5, label: \"β high, μ low\"})\n\n\n\n\n\n\n\nviewof LH = Inputs.range([0, 20], {value: 2, step: 0.5, label: \"β low, μ high\"})\n\n\n\n\n\n\n\nviewof HH = Inputs.range([0, 20], {value: 18, step: 0.5, label: \"β high, μ high\"})\n\n\n\n\n\n\n\nsob = {\n  const y = [LL, HL, LH, HH];\n  const m = (LL + HL + LH + HH) / 4;\n  const V = y.reduce((s, v) =&gt; s + (v - m) ** 2, 0) / 4;\n  const bL = (LL + LH) / 2, bH = (HL + HH) / 2;\n  const uL = (LL + HL) / 2, uH = (LH + HH) / 2;\n  const Vb = ((bL - m) ** 2 + (bH - m) ** 2) / 2;\n  const Vu = ((uL - m) ** 2 + (uH - m) ** 2) / 2;\n  const Vs = Math.max(0, V - Vb - Vu);\n  return {\n    V: V, bL: bL, bH: bH, uL: uL, uH: uH,\n    beta:   V &gt; 0 ? Vb / V : 0,\n    mu:     V &gt; 0 ? Vu / V : 0,\n    shared: V &gt; 0 ? Vs / V : 0,\n    effLo: HL - LL,\n    effHi: HH - LH\n  };\n}\n\n\n\n\n\n\n\nPlot.plot({\n  width: Math.min(width, 720),\n  height: 150,\n  marginLeft: 70,\n  marginTop: 30,\n  marginBottom: 50,\n  style: {fontSize: \"13px\", background: \"transparent\"},\n  x: {label: \"Share of the spread →\", domain: [0, 1], grid: true,\n      tickFormat: d =&gt; Math.round(d * 100) + \"%\"},\n  y: {label: null},\n  color: {\n    domain: [\"β alone\", \"μ alone\", \"shared\"],\n    range: [\"#2c6e63\", \"#7a9e6b\", \"#b9b4a8\"],\n    legend: true\n  },\n  marks: [\n    Plot.barX(\n      [{p: \"β alone\", v: sob.beta}, {p: \"μ alone\", v: sob.mu},\n       {p: \"shared\", v: sob.shared}],\n      {x: \"v\", fill: \"p\", y: () =&gt; \"\", sort: null}\n    ),\n    Plot.ruleX([0])\n  ]\n})\n\n\n\n\n\n\n\nhtml`&lt;p style=\"margin:0.4rem 0 0.9rem 0; font-size:0.95rem;\"&gt;${\n  sob.V === 0\n    ? \"All four answers are the same, so there is no spread to divide.\"\n    : Math.abs(sob.effHi - sob.effLo) &lt; 0.5\n      ? `β lifts the answer by &lt;b&gt;${sob.effLo}&lt;/b&gt; whether μ is low or high. Its\n         effect does not depend on μ, so &lt;b&gt;the shared piece is zero&lt;/b&gt; and the\n         two totals add to exactly 1.`\n      : `β lifts the answer by &lt;b&gt;${sob.effLo}&lt;/b&gt; when μ is low, but by\n         &lt;b&gt;${sob.effHi}&lt;/b&gt; when μ is high. That inconsistency is the shared\n         piece — it belongs to neither parameter on its own.`\n}&lt;/p&gt;`\n\n\n\n\n\n\n\nPlot.plot({\n  width: Math.min(width, 720),\n  height: 190,\n  marginLeft: 70,\n  marginTop: 30,\n  marginBottom: 50,\n  style: {fontSize: \"13px\", background: \"transparent\"},\n  x: {label: \"Total index →\", grid: true},\n  y: {label: null},\n  color: {\n    domain: [\"on its own\", \"via interaction\"],\n    range: [\"#2c6e63\", \"#d6d2c6\"],\n    legend: true\n  },\n  marks: [\n    Plot.barX(\n      [{p: \"β\", part: \"on its own\", v: sob.beta},\n       {p: \"β\", part: \"via interaction\", v: sob.shared},\n       {p: \"μ\", part: \"on its own\", v: sob.mu},\n       {p: \"μ\", part: \"via interaction\", v: sob.shared}],\n      {x: \"v\", y: \"p\", fill: \"part\", sort: null}\n    ),\n    Plot.ruleX([0])\n  ]\n})\n\n\n\n\n\n\n\nhtml`&lt;p style=\"margin:0.4rem 0 0 0; font-size:0.95rem;\"&gt;\nTotals add to &lt;b&gt;${(sob.beta + sob.mu + 2 * sob.shared).toFixed(3)}&lt;/b&gt;.\n${sob.shared &gt; 0.005\n  ? \"They exceed 1 because the shared piece is counted in both parameters' totals — it genuinely belongs to both.\"\n  : \"With no interaction, they add to exactly 1.\"}\n&lt;/p&gt;`\n\n\n\n\n\n\n\nAt the default values the arithmetic is:\n\n\n\n\\beta\n\\mu\nanswer\n\n\n\n\nL\nL\n1\n\n\nH\nL\n9\n\n\nL\nH\n2\n\n\nH\nH\n18\n\n\n\nTotal spread (variance) = 46.25.\n\\beta’s own piece. Average when \\beta is low = 1.5, when high = 13.5. Far apart, so \\beta’s piece is 36.0 — that is 77.8% of the spread.\n\\mu’s own piece. Average when low = 5.0, when high = 10.0. Closer, so \\mu’s piece is 6.25 — 13.5%.\nLeft over: 4.0, or 8.6%. This is the shared piece, and here is why it exists: \\beta lifts the answer by 8 when \\mu is low, but by 16 when \\mu is high. \\beta’s effect depends on \\mu. That inconsistency cannot be credited to either one alone, so it gets a piece of its own.\n\n77.8\\% + 13.5\\% + 8.6\\% = 100\\%\n\nExactly. Nothing lost, nothing double counted. There is only one way to do this split and it always adds up — that exactness is the point.\n\n\n\n\n\n\nThe one sentence to remember\n\n\n\nHow much the average answer moves when you learn a parameter’s value is that parameter’s piece of the spread. We cannot rerun history with \\beta held fixed, so instead we compare the average over every run where \\beta was low against the average over every run where it was high."
+  },
+  {
+    "objectID": "resources/global-sensitivity-analysis.html#step-2.-the-formal-version",
+    "href": "resources/global-sensitivity-analysis.html#step-2.-the-formal-version",
+    "title": "Global sensitivity analysis",
+    "section": "Step 2. The formal version",
+    "text": "Step 2. The formal version\nThat four-run split generalises. For a model Y = f(X_1, \\dots, X_p) with independent inputs, the output variance decomposes uniquely:\n\nV(Y) = \\sum_i V_i + \\sum_{i&lt;j} V_{ij} + \\sum_{i&lt;j&lt;l} V_{ijl} + \\dots + V_{12\\dots p}\n\n\nV_i — variance explained by X_i on its own\nV_{ij} — the extra variance from X_i and X_j acting together, beyond their separate effects\nand so on for higher orders.\n\nDivide through by V(Y) and every term becomes a share summing to 1. This is the Sobol decomposition — three plain words wearing a disguise. Variance is just how spread out the answers are. Decomposition is cutting that spread into pieces. Sobol is a person’s name (Ilya Sobol, who worked it out) and carries no meaning at all.\n\nThe two indices you report\nFirst-order index\n\nS_i = \\frac{V_i}{V(Y)}\n\nThe share of variance explained by X_i alone. Equivalently: the fraction of uncertainty you would eliminate by learning X_i exactly.\nTotal index\n\nS_{T_i} = \\frac{\\sum_{\\text{all terms containing } X_i} V_{\\dots}}{V(Y)}\n\nX_i alone plus everything it does through interactions. Equivalently: the uncertainty that would remain if you learned every parameter except X_i.\nThree diagnostics fall straight out:\n\n\n\n\n\n\n\nReading\nMeaning\n\n\n\n\nS_{T_i} - S_i\nhow much of this parameter’s influence runs through interactions\n\n\n\\sum_i S_i \\approx 1\nmodel is additive; parameters act independently\n\n\n\\sum_i S_{T_i} \\gg 1\nstrong interactions; the same variance is attributed to several parameters because it belongs to none of them alone\n\n\nS_{T_i} \\approx 0\ngenuinely negligible — safe to fix and drop from the analysis\n\n\n\nVariance is the right currency because it is model-free: no assumption of linearity, monotonicity or additivity. Compare a correlation coefficient, which only sees monotonic trends. In our run \\mu_E showed a large Sobol index but a near-zero Spearman correlation, because its effect is hump-shaped. A correlation-based method would have declared it unimportant."
+  },
+  {
+    "objectID": "resources/global-sensitivity-analysis.html#step-3.-choose-the-parameter-ranges",
+    "href": "resources/global-sensitivity-analysis.html#step-3.-choose-the-parameter-ranges",
+    "title": "Global sensitivity analysis",
+    "section": "Step 3. Choose the parameter ranges",
+    "text": "Step 3. Choose the parameter ranges\nThis is the step with the least mathematics and by far the most consequence.\nEvery index is conditional on the ranges. A parameter given a wide range will tend to look important; the same parameter pinned to a narrow range will look irrelevant. This is not a flaw — it is correct behaviour, because the question being asked is “given what we don’t know, what drives the uncertainty in our prediction?” A parameter you know precisely should rank low, even if the model is mechanistically very sensitive to it.\nWhat that meant in our case:\n\nlog10_beta_M spans three decades because nobody has ever measured it. It came out top. That ranking is a statement about our ignorance, not purely about the biology.\nlambda spans ±40% because Drew & Samuel counted eggs directly. It ranked low partly because we know it well.\nmu_E’s two endpoints are the two competing readings of the same paper, so its index measures what the unresolved argument costs us.\n\n\n\n\n\n\n\nAlways report the ranges next to the indices\n\n\n\nAn index without its range is not interpretable. A parameter can score low for three completely different reasons — we know it well, it genuinely does nothing, or it cannot do anything however wide the range. Those are three different findings. Say which one you mean.\n\n\nThree practical rules that made the ranges defensible:\nSet ranges on the interpretable quantity, then invert. We set the virulence \\alpha_M by asking “how many ticks kill half a moose?” and solving\n\n\\alpha = \\frac{\\ln 2}{\\text{burden} \\times \\tau_A}\n\nNobody can eyeball whether 2 \\times 10^{-7} is sensible. Everybody can judge 38,000 ticks.\nSample on a log scale when a range spans decades, otherwise 90% of your draws land in the top decade.\nMake ranges track the model’s structure. Our beta_for() helper derives \\beta’s range from the current host numbers, because what matters is \\beta \\times \\text{hosts}, never \\beta alone.\nWhere nothing is measured at all, bound it by something you do know. Winter tick is established in Yukon, so R_0 &gt; 1; it is at its northern range edge, so R_0 is not enormous. We set \\beta_M’s range to the values putting R_0 between roughly 1 and 70. Indirect, but a real constraint and far better than three arbitrary decades.\nrng_dyn2 &lt;- list(\n  # beta_M: never measured. Bounded so R0 runs from ~1 to ~67.\n  log10_beta_M  = c(-7.3, -4.7),\n\n  # mu_E: egg + free-living larval mortality, from egg-to-questing\n  # survival of 30% down to 2%:  mu_E = -log(survival) / tau_E\n  mu_E          = c(0.01003, 0.03260),\n\n  # mu_N: attached nymph mortality, nymph-to-adult survival 50% to 10%\n  mu_N          = c(0.00420, 0.01396),\n\n  lambda        = c(1500, 5000),      # eggs per surviving female\n\n  # Stage durations: the climate levers. Arthropod development runs\n  # 2-3x faster per 10 C, and Yukon is projected 4-6 C warmer.\n  tau_E         = c(75, 180),\n  tau_Q         = c(30, 120),\n  tau_A         = c(140, 200),\n\n  M0            = c(500, 6000),       # host abundance\n  U0            = c(100, 6000),\n\n  # alpha_M: set as the burden that kills half a moose, then inverted\n  #   150,000 ticks -&gt; log10 = -7.29  (tolerant)\n  #     5,000 ticks -&gt; log10 = -5.81  (vulnerable)\n  log10_alpha_M = c(-7.29, -5.81),\n\n  k             = c(0.02, 1.00),      # aggregation; small = more clumped\n  rho_M         = c(1.00, 1.20),      # moose finite rate of increase\n  rho_U         = c(1.00, 1.35)\n)"
+  },
+  {
+    "objectID": "resources/global-sensitivity-analysis.html#step-4.-choose-the-design",
+    "href": "resources/global-sensitivity-analysis.html#step-4.-choose-the-design",
+    "title": "Global sensitivity analysis",
+    "section": "Step 4. Choose the design",
+    "text": "Step 4. Choose the design\nYou need parameter sets that cover the space efficiently. The options, with cost for p parameters:\n\n\n\nDesign\nCost\nAnalysis it supports\n\n\n\n\nFull factorial, L levels\nL^p\nANOVA\n\n\nFractional factorial\nL^{p-k}\nANOVA\n\n\neFAST (fast99)\nn \\cdot p\nFourier decomposition\n\n\nSobol Monte Carlo\nn(p+2)\nSobol estimators\n\n\nMorris\nr(p+1)\nscreening only — ranks, no quantities\n\n\nLatin hypercube\nn\nPRCC, regression — not ANOVA\n\n\n\nWe used eFAST, for three reasons:\n\nA full factorial at 3 levels samples each parameter at only three points. Our output spans about 10 orders of magnitude, and three points cannot describe a surface that curved. The curvature you miss gets misattributed as “interaction”.\neFAST samples continuously along space-filling curves, so it handles nonlinearity properly.\nCost is linear in the number of parameters. Going from 7 to 13 parameters cost us 2,100 → 3,900 runs instead of 2,187 → 1.6 million.\n\n\nHow eFAST samples\nEvery parameter gets its own frequency, and the design walks a single curve through parameter space. As a scalar s advances, each parameter oscillates:\n\nX_i(s) = G_i\\big(\\sin(\\omega_i s)\\big)\n\nwhere \\omega_i is parameter i’s distinct frequency and G_i is the transform making X_i uniform over its range.\nThat sounds like a strange thing to do. Here is the trick: because each parameter wiggles at a different rate, the model’s answer wiggles back at that same rate. Take the Fourier spectrum of the output, and the power sitting at parameter i’s frequency is V_i. It is the same idea as picking one instrument out of a recording because you know its pitch. No fitting, no guessing.\n\n\n\n\n\n\nWhy LHS does not work with ANOVA\n\n\n\nmultisensi’s default engine is ANOVA, which needs each factor to take a few repeated levels so there are residual degrees of freedom. A continuous Latin hypercube gives every factor n distinct values, the model is saturated, and the decomposition fails. LHS is a perfectly good design — but pair it with PRCC or regression, not ANOVA."
+  },
+  {
+    "objectID": "resources/global-sensitivity-analysis.html#step-5.-run-the-model",
+    "href": "resources/global-sensitivity-analysis.html#step-5.-run-the-model",
+    "title": "Global sensitivity analysis",
+    "section": "Step 5. Run the model",
+    "text": "Step 5. Run the model\nrun_design(X, years = 50, out_var = \"M\")\ntakes the design table and returns:\nIN   3900 rows (parameter sets)  x  13 columns (parameters)\nOUT  3900 rows (parameter sets)  x  51 columns (years)\nRow i out is the trajectory produced by row i in. Note the output is multivariate — 51 numbers per run, not one. That is what the next step is for.\n\n\n\n\n\n\nAnalyse the log when the process is multiplicative\n\n\n\nOur tick population is multiplicative — each year is last year times a growth factor — so over 50 years small parameter differences compound into orders of magnitude. On a raw scale the variance is then owned by the handful of runs that exploded, no single parameter explains the level (because the level is a product of all of them), first-order indices collapse to nearly zero, and everything piles into interaction.\nTaking logs turns that product into a sum, which is exactly the additive structure a variance decomposition is built for, and the main effects reappear. Host populations vary far less, so they don’t need it."
+  },
+  {
+    "objectID": "resources/global-sensitivity-analysis.html#step-6.-reduce-the-output-with-pca",
+    "href": "resources/global-sensitivity-analysis.html#step-6.-reduce-the-output-with-pca",
+    "title": "Global sensitivity analysis",
+    "section": "Step 6. Reduce the output with PCA",
+    "text": "Step 6. Reduce the output with PCA\nWe have 51 outputs, one per year. We could run 51 separate sensitivity analyses and get 51 sets of indices. Two reasons not to:\n\nIt is unreadable. 13 parameters × 51 years × 2 index types = 1,326 numbers. There is no ranking in there a person can act on.\nThe outputs are massively redundant. Year 30 and year 31 are almost the same number. Naively averaging 51 sets of indices would count the same information dozens of times over.\n\nPCA finds a small set of orthogonal shapes that trajectories vary along. Instead of 51 correlated numbers per run, each run is described by a handful of uncorrelated component scores. In our run:\n\n\n\n\n\n\n\n\nComponent\nVariance explained\nWhat it represents\n\n\n\n\nPC1\n75.4%\nthe overall level — how high or low the herd sits\n\n\nPC2\n14.2%\nthe transient shape — early crash and partial recovery\n\n\nPC3\n3.8%\nearly oscillation\n\n\nPC4\n2.6%\nnegligible\n\n\n\nThree components carry 93.4% of everything that varies between trajectories.\n\nWhy orthogonality is the whole point\nThis is the part usually glossed over, and it is the reason the PCA is there at all. PCA components are uncorrelated by construction, which means the total variance splits additively across them:\n\nV(\\text{trajectories}) = \\lambda_1 + \\lambda_2 + \\lambda_3 + \\dots\n\nBecause there is no overlap between components, you may analyse each one separately and then combine the results by a weighted sum without double counting. If the components were correlated — as the 51 yearly outputs are — that combination step would be invalid.\nSo the PCA is not cosmetic dimension reduction. It is what makes Step 8 mathematically legitimate.\nThere is an interpretation bonus too. Each component has a temporal loading profile showing how it weights each year, so you are no longer decomposing variance “at year 37” — you are decomposing variance in trajectory shape. Asking which parameters drive the overall level, and which drive the transient, is a better question than asking about any single year."
+  },
+  {
+    "objectID": "resources/global-sensitivity-analysis.html#step-7.-decompose-the-variance",
+    "href": "resources/global-sensitivity-analysis.html#step-7.-decompose-the-variance",
+    "title": "Global sensitivity analysis",
+    "section": "Step 7. Decompose the variance",
+    "text": "Step 7. Decompose the variance\nEach component’s scores are one number per run, so this is now an ordinary scalar problem. eFAST estimates the decomposition from the Fourier spectrum:\n\n\n\n\n\n\n\n\nIndex\nHow it is read off the spectrum\nPlain English\n\n\n\n\nS_i\npower at \\omega_i and its harmonics\nlearn this one number and this much guesswork goes away\n\n\nS_{T_i}\n1 - V_{\\sim i}/V: everything except the other parameters’ frequencies\nlearn all the others but not this one, and this much guesswork is left\n\n\n\nBecause it reads variance off a spectrum rather than fitting a model, there is no residual term. Nothing is left over."
+  },
+  {
+    "objectID": "resources/global-sensitivity-analysis.html#step-8.-aggregate-to-one-number-per-parameter",
+    "href": "resources/global-sensitivity-analysis.html#step-8.-aggregate-to-one-number-per-parameter",
+    "title": "Global sensitivity analysis",
+    "section": "Step 8. Aggregate to one number per parameter",
+    "text": "Step 8. Aggregate to one number per parameter\nSteps 6 and 7 give indices per component. To get one number per parameter, use the Generalised Sensitivity Index (Lamboni et al.) — the inertia-weighted average:\n\n\\text{GSI}_i = \\frac{\\sum_c \\lambda_c \\, S_{ic}}{\\sum_c \\lambda_c}\n\nwhere S_{ic} is the index of parameter i on component c and \\lambda_c is that component’s eigenvalue. Components are weighted by how much trajectory variation they actually explain, so PC1 at 75.4% dominates and PC3 at 3.8% barely contributes.\nThis weighted sum is only valid because the components are orthogonal. That is the payoff from Step 6. Averaging the 51 raw yearly indices instead would count the same information dozens of times over."
+  },
+  {
+    "objectID": "resources/global-sensitivity-analysis.html#the-whole-thing-in-r",
+    "href": "resources/global-sensitivity-analysis.html#the-whole-thing-in-r",
+    "title": "Global sensitivity analysis",
+    "section": "The whole thing in R",
+    "text": "The whole thing in R\nlibrary(multisensi)\n\ngsa_time &lt;- multisensi(\n  design        = fast99,               # 1. how the sample is built\n  model         = run_design,           # 2. run the model on every row\n  reduction     = basis.ACP,            # 3. PCA the 51 yearly outputs\n  scale         = FALSE,                #    covariance, not correlation\n  design.args   = list(\n    factors = names(parameters_range),\n    n       = 1000,                     # runs per parameter\n    q       = \"qunif\",\n    q.arg   = lapply(parameters_range,\n                     function(r) list(min = r[1], max = r[2]))\n  ),\n  analysis      = analysis.sensitivity, # 4. decompose the variance\n  analysis.args = list(keep.outputs = FALSE)\n)\n\nsummary(gsa_time)\nWhat comes back:\n\n\n\n\n\n\n\nObject\nContents\n\n\n\n\ngsa$L\nloadings — the shape over time of each component, length 51\n\n\ngsa$H\nscores — one per run, how strongly that run shows the shape\n\n\ngsa$lambda\neigenvalues, the variance of each component\n\n\ngsa$mSI\nfirst-order indices S_i\n\n\ngsa$tSI\ntotal indices S_{T_i}\n\n\n\nscale = FALSE means PCA on the covariance, not the correlation matrix. That is correct here because all 51 columns are the same quantity in the same units — standardising would give a quiet year the same weight as a year of collapse.\n\n\n\n\n\n\ndesign = fast99 means this is not ANOVA\n\n\n\ndesign = fast99 with analysis = analysis.sensitivity is the eFAST route. ANOVA (analysis.anoasg) is the other engine, used when you pass discrete levels through design.args instead of ranges. They estimate the same quantity by different means — see the comparison at the end."
+  },
+  {
+    "objectID": "resources/global-sensitivity-analysis.html#reading-the-results",
+    "href": "resources/global-sensitivity-analysis.html#reading-the-results",
+    "title": "Global sensitivity analysis",
+    "section": "Reading the results",
+    "text": "Reading the results\nOur run, watching the moose herd:\n\n\n\nParameter\nS_i (alone)\nS_{T_i} (total)\nvia interactions\n\n\n\n\nlog10_beta_M\n0.31\n0.80\n61%\n\n\nmu_E\n0.10\n0.42\n76%\n\n\nk\n0.26\n0.41\n37%\n\n\nrho_M\n0.03\n0.27\n89%\n\n\nlambda\n0.01\n0.17\n94%\n\n\nlog10_alpha_M\n0.005\n0.16\n97%\n\n\nrho_U\n0.03\n0.16\n81%\n\n\n\nTotals sum to about 2.4, not 1. The model is strongly non-additive. The practical consequence is blunt: “increasing X does Y to moose” is not a sentence this model supports without stating what the other parameters are doing. Any single-parameter policy claim needs a caveat.\nA big gap between S_i and S_{T_i} means context-dependent. log10_alpha_M has a first-order index of 0.005 and a total of 0.16 — on its own it does essentially nothing, but it matters in combination. Virulence only bites once attachment has already put enough ticks on the animal.\nA small gap means the parameter acts independently. k at 0.26 / 0.41 has the most autonomous effect in the model.\nIndices are unsigned. They tell you how much, never which way. Direction has to come from somewhere else — a scatter of output against each parameter, or PRCC on a random or LHS sample. This matters: rho_U turned out negative (more alternative hosts → fewer moose), which no sensitivity index would have told us.\n\nWhat to do with the answer\n\nMeasure the top-ranked uncertain parameter. beta_M at 0.80 total, with no empirical basis at all. That is the highest-value fieldwork in the system.\nSettle cheap disputes. mu_E at 0.42 comes down to one sentence in a 1986 paper.\nFix and forget the negligible ones. Anything with S_{T_i} \\approx 0 can be pinned at its baseline in future work.\nReport ranges alongside indices. Always."
+  },
+  {
+    "objectID": "resources/global-sensitivity-analysis.html#pitfalls",
+    "href": "resources/global-sensitivity-analysis.html#pitfalls",
+    "title": "Global sensitivity analysis",
+    "section": "Pitfalls",
+    "text": "Pitfalls\nIndices are conditional on the ranges. beta_M was allowed three decades; rho_M was allowed 12%. Some of beta’s dominance is that, and you must say so.\neFAST assumes independent inputs. We have a live violation: mu_E and mu_N are the same disputed reading of the same paper. If one value is right, the other almost certainly is too — so the sweep explores combinations that cannot both be true, while the indices are computed as though the two are independent. State this in the methods rather than hoping nobody notices.\neFAST cannot warn you when it fails. It has no residual by construction. If n is too small or frequencies interfere, you get plausible-looking numbers with no signal that anything went wrong. ANOVA’s residual is a feature — a built-in confession that “27% of this I could not explain”.\nThe trade-off runs opposite to intuition:\n\n\n\n\neFAST\nANOVA\n\n\n\n\nFunctional form\nagnostic\nlimited by grid and formula order\n\n\nCost\nn \\cdot p\nL^p\n\n\nWarns you when it fails\nno\nyes — the residual\n\n\n\nBoth engines estimate the same Sobol decomposition. They differ in the estimator, not the target. Which is the argument for running both on a small subset once and checking they agree:\ntop6 &lt;- c(\"log10_beta_M\", \"mu_E\", \"k\", \"rho_M\", \"lambda\", \"log10_alpha_M\")\na &lt;- run_gsa_dyn(as_levels(rng_dyn2[top6]))   # ANOVA, has a residual\nb &lt;- run_gsa_dyn(rng_dyn2[top6])              # eFAST, does not\nplot_gsi(a); plot_gsi(b)                      # same ranking?\nWatch for near-zero variance. Indices summing above 1 in the early years of our run were exactly this: tiny variance plus a finite sample gives noisy estimates.\nDifferent questions need different analyses. R_0 cannot rank alpha_M, k, rho_M or rho_U — they do not appear in it, because R_0 is a low-density quantity. Establishment and host collapse are different questions."
+  },
+  {
+    "objectID": "resources/global-sensitivity-analysis.html#further-reading",
+    "href": "resources/global-sensitivity-analysis.html#further-reading",
+    "title": "Global sensitivity analysis",
+    "section": "Further reading",
+    "text": "Further reading\n\nSaltelli, A. et al. (2008). Global Sensitivity Analysis: The Primer. The standard reference.\nLamboni, M., Monod, H. & Makowski, D. (2011). Multivariate sensitivity analysis to measure global contribution of input factors in dynamic models. Reliability Engineering & System Safety. The GSI.\nMarino, S. et al. (2008). A methodology for performing global uncertainty and sensitivity analysis in systems biology. Journal of Theoretical Biology. The LHS/PRCC route, widely used in epidemiology.\nThe multisensi, sensitivity and sensobol R packages.\n\n\nThe winter tick model behind this page was built at the PIMS summer school on Mathematics of Multiscale Interactions, 2026."
+  },
+  {
+    "objectID": "publications.html",
+    "href": "publications.html",
+    "title": "Publications",
+    "section": "",
+    "text": "Placeholder. Two example entries below show the formatting. Newest first is the usual convention. If your list grows past ~20 items, this is worth converting to a .bib file that Quarto renders automatically — say the word and I’ll set that up.\nGoogle Scholar · ORCID · add your profile links here"
+  },
+  {
+    "objectID": "publications.html#preprints",
+    "href": "publications.html#preprints",
+    "title": "Publications",
+    "section": "Preprints",
+    "text": "Preprints\n\n[Title of the preprint] Rastello K., Coauthor A., Coauthor B. (2026). bioRxiv.\n\nPDF bioRxiv Code Data"
+  },
+  {
+    "objectID": "publications.html#peer-reviewed-articles",
+    "href": "publications.html#peer-reviewed-articles",
+    "title": "Publications",
+    "section": "Peer-reviewed articles",
+    "text": "Peer-reviewed articles\n\n[Title of the paper] Rastello K., Coauthor A. (2025). Journal Name, 12(3), 45–67.\n\nPDF DOI Code\n\n\n\n[Title of an earlier paper] Coauthor A., Rastello K. (2024). Journal Name, 8(1), 1–20.\n\nPDF DOI"
+  },
+  {
+    "objectID": "publications.html#theses",
+    "href": "publications.html#theses",
+    "title": "Publications",
+    "section": "Theses",
+    "text": "Theses\n\n[Thesis title] PhD thesis, [Institution], in progress."
+  },
+  {
+    "objectID": "publications.html#software",
+    "href": "publications.html#software",
+    "title": "Publications",
+    "section": "Software",
+    "text": "Software\n\n[packagename] — [one-line description of what it does] R package.\n\nGitHub Docs"
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "CV",
+    "section": "",
+    "text": "Placeholder. Keeping a short web version here and linking a full PDF is the usual pattern — visitors skim the page, committees download the PDF. Drop the PDF at assets/cv.pdf.\nDownload full CV (PDF)"
+  },
+  {
+    "objectID": "cv.html#education",
+    "href": "cv.html#education",
+    "title": "CV",
+    "section": "Education",
+    "text": "Education\n\nPhD, [Field] — [Institution] [Year]–present. Advisor: [Name]. Thesis: [working title].\n\n\nMSc, [Field] — [Institution] [Year]. Thesis: [title].\n\n\nBSc, [Field] — [Institution] [Year]."
+  },
+  {
+    "objectID": "cv.html#positions",
+    "href": "cv.html#positions",
+    "title": "CV",
+    "section": "Positions",
+    "text": "Positions\n\n[Position title] — [Institution / lab] [Year]–[Year]."
+  },
+  {
+    "objectID": "cv.html#awards-and-fellowships",
+    "href": "cv.html#awards-and-fellowships",
+    "title": "CV",
+    "section": "Awards and fellowships",
+    "text": "Awards and fellowships\n\n[Award name], [Awarding body], [Year]\n[Fellowship name], [Awarding body], [Year]"
+  },
+  {
+    "objectID": "cv.html#skills",
+    "href": "cv.html#skills",
+    "title": "CV",
+    "section": "Skills",
+    "text": "Skills\nModelling — [e.g. ODE/PDE models, stochastic processes, individual-based simulation]\nStatistics — [e.g. Bayesian inference, hierarchical models, state-space models]\nComputing — R, [Python, C++, Stan, Julia — whichever apply], Git, LaTeX/Quarto\nLanguages — [e.g. French (native), English (fluent)]"
+  },
+  {
+    "objectID": "cv.html#service",
+    "href": "cv.html#service",
+    "title": "CV",
+    "section": "Service",
+    "text": "Service\n\nReviewer for [Journal name]\n[Committee, outreach, or organising role]"
+  },
+  {
+    "objectID": "contact.html",
+    "href": "contact.html",
+    "title": "Contact",
+    "section": "",
+    "text": "Placeholder. Fill in the address and profile links. Anything you’d rather not make public, just delete the line.\nI’m happy to hear from people interested in the work, potential collaborators, and students looking for projects.\nEmail — kevan.rastello@gmail.com\nOffice — [Building, room number] [Department] [Institution] [Street address, City, Country]"
+  },
+  {
+    "objectID": "contact.html#elsewhere",
+    "href": "contact.html#elsewhere",
+    "title": "Contact",
+    "section": "Elsewhere",
+    "text": "Elsewhere\n\nGitHub\nGoogle Scholar — [add link]\nORCID — [add link]\nBluesky / Mastodon — [add link, or delete]"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Kevan Rastello",
+    "section": "",
+    "text": "PhD candidate in ecology and mathematical biology\n\nI study [one-sentence description of your research area — e.g. how spatial structure and demographic stochasticity shape population persistence]. My work combines mathematical models with data to understand [the systems you work on].\nAlongside my research I write explainers — interactive walkthroughs of the models and methods I use, aimed at anyone who wants to build intuition rather than just read the equations."
+  },
+  {
+    "objectID": "index.html#explore",
+    "href": "index.html#explore",
+    "title": "Kevan Rastello",
+    "section": "Explore",
+    "text": "Explore\n\n\nResearch\nCurrent projects, questions I’m working on, and the systems I study.\n\n\nResources\nInteractive explainers on population models, dynamical systems, and methods.\n\n\nPublications\nPapers, preprints, and the code and data behind them.\n\n\nTeaching\nCourses, lecture material, and student supervision."
+  },
+  {
+    "objectID": "index.html#recent",
+    "href": "index.html#recent",
+    "title": "Kevan Rastello",
+    "section": "Recent",
+    "text": "Recent\n\nPlaceholder. A short running list of news — new preprint, talk given, resource published. Delete this section if you’d rather not maintain it.\n\n\n[Month Year] — New resource: Logistic growth\n[Month Year] — Preprint posted: [title]\n[Month Year] — Talk at [conference]"
+  },
+  {
     "objectID": "research.html",
     "href": "research.html",
     "title": "Research",
@@ -140,123 +357,11 @@
     "text": "Funding\n[Optional — grants and fellowships supporting this work.]"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Kevan Rastello",
-    "section": "",
-    "text": "PhD candidate in ecology and mathematical biology\n\nI study [one-sentence description of your research area — e.g. how spatial structure and demographic stochasticity shape population persistence]. My work combines mathematical models with data to understand [the systems you work on].\nAlongside my research I write explainers — interactive walkthroughs of the models and methods I use, aimed at anyone who wants to build intuition rather than just read the equations."
-  },
-  {
-    "objectID": "index.html#explore",
-    "href": "index.html#explore",
-    "title": "Kevan Rastello",
-    "section": "Explore",
-    "text": "Explore\n\n\nResearch\nCurrent projects, questions I’m working on, and the systems I study.\n\n\nResources\nInteractive explainers on population models, dynamical systems, and methods.\n\n\nPublications\nPapers, preprints, and the code and data behind them.\n\n\nTeaching\nCourses, lecture material, and student supervision."
-  },
-  {
-    "objectID": "index.html#recent",
-    "href": "index.html#recent",
-    "title": "Kevan Rastello",
-    "section": "Recent",
-    "text": "Recent\n\nPlaceholder. A short running list of news — new preprint, talk given, resource published. Delete this section if you’d rather not maintain it.\n\n\n[Month Year] — New resource: Logistic growth\n[Month Year] — Preprint posted: [title]\n[Month Year] — Talk at [conference]"
-  },
-  {
-    "objectID": "contact.html",
-    "href": "contact.html",
-    "title": "Contact",
-    "section": "",
-    "text": "Placeholder. Fill in the address and profile links. Anything you’d rather not make public, just delete the line.\nI’m happy to hear from people interested in the work, potential collaborators, and students looking for projects.\nEmail — kevan.rastello@gmail.com\nOffice — [Building, room number] [Department] [Institution] [Street address, City, Country]"
-  },
-  {
-    "objectID": "contact.html#elsewhere",
-    "href": "contact.html#elsewhere",
-    "title": "Contact",
-    "section": "Elsewhere",
-    "text": "Elsewhere\n\nGitHub\nGoogle Scholar — [add link]\nORCID — [add link]\nBluesky / Mastodon — [add link, or delete]"
-  },
-  {
-    "objectID": "cv.html",
-    "href": "cv.html",
-    "title": "CV",
-    "section": "",
-    "text": "Placeholder. Keeping a short web version here and linking a full PDF is the usual pattern — visitors skim the page, committees download the PDF. Drop the PDF at assets/cv.pdf.\nDownload full CV (PDF)"
-  },
-  {
-    "objectID": "cv.html#education",
-    "href": "cv.html#education",
-    "title": "CV",
-    "section": "Education",
-    "text": "Education\n\nPhD, [Field] — [Institution] [Year]–present. Advisor: [Name]. Thesis: [working title].\n\n\nMSc, [Field] — [Institution] [Year]. Thesis: [title].\n\n\nBSc, [Field] — [Institution] [Year]."
-  },
-  {
-    "objectID": "cv.html#positions",
-    "href": "cv.html#positions",
-    "title": "CV",
-    "section": "Positions",
-    "text": "Positions\n\n[Position title] — [Institution / lab] [Year]–[Year]."
-  },
-  {
-    "objectID": "cv.html#awards-and-fellowships",
-    "href": "cv.html#awards-and-fellowships",
-    "title": "CV",
-    "section": "Awards and fellowships",
-    "text": "Awards and fellowships\n\n[Award name], [Awarding body], [Year]\n[Fellowship name], [Awarding body], [Year]"
-  },
-  {
-    "objectID": "cv.html#skills",
-    "href": "cv.html#skills",
-    "title": "CV",
-    "section": "Skills",
-    "text": "Skills\nModelling — [e.g. ODE/PDE models, stochastic processes, individual-based simulation]\nStatistics — [e.g. Bayesian inference, hierarchical models, state-space models]\nComputing — R, [Python, C++, Stan, Julia — whichever apply], Git, LaTeX/Quarto\nLanguages — [e.g. French (native), English (fluent)]"
-  },
-  {
-    "objectID": "cv.html#service",
-    "href": "cv.html#service",
-    "title": "CV",
-    "section": "Service",
-    "text": "Service\n\nReviewer for [Journal name]\n[Committee, outreach, or organising role]"
-  },
-  {
-    "objectID": "publications.html",
-    "href": "publications.html",
-    "title": "Publications",
-    "section": "",
-    "text": "Placeholder. Two example entries below show the formatting. Newest first is the usual convention. If your list grows past ~20 items, this is worth converting to a .bib file that Quarto renders automatically — say the word and I’ll set that up.\nGoogle Scholar · ORCID · add your profile links here"
-  },
-  {
-    "objectID": "publications.html#preprints",
-    "href": "publications.html#preprints",
-    "title": "Publications",
-    "section": "Preprints",
-    "text": "Preprints\n\n[Title of the preprint] Rastello K., Coauthor A., Coauthor B. (2026). bioRxiv.\n\nPDF bioRxiv Code Data"
-  },
-  {
-    "objectID": "publications.html#peer-reviewed-articles",
-    "href": "publications.html#peer-reviewed-articles",
-    "title": "Publications",
-    "section": "Peer-reviewed articles",
-    "text": "Peer-reviewed articles\n\n[Title of the paper] Rastello K., Coauthor A. (2025). Journal Name, 12(3), 45–67.\n\nPDF DOI Code\n\n\n\n[Title of an earlier paper] Coauthor A., Rastello K. (2024). Journal Name, 8(1), 1–20.\n\nPDF DOI"
-  },
-  {
-    "objectID": "publications.html#theses",
-    "href": "publications.html#theses",
-    "title": "Publications",
-    "section": "Theses",
-    "text": "Theses\n\n[Thesis title] PhD thesis, [Institution], in progress."
-  },
-  {
-    "objectID": "publications.html#software",
-    "href": "publications.html#software",
-    "title": "Publications",
-    "section": "Software",
-    "text": "Software\n\n[packagename] — [one-line description of what it does] R package.\n\nGitHub Docs"
-  },
-  {
     "objectID": "resources/index.html",
     "href": "resources/index.html",
     "title": "Resources",
     "section": "",
-    "text": "Explainers on the models and methods I use — written to build intuition, with interactive figures you can push around rather than static plots you have to take on faith.\nEach page states the assumptions plainly, works through the mathematics, and shows the R code so you can reproduce everything.\n\nPlaceholder. One worked example is live below. New resources are just new .qmd files dropped in this folder — they appear here automatically, no index to maintain. See resources/_template.qmd for a starting point.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLogistic growth\n\n\n6 min\n\n\n\npopulation dynamics\n\n\nODEs\n\n\nintuition\n\n\n\nWhy populations stop growing: density dependence, carrying capacity, and the shape of the S-curve.\n\n\n\nAug 14, 2026\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Explainers on the models and methods I use — written to build intuition, with interactive figures you can push around rather than static plots you have to take on faith.\nEach page states the assumptions plainly, works through the mathematics, and shows the R code so you can reproduce everything.\n\nPlaceholder. One worked example is live below. New resources are just new .qmd files dropped in this folder — they appear here automatically, no index to maintain. See resources/_template.qmd for a starting point.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGlobal sensitivity analysis\n\n\n25 min\n\n\n\nsensitivity analysis\n\n\nuncertainty\n\n\nmethods\n\n\nR\n\n\n\nWhich of your uncertain parameters is actually driving the uncertainty in your prediction — and how to compute that properly, step by step.\n\n\n\nAug 15, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLogistic growth\n\n\n6 min\n\n\n\npopulation dynamics\n\n\nODEs\n\n\nintuition\n\n\n\nWhy populations stop growing: density dependence, carrying capacity, and the shape of the S-curve.\n\n\n\nAug 14, 2026\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "talks.html",

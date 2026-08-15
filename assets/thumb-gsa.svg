@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="400" height="250">
+  <rect width="400" height="250" fill="#f2f7f6"/>
+  <line x1="55" y1="215" x2="370" y2="215" stroke="#b9c6c4" stroke-width="1.5"/>
+  <line x1="55" y1="215" x2="55" y2="30" stroke="#b9c6c4" stroke-width="1.5"/>
+  <!-- total bars (light) -->
+  <rect x="56" y="46"  width="270" height="26" fill="#d6d2c6"/>
+  <rect x="56" y="86"  width="142" height="26" fill="#d6d2c6"/>
+  <rect x="56" y="126" width="139" height="26" fill="#d6d2c6"/>
+  <rect x="56" y="166" width="92"  height="26" fill="#d6d2c6"/>
+  <!-- first-order bars (dark) -->
+  <rect x="56" y="46"  width="105" height="26" fill="#2c6e63"/>
+  <rect x="56" y="86"  width="34"  height="26" fill="#2c6e63"/>
+  <rect x="56" y="126" width="88"  height="26" fill="#2c6e63"/>
+  <rect x="56" y="166" width="10"  height="26" fill="#2c6e63"/>
+</svg>

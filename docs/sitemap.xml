@@ -2,38 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://kevanrastello.github.io/teaching.html</loc>
-    <lastmod>2026-08-14T23:29:22.488Z</lastmod>
+    <lastmod>2026-08-15T18:22:17.239Z</lastmod>
   </url>
   <url>
     <loc>https://kevanrastello.github.io/resources/logistic-growth.html</loc>
-    <lastmod>2026-08-14T23:28:53.555Z</lastmod>
+    <lastmod>2026-08-15T18:22:16.713Z</lastmod>
   </url>
   <url>
-    <loc>https://kevanrastello.github.io/research.html</loc>
-    <lastmod>2026-08-14T23:29:11.873Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kevanrastello.github.io/index.html</loc>
-    <lastmod>2026-08-14T23:28:51.481Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kevanrastello.github.io/contact.html</loc>
-    <lastmod>2026-08-14T23:28:50.839Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kevanrastello.github.io/cv.html</loc>
-    <lastmod>2026-08-14T23:29:26.303Z</lastmod>
+    <loc>https://kevanrastello.github.io/resources/global-sensitivity-analysis.html</loc>
+    <lastmod>2026-08-15T18:22:15.713Z</lastmod>
   </url>
   <url>
     <loc>https://kevanrastello.github.io/publications.html</loc>
-    <lastmod>2026-08-14T23:29:18.490Z</lastmod>
+    <lastmod>2026-08-15T18:22:13.901Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kevanrastello.github.io/cv.html</loc>
+    <lastmod>2026-08-15T18:22:13.130Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kevanrastello.github.io/contact.html</loc>
+    <lastmod>2026-08-15T18:22:12.775Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kevanrastello.github.io/index.html</loc>
+    <lastmod>2026-08-15T18:22:13.520Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kevanrastello.github.io/research.html</loc>
+    <lastmod>2026-08-15T18:22:14.315Z</lastmod>
   </url>
   <url>
     <loc>https://kevanrastello.github.io/resources/index.html</loc>
-    <lastmod>2026-08-14T23:28:52.776Z</lastmod>
+    <lastmod>2026-08-15T18:22:16.159Z</lastmod>
   </url>
   <url>
     <loc>https://kevanrastello.github.io/talks.html</loc>
-    <lastmod>2026-08-14T23:29:24.299Z</lastmod>
+    <lastmod>2026-08-15T18:22:16.972Z</lastmod>
   </url>
 </urlset>

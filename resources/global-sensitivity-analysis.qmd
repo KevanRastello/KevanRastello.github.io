@@ -1,0 +1,782 @@
+---
+title: "Global sensitivity analysis"
+description: "Which of your uncertain parameters is actually driving the uncertainty in your prediction — and how to compute that properly, step by step."
+date: 2026-08-15
+categories: [sensitivity analysis, uncertainty, methods, R]
+image: /assets/thumb-gsa.svg
+---
+
+## The situation this solves
+
+You have a model. It has parameters. You do not know most of them exactly — you
+know roughly what each one could be, because somebody measured it once in a
+different system, or estimated it from a figure, or nobody has ever measured it
+at all.
+
+So your prediction is not a number. It is a spread. Run the model across
+everything you might plausibly believe and the answers come out wildly
+different.
+
+The question worth asking is not "what does the model predict?" It is:
+
+> **Which of the numbers I don't know is responsible for the answers coming out
+> so differently?**
+
+That is all global sensitivity analysis is. Answer it and you know exactly which
+measurement would be worth making — which is the most useful thing a model can
+tell you before the fieldwork is done.
+
+The worked example throughout is a winter tick–moose model with 13 uncertain
+parameters, analysed over 50 years.
+
+## Step 0. Why not just change one parameter at a time?
+
+The instinct is to take your baseline parameter set, nudge one parameter by 10%,
+see how much the answer moves, and repeat. This is **local** sensitivity, also
+called OAT (one-at-a-time). Three things go wrong with it.
+
+### It only describes one point
+
+The derivative at your baseline tells you nothing about behaviour anywhere else.
+Our model has an attachment probability that saturates at 1. Near saturation the
+local sensitivity to the attachment rate $\beta_M$ is *exactly zero* — every tick
+already finds a host, so making them better at finding hosts changes nothing.
+
+Across its full plausible range, $\beta_M$ is the single most important parameter
+in the model.
+
+A local analysis run from a host-rich baseline would have reported "attachment
+doesn't matter" and been completely wrong. Drag the baseline below to watch this
+happen:
+
+::: {.model-explorer}
+
+```{ojs}
+//| echo: false
+viewof lbeta0 = Inputs.range([-7.3, -4.7], {value: -5.0, step: 0.05,
+  label: "Baseline log₁₀ β"})
+```
+
+```{ojs}
+//| echo: false
+viewof hosts = Inputs.range([500, 6000], {value: 3000, step: 100,
+  label: "Host abundance"})
+```
+
+```{ojs}
+//| echo: false
+// Schematic saturating attachment: P = 1 - exp(-beta * H * tau)
+attach = (lb) => 1 - Math.exp(-Math.pow(10, lb) * hosts * 165)
+```
+
+```{ojs}
+//| echo: false
+satCurve = {
+  const out = [];
+  for (let lb = -7.3; lb <= -4.7; lb += 0.02) out.push({lb: lb, P: attach(lb)});
+  return out;
+}
+```
+
+```{ojs}
+//| echo: false
+// Local slope at the baseline, drawn as a short tangent segment
+tangent = {
+  const h = 0.02;
+  const slope = (attach(lbeta0 + h) - attach(lbeta0 - h)) / (2 * h);
+  const y0 = attach(lbeta0);
+  return {
+    slope: slope,
+    seg: [{lb: lbeta0 - 0.5, P: y0 - 0.5 * slope},
+          {lb: lbeta0 + 0.5, P: y0 + 0.5 * slope}]
+  };
+}
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  width: Math.min(width, 720),
+  height: 340,
+  marginLeft: 60,
+  marginBottom: 45,
+  style: {fontSize: "13px", background: "transparent"},
+  x: {label: "log₁₀ attachment rate β →", grid: true, domain: [-7.3, -4.7]},
+  y: {label: "↑ Attachment probability", grid: true, domain: [-0.05, 1.05]},
+  marks: [
+    Plot.areaY(satCurve, {x: "lb", y: "P", fill: "#2c6e63", fillOpacity: 0.08}),
+    Plot.line(satCurve, {x: "lb", y: "P", stroke: "#2c6e63", strokeWidth: 2.5}),
+    Plot.line(tangent.seg, {x: "lb", y: "P", stroke: "#c0563f",
+      strokeWidth: 2.5, strokeDasharray: "4,3"}),
+    Plot.dot([{lb: lbeta0, P: attach(lbeta0)}], {x: "lb", y: "P",
+      fill: "#c0563f", r: 5}),
+    Plot.ruleY([0], {stroke: "#999"})
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+html`<p style="margin:0.6rem 0 0 0; font-size:0.95rem;">
+Local slope at this baseline: <b>${tangent.slope.toFixed(3)}</b> per decade of β.
+Full range of the output across all plausible β: <b>${
+  (Math.max(...satCurve.map(d => d.P)) - Math.min(...satCurve.map(d => d.P))).toFixed(3)
+}</b>.
+${tangent.slope < 0.02
+  ? "<span style='color:#c0563f'><b>The local analysis says β is irrelevant. It is not.</b></span>"
+  : "Here the baseline sits on the steep part, so local and global happen to agree."}
+</p>`
+```
+
+:::
+
+### It cannot see interactions
+
+Holding everything else fixed means you never observe that $\beta_M$ behaves
+differently depending on the aggregation parameter $k$. In our run the total
+indices sum to about **2.4**, against 1.0 for a purely additive model — so most
+of what the model is doing is interaction. OAT would have missed nearly all of
+it.
+
+### It explores almost nothing
+
+With 13 parameters, moving along 13 axes out from a single point covers a
+vanishingly small fraction of a 13-dimensional box.
+
+**Global** sensitivity analysis instead varies *all* parameters *simultaneously*
+across their *full plausible ranges*, and asks: of all the variation we see in
+the output, how much is attributable to each input?
+
+## Step 1. Understand what the answer will look like
+
+Before any machinery, it is worth understanding what a variance decomposition
+actually claims. It is simpler than the notation suggests, and you can see the
+whole idea in four model runs.
+
+Two parameters, each set Low or High. Four runs, four answers. **Drag the
+answers and watch the split change:**
+
+::: {.model-explorer}
+
+```{ojs}
+//| echo: false
+viewof LL = Inputs.range([0, 20], {value: 1, step: 0.5, label: "β low, μ low"})
+```
+
+```{ojs}
+//| echo: false
+viewof HL = Inputs.range([0, 20], {value: 9, step: 0.5, label: "β high, μ low"})
+```
+
+```{ojs}
+//| echo: false
+viewof LH = Inputs.range([0, 20], {value: 2, step: 0.5, label: "β low, μ high"})
+```
+
+```{ojs}
+//| echo: false
+viewof HH = Inputs.range([0, 20], {value: 18, step: 0.5, label: "β high, μ high"})
+```
+
+```{ojs}
+//| echo: false
+sob = {
+  const y = [LL, HL, LH, HH];
+  const m = (LL + HL + LH + HH) / 4;
+  const V = y.reduce((s, v) => s + (v - m) ** 2, 0) / 4;
+  const bL = (LL + LH) / 2, bH = (HL + HH) / 2;
+  const uL = (LL + HL) / 2, uH = (LH + HH) / 2;
+  const Vb = ((bL - m) ** 2 + (bH - m) ** 2) / 2;
+  const Vu = ((uL - m) ** 2 + (uH - m) ** 2) / 2;
+  const Vs = Math.max(0, V - Vb - Vu);
+  return {
+    V: V, bL: bL, bH: bH, uL: uL, uH: uH,
+    beta:   V > 0 ? Vb / V : 0,
+    mu:     V > 0 ? Vu / V : 0,
+    shared: V > 0 ? Vs / V : 0,
+    effLo: HL - LL,
+    effHi: HH - LH
+  };
+}
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  width: Math.min(width, 720),
+  height: 150,
+  marginLeft: 70,
+  marginTop: 30,
+  marginBottom: 50,
+  style: {fontSize: "13px", background: "transparent"},
+  x: {label: "Share of the spread →", domain: [0, 1], grid: true,
+      tickFormat: d => Math.round(d * 100) + "%"},
+  y: {label: null},
+  color: {
+    domain: ["β alone", "μ alone", "shared"],
+    range: ["#2c6e63", "#7a9e6b", "#b9b4a8"],
+    legend: true
+  },
+  marks: [
+    Plot.barX(
+      [{p: "β alone", v: sob.beta}, {p: "μ alone", v: sob.mu},
+       {p: "shared", v: sob.shared}],
+      {x: "v", fill: "p", y: () => "", sort: null}
+    ),
+    Plot.ruleX([0])
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+html`<p style="margin:0.4rem 0 0.9rem 0; font-size:0.95rem;">${
+  sob.V === 0
+    ? "All four answers are the same, so there is no spread to divide."
+    : Math.abs(sob.effHi - sob.effLo) < 0.5
+      ? `β lifts the answer by <b>${sob.effLo}</b> whether μ is low or high. Its
+         effect does not depend on μ, so <b>the shared piece is zero</b> and the
+         two totals add to exactly 1.`
+      : `β lifts the answer by <b>${sob.effLo}</b> when μ is low, but by
+         <b>${sob.effHi}</b> when μ is high. That inconsistency is the shared
+         piece — it belongs to neither parameter on its own.`
+}</p>`
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  width: Math.min(width, 720),
+  height: 190,
+  marginLeft: 70,
+  marginTop: 30,
+  marginBottom: 50,
+  style: {fontSize: "13px", background: "transparent"},
+  x: {label: "Total index →", grid: true},
+  y: {label: null},
+  color: {
+    domain: ["on its own", "via interaction"],
+    range: ["#2c6e63", "#d6d2c6"],
+    legend: true
+  },
+  marks: [
+    Plot.barX(
+      [{p: "β", part: "on its own", v: sob.beta},
+       {p: "β", part: "via interaction", v: sob.shared},
+       {p: "μ", part: "on its own", v: sob.mu},
+       {p: "μ", part: "via interaction", v: sob.shared}],
+      {x: "v", y: "p", fill: "part", sort: null}
+    ),
+    Plot.ruleX([0])
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+html`<p style="margin:0.4rem 0 0 0; font-size:0.95rem;">
+Totals add to <b>${(sob.beta + sob.mu + 2 * sob.shared).toFixed(3)}</b>.
+${sob.shared > 0.005
+  ? "They exceed 1 because the shared piece is counted in both parameters' totals — it genuinely belongs to both."
+  : "With no interaction, they add to exactly 1."}
+</p>`
+```
+
+:::
+
+At the default values the arithmetic is:
+
+| $\beta$ | $\mu$ | answer |
+|---|---|---|
+| L | L | 1 |
+| H | L | 9 |
+| L | H | 2 |
+| H | H | 18 |
+
+Total spread (variance) = 46.25.
+
+**$\beta$'s own piece.** Average when $\beta$ is low = 1.5, when high = 13.5. Far
+apart, so $\beta$'s piece is 36.0 — that is **77.8%** of the spread.
+
+**$\mu$'s own piece.** Average when low = 5.0, when high = 10.0. Closer, so
+$\mu$'s piece is 6.25 — **13.5%**.
+
+**Left over: 4.0, or 8.6%.** This is the shared piece, and here is why it exists:
+$\beta$ lifts the answer by 8 when $\mu$ is low, but by 16 when $\mu$ is high.
+$\beta$'s effect *depends on* $\mu$. That inconsistency cannot be credited to
+either one alone, so it gets a piece of its own.
+
+$$
+77.8\% + 13.5\% + 8.6\% = 100\%
+$$
+
+Exactly. Nothing lost, nothing double counted. There is only one way to do this
+split and it always adds up — that exactness is the point.
+
+::: {.callout-tip}
+## The one sentence to remember
+
+*How much the average answer moves when you learn a parameter's value* is that
+parameter's piece of the spread. We cannot rerun history with $\beta$ held fixed,
+so instead we compare the average over every run where $\beta$ was low against
+the average over every run where it was high.
+:::
+
+## Step 2. The formal version
+
+That four-run split generalises. For a model $Y = f(X_1, \dots, X_p)$ with
+**independent** inputs, the output variance decomposes uniquely:
+
+$$
+V(Y) = \sum_i V_i + \sum_{i<j} V_{ij} + \sum_{i<j<l} V_{ijl} + \dots + V_{12\dots p}
+$$
+
+- $V_i$ — variance explained by $X_i$ **on its own**
+- $V_{ij}$ — the extra variance from $X_i$ and $X_j$ **acting together**, beyond
+  their separate effects
+- and so on for higher orders.
+
+Divide through by $V(Y)$ and every term becomes a share summing to 1. This is the
+**Sobol decomposition** — three plain words wearing a disguise. *Variance* is
+just how spread out the answers are. *Decomposition* is cutting that spread into
+pieces. *Sobol* is a person's name (Ilya Sobol, who worked it out) and carries no
+meaning at all.
+
+### The two indices you report
+
+**First-order index**
+
+$$
+S_i = \frac{V_i}{V(Y)}
+$$
+
+The share of variance explained by $X_i$ alone. Equivalently: the fraction of
+uncertainty you would eliminate by learning $X_i$ exactly.
+
+**Total index**
+
+$$
+S_{T_i} = \frac{\sum_{\text{all terms containing } X_i} V_{\dots}}{V(Y)}
+$$
+
+$X_i$ alone *plus* everything it does through interactions. Equivalently: the
+uncertainty that would remain if you learned every parameter *except* $X_i$.
+
+Three diagnostics fall straight out:
+
+| Reading | Meaning |
+|---|---|
+| $S_{T_i} - S_i$ | how much of this parameter's influence runs through interactions |
+| $\sum_i S_i \approx 1$ | model is additive; parameters act independently |
+| $\sum_i S_{T_i} \gg 1$ | strong interactions; the same variance is attributed to several parameters because it belongs to none of them alone |
+| $S_{T_i} \approx 0$ | genuinely negligible — safe to fix and drop from the analysis |
+
+Variance is the right currency because it is **model-free**: no assumption of
+linearity, monotonicity or additivity. Compare a correlation coefficient, which
+only sees monotonic trends. In our run $\mu_E$ showed a large Sobol index but a
+near-zero Spearman correlation, because its effect is hump-shaped. A
+correlation-based method would have declared it unimportant.
+
+## Step 3. Choose the parameter ranges
+
+This is the step with the least mathematics and by far the most consequence.
+
+Every index is **conditional on the ranges**. A parameter given a wide range will
+tend to look important; the same parameter pinned to a narrow range will look
+irrelevant. This is not a flaw — it is correct behaviour, because the question
+being asked is *"given what we don't know, what drives the uncertainty in our
+prediction?"* A parameter you know precisely **should** rank low, even if the
+model is mechanistically very sensitive to it.
+
+What that meant in our case:
+
+- `log10_beta_M` spans three decades because nobody has ever measured it. It came
+  out top. That ranking is a statement about **our ignorance**, not purely about
+  the biology.
+- `lambda` spans ±40% because Drew & Samuel counted eggs directly. It ranked low
+  partly because we know it well.
+- `mu_E`'s two endpoints are the two competing readings of the same paper, so its
+  index measures **what the unresolved argument costs us**.
+
+::: {.callout-warning}
+## Always report the ranges next to the indices
+
+An index without its range is not interpretable. A parameter can score low for
+three completely different reasons — we know it well, it genuinely does nothing,
+or it *cannot* do anything however wide the range. Those are three different
+findings. Say which one you mean.
+:::
+
+Three practical rules that made the ranges defensible:
+
+**Set ranges on the interpretable quantity, then invert.** We set the virulence
+$\alpha_M$ by asking "how many ticks kill half a moose?" and solving
+
+$$
+\alpha = \frac{\ln 2}{\text{burden} \times \tau_A}
+$$
+
+Nobody can eyeball whether $2 \times 10^{-7}$ is sensible. Everybody can judge
+38,000 ticks.
+
+**Sample on a log scale when a range spans decades**, otherwise 90% of your draws
+land in the top decade.
+
+**Make ranges track the model's structure.** Our `beta_for()` helper derives
+$\beta$'s range from the current host numbers, because what matters is
+$\beta \times \text{hosts}$, never $\beta$ alone.
+
+Where nothing is measured at all, bound it by something you do know. Winter tick
+*is* established in Yukon, so $R_0 > 1$; it is at its northern range edge, so
+$R_0$ is not enormous. We set $\beta_M$'s range to the values putting $R_0$
+between roughly 1 and 70. Indirect, but a real constraint and far better than
+three arbitrary decades.
+
+```r
+rng_dyn2 <- list(
+  # beta_M: never measured. Bounded so R0 runs from ~1 to ~67.
+  log10_beta_M  = c(-7.3, -4.7),
+
+  # mu_E: egg + free-living larval mortality, from egg-to-questing
+  # survival of 30% down to 2%:  mu_E = -log(survival) / tau_E
+  mu_E          = c(0.01003, 0.03260),
+
+  # mu_N: attached nymph mortality, nymph-to-adult survival 50% to 10%
+  mu_N          = c(0.00420, 0.01396),
+
+  lambda        = c(1500, 5000),      # eggs per surviving female
+
+  # Stage durations: the climate levers. Arthropod development runs
+  # 2-3x faster per 10 C, and Yukon is projected 4-6 C warmer.
+  tau_E         = c(75, 180),
+  tau_Q         = c(30, 120),
+  tau_A         = c(140, 200),
+
+  M0            = c(500, 6000),       # host abundance
+  U0            = c(100, 6000),
+
+  # alpha_M: set as the burden that kills half a moose, then inverted
+  #   150,000 ticks -> log10 = -7.29  (tolerant)
+  #     5,000 ticks -> log10 = -5.81  (vulnerable)
+  log10_alpha_M = c(-7.29, -5.81),
+
+  k             = c(0.02, 1.00),      # aggregation; small = more clumped
+  rho_M         = c(1.00, 1.20),      # moose finite rate of increase
+  rho_U         = c(1.00, 1.35)
+)
+```
+
+## Step 4. Choose the design
+
+You need parameter sets that cover the space efficiently. The options, with cost
+for $p$ parameters:
+
+| Design | Cost | Analysis it supports |
+|---|---|---|
+| Full factorial, $L$ levels | $L^p$ | ANOVA |
+| Fractional factorial | $L^{p-k}$ | ANOVA |
+| **eFAST (`fast99`)** | **$n \cdot p$** | **Fourier decomposition** |
+| Sobol Monte Carlo | $n(p+2)$ | Sobol estimators |
+| Morris | $r(p+1)$ | screening only — ranks, no quantities |
+| Latin hypercube | $n$ | PRCC, regression — **not** ANOVA |
+
+We used **eFAST**, for three reasons:
+
+1. A full factorial at 3 levels samples each parameter at only three points. Our
+   output spans about 10 orders of magnitude, and three points cannot describe a
+   surface that curved. The curvature you miss gets misattributed as
+   "interaction".
+2. eFAST samples **continuously** along space-filling curves, so it handles
+   nonlinearity properly.
+3. Cost is **linear in the number of parameters**. Going from 7 to 13 parameters
+   cost us 2,100 → 3,900 runs instead of 2,187 → 1.6 million.
+
+### How eFAST samples
+
+Every parameter gets its own **frequency**, and the design walks a single curve
+through parameter space. As a scalar $s$ advances, each parameter oscillates:
+
+$$
+X_i(s) = G_i\big(\sin(\omega_i s)\big)
+$$
+
+where $\omega_i$ is parameter $i$'s distinct frequency and $G_i$ is the transform
+making $X_i$ uniform over its range.
+
+That sounds like a strange thing to do. Here is the trick: because each parameter
+wiggles at a *different rate*, the model's answer wiggles back at that same rate.
+Take the Fourier spectrum of the output, and the power sitting at parameter $i$'s
+frequency is $V_i$. It is the same idea as picking one instrument out of a
+recording because you know its pitch. No fitting, no guessing.
+
+::: {.callout-note}
+## Why LHS does not work with ANOVA
+
+`multisensi`'s default engine is ANOVA, which needs each factor to take a few
+*repeated* levels so there are residual degrees of freedom. A continuous Latin
+hypercube gives every factor $n$ distinct values, the model is saturated, and the
+decomposition fails. LHS is a perfectly good design — but pair it with PRCC or
+regression, not ANOVA.
+:::
+
+## Step 5. Run the model
+
+```r
+run_design(X, years = 50, out_var = "M")
+```
+
+takes the design table and returns:
+
+```
+IN   3900 rows (parameter sets)  x  13 columns (parameters)
+OUT  3900 rows (parameter sets)  x  51 columns (years)
+```
+
+Row $i$ out is the trajectory produced by row $i$ in. Note the output is
+**multivariate** — 51 numbers per run, not one. That is what the next step is
+for.
+
+::: {.callout-tip}
+## Analyse the log when the process is multiplicative
+
+Our tick population is multiplicative — each year is last year times a growth
+factor — so over 50 years small parameter differences compound into orders of
+magnitude. On a raw scale the variance is then owned by the handful of runs that
+exploded, no single parameter explains the level (because the level is a
+*product* of all of them), first-order indices collapse to nearly zero, and
+everything piles into interaction.
+
+Taking logs turns that product into a sum, which is exactly the additive
+structure a variance decomposition is built for, and the main effects reappear.
+Host populations vary far less, so they don't need it.
+:::
+
+## Step 6. Reduce the output with PCA
+
+We have 51 outputs, one per year. We could run 51 separate sensitivity analyses
+and get 51 sets of indices. Two reasons not to:
+
+1. **It is unreadable.** 13 parameters × 51 years × 2 index types = 1,326
+   numbers. There is no ranking in there a person can act on.
+2. **The outputs are massively redundant.** Year 30 and year 31 are almost the
+   same number. Naively averaging 51 sets of indices would count the same
+   information dozens of times over.
+
+PCA finds a small set of **orthogonal shapes** that trajectories vary along.
+Instead of 51 correlated numbers per run, each run is described by a handful of
+uncorrelated component scores. In our run:
+
+| Component | Variance explained | What it represents |
+|---|---|---|
+| PC1 | 75.4% | the overall **level** — how high or low the herd sits |
+| PC2 | 14.2% | the **transient shape** — early crash and partial recovery |
+| PC3 | 3.8% | early oscillation |
+| PC4 | 2.6% | negligible |
+
+Three components carry **93.4%** of everything that varies between trajectories.
+
+### Why orthogonality is the whole point
+
+This is the part usually glossed over, and it is the reason the PCA is there at
+all. PCA components are **uncorrelated by construction**, which means the total
+variance splits *additively* across them:
+
+$$
+V(\text{trajectories}) = \lambda_1 + \lambda_2 + \lambda_3 + \dots
+$$
+
+Because there is no overlap between components, you may analyse each one
+separately and then combine the results by a weighted sum **without double
+counting**. If the components were correlated — as the 51 yearly outputs are —
+that combination step would be invalid.
+
+So the PCA is not cosmetic dimension reduction. It is what makes Step 8
+mathematically legitimate.
+
+There is an interpretation bonus too. Each component has a temporal loading
+profile showing how it weights each year, so you are no longer decomposing
+variance "at year 37" — you are decomposing variance in **trajectory shape**.
+Asking which parameters drive the overall level, and which drive the transient,
+is a better question than asking about any single year.
+
+## Step 7. Decompose the variance
+
+Each component's scores are one number per run, so this is now an ordinary scalar
+problem. eFAST estimates the decomposition from the Fourier spectrum:
+
+| Index | How it is read off the spectrum | Plain English |
+|---|---|---|
+| $S_i$ | power at $\omega_i$ and its harmonics | learn this one number and this much guesswork goes away |
+| $S_{T_i}$ | $1 - V_{\sim i}/V$: everything except the *other* parameters' frequencies | learn all the others but not this one, and this much guesswork is left |
+
+Because it reads variance off a spectrum rather than fitting a model, there is
+**no residual term**. Nothing is left over.
+
+## Step 8. Aggregate to one number per parameter
+
+Steps 6 and 7 give indices *per component*. To get one number per parameter, use
+the **Generalised Sensitivity Index** (Lamboni et al.) — the inertia-weighted
+average:
+
+$$
+\text{GSI}_i = \frac{\sum_c \lambda_c \, S_{ic}}{\sum_c \lambda_c}
+$$
+
+where $S_{ic}$ is the index of parameter $i$ on component $c$ and $\lambda_c$ is
+that component's eigenvalue. Components are weighted by how much trajectory
+variation they actually explain, so PC1 at 75.4% dominates and PC3 at 3.8% barely
+contributes.
+
+**This weighted sum is only valid because the components are orthogonal.** That
+is the payoff from Step 6. Averaging the 51 raw yearly indices instead would count
+the same information dozens of times over.
+
+## The whole thing in R
+
+```r
+library(multisensi)
+
+gsa_time <- multisensi(
+  design        = fast99,               # 1. how the sample is built
+  model         = run_design,           # 2. run the model on every row
+  reduction     = basis.ACP,            # 3. PCA the 51 yearly outputs
+  scale         = FALSE,                #    covariance, not correlation
+  design.args   = list(
+    factors = names(parameters_range),
+    n       = 1000,                     # runs per parameter
+    q       = "qunif",
+    q.arg   = lapply(parameters_range,
+                     function(r) list(min = r[1], max = r[2]))
+  ),
+  analysis      = analysis.sensitivity, # 4. decompose the variance
+  analysis.args = list(keep.outputs = FALSE)
+)
+
+summary(gsa_time)
+```
+
+What comes back:
+
+| Object | Contents |
+|---|---|
+| `gsa$L` | loadings — the shape over time of each component, length 51 |
+| `gsa$H` | scores — one per run, how strongly that run shows the shape |
+| `gsa$lambda` | eigenvalues, the variance of each component |
+| `gsa$mSI` | first-order indices $S_i$ |
+| `gsa$tSI` | total indices $S_{T_i}$ |
+
+`scale = FALSE` means PCA on the **covariance**, not the correlation matrix. That
+is correct here because all 51 columns are the same quantity in the same units —
+standardising would give a quiet year the same weight as a year of collapse.
+
+::: {.callout-important}
+## `design = fast99` means this is *not* ANOVA
+
+`design = fast99` with `analysis = analysis.sensitivity` is the eFAST route.
+ANOVA (`analysis.anoasg`) is the other engine, used when you pass discrete levels
+through `design.args` instead of ranges. They estimate the same quantity by
+different means — see the comparison at the end.
+:::
+
+## Reading the results
+
+Our run, watching the moose herd:
+
+| Parameter | $S_i$ (alone) | $S_{T_i}$ (total) | via interactions |
+|---|---|---|---|
+| `log10_beta_M` | 0.31 | **0.80** | 61% |
+| `mu_E` | 0.10 | 0.42 | 76% |
+| `k` | 0.26 | 0.41 | 37% |
+| `rho_M` | 0.03 | 0.27 | 89% |
+| `lambda` | 0.01 | 0.17 | 94% |
+| `log10_alpha_M` | 0.005 | 0.16 | 97% |
+| `rho_U` | 0.03 | 0.16 | 81% |
+
+**Totals sum to about 2.4, not 1.** The model is strongly non-additive. The
+practical consequence is blunt: *"increasing X does Y to moose" is not a sentence
+this model supports* without stating what the other parameters are doing. Any
+single-parameter policy claim needs a caveat.
+
+**A big gap between $S_i$ and $S_{T_i}$ means context-dependent.**
+`log10_alpha_M` has a first-order index of 0.005 and a total of 0.16 — on its own
+it does essentially nothing, but it matters in combination. Virulence only bites
+once attachment has already put enough ticks on the animal.
+
+**A small gap means the parameter acts independently.** `k` at 0.26 / 0.41 has
+the most autonomous effect in the model.
+
+**Indices are unsigned.** They tell you *how much*, never *which way*. Direction
+has to come from somewhere else — a scatter of output against each parameter, or
+PRCC on a random or LHS sample. This matters: `rho_U` turned out **negative**
+(more alternative hosts → fewer moose), which no sensitivity index would have
+told us.
+
+### What to do with the answer
+
+1. **Measure the top-ranked uncertain parameter.** `beta_M` at 0.80 total, with
+   no empirical basis at all. That is the highest-value fieldwork in the system.
+2. **Settle cheap disputes.** `mu_E` at 0.42 comes down to one sentence in a 1986
+   paper.
+3. **Fix and forget the negligible ones.** Anything with $S_{T_i} \approx 0$ can
+   be pinned at its baseline in future work.
+4. **Report ranges alongside indices. Always.**
+
+## Pitfalls
+
+**Indices are conditional on the ranges.** `beta_M` was allowed three decades;
+`rho_M` was allowed 12%. Some of beta's dominance is that, and you must say so.
+
+**eFAST assumes independent inputs.** We have a live violation: `mu_E` and `mu_N`
+are the same disputed reading of the same paper. If one value is right, the other
+almost certainly is too — so the sweep explores combinations that cannot both be
+true, while the indices are computed as though the two are independent. State
+this in the methods rather than hoping nobody notices.
+
+**eFAST cannot warn you when it fails.** It has no residual by construction. If
+$n$ is too small or frequencies interfere, you get plausible-looking numbers with
+no signal that anything went wrong. ANOVA's residual is a *feature* — a built-in
+confession that "27% of this I could not explain".
+
+The trade-off runs opposite to intuition:
+
+| | eFAST | ANOVA |
+|---|---|---|
+| Functional form | agnostic | limited by grid and formula order |
+| Cost | $n \cdot p$ | $L^p$ |
+| **Warns you when it fails** | **no** | **yes — the residual** |
+
+Both engines estimate the *same* Sobol decomposition. They differ in the
+estimator, not the target. Which is the argument for running both on a small
+subset once and checking they agree:
+
+```r
+top6 <- c("log10_beta_M", "mu_E", "k", "rho_M", "lambda", "log10_alpha_M")
+a <- run_gsa_dyn(as_levels(rng_dyn2[top6]))   # ANOVA, has a residual
+b <- run_gsa_dyn(rng_dyn2[top6])              # eFAST, does not
+plot_gsi(a); plot_gsi(b)                      # same ranking?
+```
+
+**Watch for near-zero variance.** Indices summing above 1 in the early years of
+our run were exactly this: tiny variance plus a finite sample gives noisy
+estimates.
+
+**Different questions need different analyses.** $R_0$ cannot rank `alpha_M`,
+`k`, `rho_M` or `rho_U` — they do not appear in it, because $R_0$ is a
+low-density quantity. Establishment and host collapse are different questions.
+
+## Further reading
+
+- Saltelli, A. et al. (2008). *Global Sensitivity Analysis: The Primer.* The
+  standard reference.
+- Lamboni, M., Monod, H. & Makowski, D. (2011). Multivariate sensitivity analysis
+  to measure global contribution of input factors in dynamic models.
+  *Reliability Engineering & System Safety.* The GSI.
+- Marino, S. et al. (2008). A methodology for performing global uncertainty and
+  sensitivity analysis in systems biology. *Journal of Theoretical Biology.* The
+  LHS/PRCC route, widely used in epidemiology.
+- The `multisensi`, `sensitivity` and `sensobol` R packages.
+
+---
+
+*The winter tick model behind this page was built at the PIMS summer school on
+Mathematics of Multiscale Interactions, 2026.*
