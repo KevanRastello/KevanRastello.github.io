@@ -232,3 +232,118 @@ pre.sourceCode {
   border-radius: 7px;
   border: 1px solid #e6eae9;
 }
+
+// ---------- Writing section ----------
+// Evidence labels: [Experimental]{.ev .ev-e} etc.
+.ev {
+  display: inline-block;
+  font-family: $font-family-monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.05rem 0.4rem;
+  border-radius: 3px;
+  border: 1px solid #d8e0de;
+  vertical-align: 0.1em;
+  white-space: nowrap;
+}
+.ev-e { background: #e3efec; border-color: $primary; color: #1f5c52; }
+.ev-c { background: #fbf0d6; border-color: #e3c97e; color: #6b5a2c; }
+.ev-d { background: #e6eef5; border-color: #b8cbe0; color: #2f4a66; }
+.ev-g { background: #fff; color: #5b6a6c; }
+
+// Old -> new information marks: [text]{.old} [text]{.new}
+.old { background: #e6eef5; border-radius: 3px; padding: 0 0.15em; }
+.new { background: #fbf0d6; border-radius: 3px; padding: 0 0.15em; }
+.topic { background: #e3efec; border-bottom: 2px solid $primary; padding: 0 0.15em; }
+
+// Before / after pairs: :::: {.ba} ::: {.before} ... ::: ::: {.after} ... ::: ::::
+.ba {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+  margin: 1rem 0 1.4rem;
+}
+.ba > div {
+  border: 1px solid #e6eae9;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  background: #fbfcfc;
+}
+.ba > div > p:first-child {
+  font-family: $font-family-monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.35rem;
+}
+.ba .before > p:first-child { color: #c0563f; }
+.ba .after > p:first-child { color: $primary; }
+.ba p:last-child { margin-bottom: 0; }
+@media (max-width: 640px) { .ba { grid-template-columns: minmax(0, 1fr); } }
+
+// Figures drawn with inline SVG
+.writing-figure {
+  margin: 1.5rem 0;
+  max-width: 100%;
+}
+.writing-figure svg { max-width: 100%; height: auto; display: block; }
+.writing-figure .fill { fill: #e3efec; stroke: $primary; stroke-width: 1.5; }
+.writing-figure .plain { fill: #fff; stroke: #b9c6c4; stroke-width: 1.5; }
+.writing-figure .label { fill: $body-color; font-family: $font-family-sans-serif; font-size: 14px; font-weight: 600; }
+.writing-figure .small { fill: #5b6a6c; font-family: $font-family-monospace; font-size: 10px; }
+.writing-figure .pin { fill: $body-color; }
+.writing-figure .pin-text { fill: #fff; font-family: $font-family-monospace; font-size: 10px; }
+.writing-figure .ring { fill: none; stroke: #d8e0de; stroke-width: 2; }
+.writing-figure .arrow { fill: $primary; }
+
+// Nested levels: paper > section > paragraph > sentence > word
+.levels { max-width: 30rem; margin: 1.4rem 0; }
+.levels div {
+  border: 1.5px solid #d8e0de;
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem 0.6rem;
+  margin-top: 0.4rem;
+  background: #fff;
+}
+.levels > div { margin-top: 0; }
+.levels div div { background: #fbfcfc; }
+.levels div div div { background: #fff; }
+.levels div div div div { background: #fbfcfc; }
+.levels div div div div div { background: #e3efec; border-color: $primary; }
+.levels span { display: flex; justify-content: space-between; gap: 0.5rem; font-weight: 600; }
+.levels span em { font-style: normal; font-weight: 400; font-family: $font-family-monospace; font-size: 0.75rem; color: #5b6a6c; align-self: center; }
+
+// Proportional paper map
+.paper-map {
+  display: grid;
+  grid-template-columns: 18fr 30fr 18fr 30fr;
+  gap: 4px;
+  margin: 1.4rem 0 0.5rem;
+}
+.paper-map > div {
+  border: 1px solid #e6eae9;
+  border-top: 5px solid $primary;
+  border-radius: 6px;
+  padding: 0.6rem 0.7rem;
+  min-width: 0;
+  background: #fbfcfc;
+}
+.paper-map > div:nth-child(even) { border-top-color: #9cc3bb; }
+.paper-map strong { display: block; }
+.paper-map small { display: block; font-family: $font-family-monospace; font-size: 0.72rem; color: #5b6a6c; }
+.paper-map .ticks { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 0.45rem; }
+.paper-map .ticks i { width: 9px; height: 13px; border-radius: 2px; background: #e3efec; border: 1px solid $primary; }
+@media (max-width: 640px) { .paper-map { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+
+// Notes at the end of each writing page
+.writing-about {
+  border-top: 1px solid #e6eae9;
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  color: #5b6a6c;
+  font-size: 0.9rem;
+}
+
+// Tables on writing pages scroll sideways on narrow screens instead of widening the page
+main:has(.writing-about) table { display: block; overflow-x: auto; }

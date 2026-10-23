@@ -5,5 +5,12 @@
       "/resources/global-sensitivity-analysis.html",
       "/resources/logistic-growth.html"
     ]
+  },
+  {
+    "listing": "/writing/index.html",
+    "items": [
+      "/writing/level-by-level.html",
+      "/writing/start-writing.html"
+    ]
   }
 ]

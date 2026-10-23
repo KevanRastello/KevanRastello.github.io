@@ -1,94 +1,150 @@
 [
   {
-    "objectID": "teaching.html",
-    "href": "teaching.html",
-    "title": "Teaching",
+    "objectID": "writing/start-writing.html",
+    "href": "writing/start-writing.html",
+    "title": "Start writing: the paper brief",
     "section": "",
-    "text": "Placeholder. Adapt the headings to how your teaching is actually organised. Material you’re happy to share publicly can live under resources/ and be linked from here."
+    "text": "A blank page is hard; a list of questions is not. This brief asks the questions a paper has to answer, in an order that builds the outline as you go. Each answer feeds a specific paragraph, so a finished brief is a finished skeleton.\nDownload the brief to fill in: Word (.docx) · Markdown (.md)\nHow to use it:"
   },
   {
-    "objectID": "teaching.html#courses",
-    "href": "teaching.html#courses",
-    "title": "Teaching",
-    "section": "Courses",
-    "text": "Courses\n\n[Course title] — [Institution, Year]\n[Role: teaching assistant / lecturer / lab instructor. One or two sentences on the course content and level, plus the size of the group.]\nMaterials: [link to slides, problem sets, or a resource page]\n\n\n[Course title] — [Institution, Year]\n[…]"
+    "objectID": "writing/start-writing.html#step-0-choose-the-paper-type",
+    "href": "writing/start-writing.html#step-0-choose-the-paper-type",
+    "title": "Start writing: the paper brief",
+    "section": "Step 0: choose the paper type",
+    "text": "Step 0: choose the paper type\nDecide this first, because six of the questions change with the type. A regular paper answers a question about nature; a methods paper offers a way of doing something that others can reuse.\n\n\n\n\n\n\n\n\n\nRegular paper\nMethods paper\n\n\n\n\nTake-home message is about\nThe system: species, forests, outbreaks\nThe procedure: how to compare, measure, forecast\n\n\nIntroduction ends on\nA question and numbered predictions\nA gap in existing methods, independent of any study system\n\n\nCore of the paper\nResults that answer the predictions\nThe method, then its evaluation\n\n\nEvidence\nData from the study system\nSimulations across a range of conditions, comparison with alternatives, error rates\n\n\nCase study\nIs the paper\nOne short worked example, often a single figure\n\n\nDiscussion\nWhat the finding means for ecology or management\nWhen to use the method, its limits, how to implement it\n\n\n\nTest 1. Draft the take-home message roughly. If its subject is the system, it is a regular paper; if its subject is a procedure, it is a methods paper.\nTest 2. Would the paper still matter if the case study were a different species or region? If yes, it leans methods. A good methods paper is about the method, not the study system (Ellison 2023).\nIf a project holds both a new method and a new finding, two papers are often clearer than one. Methods journals also set the format: at Methods in Ecology and Evolution, a Research Article (a new general method) and a Workflow (a new pipeline of existing procedures) run to 8,000 words, and an Application or Practical Tool to 4,000."
   },
   {
-    "objectID": "teaching.html#workshops-and-short-courses",
-    "href": "teaching.html#workshops-and-short-courses",
-    "title": "Teaching",
-    "section": "Workshops and short courses",
-    "text": "Workshops and short courses\n\n[Workshop title] — [Venue, Year]\n[One or two sentences. If the material is online, link it.]"
+    "objectID": "writing/start-writing.html#writing-backwards-what-it-gains-what-it-costs",
+    "href": "writing/start-writing.html#writing-backwards-what-it-gains-what-it-costs",
+    "title": "Start writing: the paper brief",
+    "section": "Writing backwards: what it gains, what it costs",
+    "text": "Writing backwards: what it gains, what it costs\nThe brief starts from your results and works back to the question, following Magnusson’s “write backwards” method: conclusions first, then only the results, methods, discussion and introduction they need. It is worth using, but only with safeguards, because its main risk is quietly rewriting the question to fit the answer.\n\n\n\n\n\n\n\n\n\nWhat happens\nEvidence\n\n\n\n\nGain: content before style\nThe story is fixed first; style is easier to correct afterwards.\nExpert\n\n\nGain: report what matters\nYou stop reporting every analysis in the order you ran it (Heard 2016).\nExpert\n\n\nGain: planning improves the text\nOutlining before drafting produced better documents than not outlining (Kellogg 1988).\nExperimental\n\n\nGain: an easier start\nYou begin from what you know best: your results and figures.\nExpert\n\n\nCost: HARKing\nWriting the Introduction last invites presenting an unexpected finding as if it had been predicted (Kerr 1998). 51% of 807 ecologists and evolutionary biologists admitted doing so at least once (Fraser et al. 2018).\nSurvey\n\n\nCost: selective reporting\n“Only the results the conclusions need” can slide into dropping inconvenient ones. 64% admitted not reporting non-significant results (Fraser et al. 2018).\nSurvey\n\n\nCost: overselling\nConclusion-first framing can push claims past the evidence.\nExpert\n\n\nCost: locking in too early\nOutlining improves text quality but can stop the new ideas that come from drafting, at least for some writers (Galbraith and Baaijen 2018).\nExperimental, early\n\n\n\nThe brief keeps the gains and blocks the costs with five safeguards:\n\nRecord the original question first. Question C1 asks what you set out to test before you saw the results. Anything not in it is reported as exploratory.\nList the results that do not fit. Question B3 has a line for them; they stay in the paper.\nCalibrate claims. Each conclusion carries the hedge its evidence needs.\nLeave room to discover. If you cannot answer B1 yet, write a rough discussion freely first, outline what you wrote, then return to the brief.\nChange the plan for a reason. Revise the brief when a better story appears, but only if you can say why it is better (Heard 2016)."
   },
   {
-    "objectID": "teaching.html#supervision",
-    "href": "teaching.html#supervision",
-    "title": "Teaching",
-    "section": "Supervision",
-    "text": "Supervision\n\n[Student name] — [degree level], [year]. Project: [topic].\n[Student name] — [degree level], [year]. Project: [topic]."
+    "objectID": "writing/start-writing.html#block-a-reader-and-venue",
+    "href": "writing/start-writing.html#block-a-reader-and-venue",
+    "title": "Start writing: the paper brief",
+    "section": "Block A: reader and venue",
+    "text": "Block A: reader and venue\n\n\n\n\n\n\n\n\n#\nQuestion\nFeeds\n\n\n\n\nA1\nWho is the reader? Name one real person outside your subfield who should understand the paper.\nHow much each section spells out\n\n\nA2\nTarget journal, article type and word limit. Paragraph budget = words ÷ 160.\nParagraph count per section\n\n\nA3\nRegular or methods paper (Step 0)? One line on why.\nWhich template and question versions\n\n\n\nHow much to spell out depends on what the reader already knows (McNamara et al. 1996), and experts misjudge what novices find hard (Hinds 1999). A named reader makes both concrete. Experimental"
   },
   {
-    "objectID": "teaching.html#teaching-philosophy",
-    "href": "teaching.html#teaching-philosophy",
-    "title": "Teaching",
-    "section": "Teaching philosophy",
-    "text": "Teaching philosophy\n[Optional — a short paragraph. Useful to have written down when applying for positions, and cheap to keep here.]"
+    "objectID": "writing/start-writing.html#block-b-the-answer-first",
+    "href": "writing/start-writing.html#block-b-the-answer-first",
+    "title": "Start writing: the paper brief",
+    "section": "Block B: the answer first",
+    "text": "Block B: the answer first\n\n\n\n\n\n\n\n\n#\nQuestion\nFeeds\n\n\n\n\nB1\nYour conclusions: at most five, one sentence each, no “however”. Methods paper: what the method does better than existing ones, with numbers.\nDiscussion ¶1; abstract\n\n\nB2\nYour figures (about five at most) and tables (about four), in the order that best tells the story. One line each: what should the reader see?\nResults, one or two ¶ per figure\n\n\nB3\nThe results each conclusion needs, with direction, size and figure. Then, separately: results that do not fit the conclusions. Methods paper: performance results (accuracy, error rates, sensitivity) and the comparison with alternatives.\nResults ¶; Discussion limitations\n\n\nB4\nThe take-home message in one sentence: not what you found, but what it changes. Leave it a day, then revise.\nLast sentence of the abstract; Discussion ¶1; title\n\n\nB5\nThe central question and its answer, in two sentences.\nIntroduction last ¶; Discussion ¶1\n\n\n\nFrom Magnusson (conclusions, then only the results they need), Heard (figure shuffling and the two-sentence mini-summary) and Fahrig (the take-home message as an implication). Expert"
   },
   {
-    "objectID": "resources/logistic-growth.html",
-    "href": "resources/logistic-growth.html",
-    "title": "Logistic growth",
+    "objectID": "writing/start-writing.html#block-c-the-question-and-the-argument",
+    "href": "writing/start-writing.html#block-c-the-question-and-the-argument",
+    "title": "Start writing: the paper brief",
+    "section": "Block C: the question and the argument",
+    "text": "Block C: the question and the argument\nAnswer C1 from your notes or proposal, not from memory of the results.\n\n\n\n\n\n\n\n\n#\nQuestion\nFeeds\n\n\n\n\nC1\nThe original question and predictions, as they stood before you saw the results. Mark any that changed, and any new ones: those are reported as exploratory. Methods paper: the performance claims you set out to test.\nIntroduction last ¶; the order of everything after it\n\n\nC2\nNumbered predictions, P1, P2…, in the order the paper will answer them.\nIntroduction last ¶; Methods, Results and Discussion order\n\n\nC3\nThe big question your field cares about, and your pitch: resolves a controversy · a gap that blocks a wider goal · blocks a practical problem · a model system for a wider field · a new path to a hard goal. Methods paper: the task researchers need to do, in any system.\nIntroduction ¶1; Discussion last ¶\n\n\nC4\nWhat the reader must know first: two to four points, each with its key references. Methods paper: how the task is done now, and where that falls short.\nIntroduction ¶2–4\n\n\nC5\nThe gap and why it matters, without “no studies have” or “to increase our understanding”. Methods paper: the gap in methods, stated without your study system.\nIntroduction gap ¶\n\n\nC6\nFor each prediction: the data and analysis needed, and only those. Methods paper: the method’s components and assumptions, the simulation design, the alternatives compared, the case study.\nMethods ¶, in prediction order\n\n\nC7\nThe story in three lines: And (context), But (gap), Therefore (what you did and found).\nAbstract; Introduction arc\n\n\n\nFrom Heard (the story summary and the five pitches), Fahrig (flow-through order), McGill (the pivotal first paragraph), Olson (And, But, Therefore) and Ellison (methods papers). Expert"
+  },
+  {
+    "objectID": "writing/start-writing.html#block-d-meaning-and-limits",
+    "href": "writing/start-writing.html#block-d-meaning-and-limits",
+    "title": "Start writing: the paper brief",
+    "section": "Block D: meaning and limits",
+    "text": "Block D: meaning and limits\n\n\n\n\n\n\n\n\n#\nQuestion\nFeeds\n\n\n\n\nD1\nFor each conclusion: does it agree with, extend or contradict earlier work? Name the papers.\nDiscussion ¶2–5, in prediction order\n\n\nD2\nThe limitations that could change a conclusion, and by how much. Methods paper: the method’s assumptions, and when someone should not use it.\nDiscussion middle, never first or last\n\n\nD3\nWhat changes for management or theory? Methods paper: how to implement it; where the code and data are.\nDiscussion implications ¶\n\n\nD4\nA working title that states the finding: short, no question mark. Methods paper: a title that says what the method does.\nTitle\n\n\nD5\nWhat you are leaving out, and why: not relevant, redundant, or a separate paper. Conflicting results never go here.\nSupplement or another paper"
+  },
+  {
+    "objectID": "writing/start-writing.html#four-gates-before-drafting",
+    "href": "writing/start-writing.html#four-gates-before-drafting",
+    "title": "Start writing: the paper brief",
+    "section": "Four gates before drafting",
+    "text": "Four gates before drafting\n\nMessage. B4 is one sentence, states an implication, and passes the Step 0 test. You left it a day and revised it. Your reader from A1 could repeat it.\nHonesty. C1 came from your notes, not your results. Every prediction not in C1 is labelled exploratory. B3 lists the results that do not fit, and D5 hides none of them.\nOrder. The predictions in C2, figures in B2, analyses in C6 and comparisons in D1 all follow the same order.\nBudget. The paragraph count from the tables below fits the A2 budget. If it is over, cut a prediction or move it to the supplement before writing."
+  },
+  {
+    "objectID": "writing/start-writing.html#where-each-answer-goes",
+    "href": "writing/start-writing.html#where-each-answer-goes",
+    "title": "Start writing: the paper brief",
+    "section": "Where each answer goes",
+    "text": "Where each answer goes\nWhen the gates pass, write one topic sentence per slot from its answers. That list is your skeleton. Then draft each paragraph as link, topic sentence, three or four supporting sentences, and close.\nRegular paper. Typical paragraph counts are from 148 papers I measured.\n\n\n\n\n\n\n\n\nSection\nParagraph slot\nBuilt from\n\n\n\n\nIntroduction (5–7 ¶)\nBig question\nC3\n\n\n\nWhat the reader must know (2–4 ¶)\nC4\n\n\n\nThe gap\nC5\n\n\n\nQuestion and numbered predictions\nC1, C2, B5\n\n\nMethods (7–15 ¶)\nOverview\nC6, C7\n\n\n\nData, then one ¶ per model or measurement, then one per analysis\nC6, in C2 order\n\n\nResults (5–10 ¶)\nOne or two ¶ per finding, finding first\nB2, B3, in C2 order\n\n\nDiscussion (7–12 ¶)\nThe answer\nB1, B4, B5\n\n\n\nOne or two ¶ per finding\nD1\n\n\n\nLimitations, in the middle\nD2, B3\n\n\n\nImplications\nD3\n\n\n\nBack to the big question\nC3, B4\n\n\nAbstract and title\nContext, gap, approach, result, implication\nC7, B3, B4, D4\n\n\n\nMethods paper. Sizes are not measured; use the journal’s limit (A2).\n\n\n\n\n\n\n\n\nSection\nParagraph slot\nBuilt from\n\n\n\n\nIntroduction\nThe task researchers need to do\nC3\n\n\n\nHow it is done now, and where that falls short\nC4\n\n\n\nThe gap in methods\nC5\n\n\n\nWhat the new method does\nB4, C1\n\n\nMethod\nOverview, then one ¶ per component, assumptions stated\nC6\n\n\nEvaluation\nSimulation design\nC6\n\n\n\nOne ¶ per performance result; comparison with alternatives\nB2, B3\n\n\nCase study\nOne or two ¶, often one figure\nB2, C6\n\n\nDiscussion\nWhat the method does better\nB1, D1\n\n\n\nWhen to use it, and when not, in the middle\nD2\n\n\n\nImplementation, code and data\nD3\n\n\n\nBack to the task\nC3, B4"
+  },
+  {
+    "objectID": "writing/start-writing.html#sources",
+    "href": "writing/start-writing.html#sources",
+    "title": "Start writing: the paper brief",
+    "section": "Sources",
+    "text": "Sources\nGuides. Fahrig L. How to write a scientific paper that people will want to read (and cite!), workshop slides. · Heard SB (2016) The Scientist’s Guide to Writing, ch. 7 and 16. Princeton University Press. · Magnusson WE (1996) How to write backwards. Bulletin of the Ecological Society of America 77:88. · McGill B (2016) The 5 pivotal paragraphs in a paper. Dynamic Ecology. · Olson R (2015) Houston, We Have a Narrative.\nResearch and journal policy.\n\nEllison AM (2023) Plus ça change, plus c’est la même chose: on our quattuordecennial, a good Methods paper still is not about my friend the dolphin. Methods in Ecology and Evolution 14:2904–2906.\nFraser H, Parker T, Nakagawa S, Barnett A, Fidler F (2018) Questionable research practices in ecology and evolution. PLOS ONE 13:e0200303.\nGalbraith D, Baaijen VM (2018) The work of writing: raiding the inarticulate. Educational Psychologist.\nHinds PJ (1999) The curse of expertise: the effects of expertise and debiasing methods on prediction of novice performance. Journal of Experimental Psychology: Applied.\nKellogg RT (1988) Attentional overload and writing performance: effects of rough draft and outline strategies. Journal of Experimental Psychology: Learning, Memory, and Cognition 14:355–365.\nKerr NL (1998) HARKing: hypothesizing after the results are known. Personality and Social Psychology Review.\nMcNamara DS, Kintsch E, Songer NB, Kintsch W (1996) Are good texts always better? Cognition and Instruction.\nMethods in Ecology and Evolution (2026) Manuscript type flowchart.\n\n\nDeveloped with AI assistance (Claude); I checked every source cited. Text and figures are shared under CC BY 4.0: reuse them freely with credit."
+  },
+  {
+    "objectID": "writing/level-by-level.html",
+    "href": "writing/level-by-level.html",
+    "title": "Writing a paper, level by level",
     "section": "",
-    "text": "The simplest population model says each individual contributes offspring at a constant per-capita rate r:\n\n\\frac{dN}{dt} = rN\n\nwhich gives N(t) = N_0 e^{rt}. This is a fine description of a population that has just arrived somewhere empty, and a terrible description of one that has been there a while — it predicts unbounded growth forever.\nThe fix is to let the per-capita growth rate decline as the population fills up. The logistic model makes that decline linear:\n\n\\frac{1}{N}\\frac{dN}{dt} = r\\left(1 - \\frac{N}{K}\\right)\n\nRead the right-hand side as the correction term it is. When N \\ll K, the bracket is close to 1 and growth is nearly exponential. When N = K, the bracket is zero and growth stops. When N &gt; K, the bracket is negative and the population declines. The parameter K — the carrying capacity — is the density at which births exactly balance deaths.\nRearranged, this is the form you’ll usually see:\n\n\\frac{dN}{dt} = rN\\left(1 - \\frac{N}{K}\\right)"
+    "text": "Each level of a paper holds one thing. A paper carries one message, a section does one job, a paragraph develops one idea, and a sentence adds one new point. Plan and revise from the outside in: a perfect sentence inside a paragraph you later cut is wasted effort.\nThe same pattern repeats at every scale: context, then content, then conclusion. Every rule below carries a label for how strong its evidence is: Experimental Correlational Descriptive Expert. They are explained at the end."
   },
   {
-    "objectID": "resources/logistic-growth.html#the-problem-with-exponential-growth",
-    "href": "resources/logistic-growth.html#the-problem-with-exponential-growth",
-    "title": "Logistic growth",
-    "section": "",
-    "text": "The simplest population model says each individual contributes offspring at a constant per-capita rate r:\n\n\\frac{dN}{dt} = rN\n\nwhich gives N(t) = N_0 e^{rt}. This is a fine description of a population that has just arrived somewhere empty, and a terrible description of one that has been there a while — it predicts unbounded growth forever.\nThe fix is to let the per-capita growth rate decline as the population fills up. The logistic model makes that decline linear:\n\n\\frac{1}{N}\\frac{dN}{dt} = r\\left(1 - \\frac{N}{K}\\right)\n\nRead the right-hand side as the correction term it is. When N \\ll K, the bracket is close to 1 and growth is nearly exponential. When N = K, the bracket is zero and growth stops. When N &gt; K, the bracket is negative and the population declines. The parameter K — the carrying capacity — is the density at which births exactly balance deaths.\nRearranged, this is the form you’ll usually see:\n\n\\frac{dN}{dt} = rN\\left(1 - \\frac{N}{K}\\right)"
+    "objectID": "writing/level-by-level.html#the-workflow",
+    "href": "writing/level-by-level.html#the-workflow",
+    "title": "Writing a paper, level by level",
+    "section": "The workflow",
+    "text": "The workflow\n\nMessage. Make the figures, then write the take-home message in one or two sentences. Leave it a day, then revise it.\nSkeleton. Put the figures in order. Draft the five pivotal paragraphs first (see Section), then one topic sentence for every other paragraph.\nDraft. Write fast and do not polish. A common order is Methods, Results, Discussion, Introduction, Abstract, Title.\nRevise from the top down. Paper, sections, paragraphs, sentences, words.\nTest with a reader. Someone outside your subfield restates the message in their own words.\n\nTo plan before drafting, the paper brief turns stages 1 and 2 into a list of questions."
   },
   {
-    "objectID": "resources/logistic-growth.html#play-with-it",
-    "href": "resources/logistic-growth.html#play-with-it",
-    "title": "Logistic growth",
-    "section": "Play with it",
-    "text": "Play with it\nThe logistic equation has a closed-form solution, which is unusual and convenient:\n\nN(t) = \\frac{K}{1 + \\left(\\frac{K - N_0}{N_0}\\right)e^{-rt}}\n\nMove the sliders and watch what each parameter actually controls.\n\n\nviewof r = Inputs.range([0.05, 1.5], {value: 0.4, step: 0.05, label: \"Intrinsic growth rate r\"})\n\n\n\n\n\n\n\nviewof K = Inputs.range([20, 400], {value: 200, step: 10, label: \"Carrying capacity K\"})\n\n\n\n\n\n\n\nviewof N0 = Inputs.range([1, 400], {value: 10, step: 1, label: \"Initial population N₀\"})\n\n\n\n\n\n\n\ntraj = {\n  const out = [];\n  for (let t = 0; t &lt;= 40; t += 0.2) {\n    const N = K / (1 + ((K - N0) / N0) * Math.exp(-r * t));\n    out.push({t: t, N: N});\n  }\n  return out;\n}\n\n\n\n\n\n\n\nPlot.plot({\n  width: Math.min(width, 720),\n  height: 380,\n  marginLeft: 60,\n  marginBottom: 45,\n  style: {fontSize: \"13px\", background: \"transparent\"},\n  x: {label: \"Time →\", grid: true},\n  y: {label: \"↑ Population N(t)\", grid: true,\n      domain: [0, Math.max(K, N0) * 1.15]},\n  marks: [\n    Plot.ruleY([K], {stroke: \"#c0563f\", strokeDasharray: \"5,4\"}),\n    Plot.text([{t: 39, N: K}], {x: \"t\", y: \"N\", text: [\"K\"],\n      dy: -10, fill: \"#c0563f\", fontWeight: \"bold\"}),\n    Plot.line(traj, {x: \"t\", y: \"N\", stroke: \"#2c6e63\", strokeWidth: 2.5}),\n    Plot.ruleY([0], {stroke: \"#999\"})\n  ]\n})\n\n\n\n\n\n\n\nThree things are worth noticing as you move the sliders:\n\nr controls the speed, not the destination. Every trajectory ends at K regardless of r — a larger r just gets there sooner. This is why r and K are often described as separable “how fast” and “how much” parameters.\nStarting above K decays smoothly down to it. Set N_0 &gt; K: there is no overshoot, no oscillation. The continuous-time logistic model simply cannot produce cycles. (Its discrete-time cousin can, and does — that’s a separate resource.)\nThe inflection sits at exactly K/2. Growth is fastest when the population is at half its carrying capacity, which is the origin of the maximum sustainable yield idea in fisheries management."
+    "objectID": "writing/level-by-level.html#paper",
+    "href": "writing/level-by-level.html#paper",
+    "title": "Writing a paper, level by level",
+    "section": "Paper",
+    "text": "Paper\nGoal: the reader finishes with one message they can repeat.\nWrite\n\nWrite the take-home message in one sentence: what the result changes, not only what you found.\nWrite the story as And, But, Therefore.\nChoose the three to five figures that carry the message and order them as an argument.\nKeep hypotheses, predictions, analyses, results and discussion points in the same order everywhere.\nWrite a working title that states the finding, not the topic.\n\nCheck\n\nCan a colleague restate the message after reading only the abstract?\nDoes every section serve the message? What does not goes to the supplement or out.\nIf the Introduction lists three predictions, do Methods, Results and Discussion follow the same three, in the same order?\nIs any conclusion stronger than the results support?\n\nExample (invented, on a mountain pine beetle forecasting topic)\n\nAnd mountain pine beetle outbreaks have killed pine over large areas of western Canada, and managers must decide where to act a year in advance. But most outbreak maps describe where beetles are now, not where they will spread next. Therefore we built a model that forecasts spread one year ahead and tested it against past outbreak records.\n\n\n\nA result\nBeetle spread was lower after winters with colder minimum temperatures.\n\n\nA take-home message\nForecasts of next year’s spread should weight winter minimum temperature more than current models do.\n\n\nA result says what you found; a take-home message says what it changes. The same goes for titles: “Investigating the dynamics of beetle spread using a forecasting framework” names a topic, while “Cold winters slow beetle spread the following year” states a finding. Use the second kind only when your results support it.\nEvidence: Expert for the steps (Fahrig; Magnusson 1996; Mensh and Kording 2017; Olson 2015). Correlational more narrative abstracts and short, result-stating titles are cited more (Hillier et al. 2016; Paiva et al. 2012). Experimental result-stating titles did not change how strongly readers believed the findings (Research Integrity and Peer Review, 2016), so they help readers find a paper rather than persuade them."
   },
   {
-    "objectID": "resources/logistic-growth.html#where-the-growth-rate-peaks",
-    "href": "resources/logistic-growth.html#where-the-growth-rate-peaks",
-    "title": "Logistic growth",
-    "section": "Where the growth rate peaks",
-    "text": "Where the growth rate peaks\nThat third point falls straight out of the model. The growth rate dN/dt is a quadratic in N:\n\n\\frac{dN}{dt} = rN - \\frac{r}{K}N^2\n\nDifferentiate with respect to N and set to zero:\n\n\\frac{d}{dN}\\left(\\frac{dN}{dt}\\right) = r - \\frac{2r}{K}N = 0\n\\quad \\Longrightarrow \\quad\nN^* = \\frac{K}{2}\n\nso the maximum growth rate is r K / 4, achieved at half carrying capacity."
+    "objectID": "writing/level-by-level.html#section",
+    "href": "writing/level-by-level.html#section",
+    "title": "Writing a paper, level by level",
+    "section": "Section",
+    "text": "Section\nGoal: each section does one job, and together they form an hourglass.\n\n\nHourglass shape of a paper. The Introduction narrows from broad to specific, Methods and Results stay narrow, the Discussion widens back out. Numbered pins mark the five pivotal paragraphs.\n\nAbstract\n\nIntroduction\nbroad → specific\n\nMethods\n\nResults\n\nDiscussion\nspecific → broad\n5\n1\n2\n3\n4\n\n\n\n\n\n\n\n\n\nSection\nIts job\n\n\n\n\nAbstract\nThe whole story in small: context, gap, approach, main result with numbers, implication.\n\n\nIntroduction\nFrom the broad problem, to what is known, to the gap, ending with the aim of this paper.\n\n\nMethods\nEnough to reproduce the work, in the same order as the Results.\n\n\nResults\nOne finding per paragraph. Each paragraph opens with the finding, not the method.\n\n\nDiscussion\nThe answer first, then how it fits current knowledge, limitations, and implications.\n\n\n\nThe numbered pins are the five pivotal paragraphs (McGill 2016): (1) the big question, (2) this paper’s question, (3) the main answer, (4) back to the big question, and (5) the abstract. Draft them first; the rest fills in between.\nCheck\n\nRead only the first sentence of each paragraph. Do they tell the story alone?\nDoes the Introduction end on exactly the question the Discussion answers, stated without methods?\nAre the limitations in the middle of the Discussion? The first and last paragraphs carry the emphasis.\nDoes the Discussion add meaning, or repeat the Results?\n\n\n\nOpens with the method\nWe fitted a generalized additive model with winter minimum temperature as a predictor of spread.\n\n\nOpens with the finding\nBeetles spread less after colder winters (Fig. 2). We tested this with a generalized additive model…\n\n\nEvidence: Expert for structure (McGill 2016; Mensh and Kording 2017; Heard 2016). Experimental headings improve readers’ memory of a text’s topic structure (Lorch et al. 2013)."
   },
   {
-    "objectID": "resources/logistic-growth.html#stability",
-    "href": "resources/logistic-growth.html#stability",
-    "title": "Logistic growth",
-    "section": "Stability",
-    "text": "Stability\nThe model has two equilibria, where dN/dt = 0: extinction at N = 0 and the carrying capacity at N = K. To classify them, evaluate the derivative of f(N) = rN(1 - N/K):\n\nf'(N) = r - \\frac{2r}{K}N\n\nAt N = 0: f'(0) = r &gt; 0, so extinction is unstable — a small population grows away from zero. At N = K: f'(K) = -r &lt; 0, so the carrying capacity is stable — perturbations in either direction decay back to it, at rate r.\nThis is the whole qualitative story of the model, and it’s why the continuous logistic is well-behaved to the point of being boring: one attracting state, approached monotonically from anywhere."
+    "objectID": "writing/level-by-level.html#paragraph",
+    "href": "writing/level-by-level.html#paragraph",
+    "title": "Writing a paper, level by level",
+    "section": "Paragraph",
+    "text": "Paragraph\nGoal: one idea, stated first, then developed, with each sentence linked to the one before.\n\n\n\n\n\n\n\nPart\nWhat it does\n\n\n\n\nLink (optional)\nA few words tying this paragraph to the last: “In contrast”, “This pattern”.\n\n\nTopic sentence\nThe paragraph’s point, stated as a claim. Skimming first sentences should give the argument.\n\n\nSupport, 3–4 sentences\nEvidence, reasoning, citations, figure references. Each opens with something the reader already has.\n\n\nClose (optional)\nWhat the point means, or a hand-off to the next paragraph. Not a summary.\n\n\n\nIn the 148 research papers I measured from my own reading library, a typical paragraph ran about 160 words and five to six sentences.\nExample (invented numbers). Shading marks information the reader already has and what each sentence adds:\n\nForecasts of beetle spread need an accurate map of current infestations. These maps come mainly from annual aerial surveys. Aerial surveys, however, record trees attacked the previous year, so every forecast starts one year behind the outbreak.\n\nEach sentence picks up what the previous one ended on, then adds one new thing at its end.\nCheck\n\nCan you sum up the paragraph in one line? If you need two, split it.\nDo the sentence subjects form a chain the reader can follow?\nDo transitions show logic (because, however, therefore) rather than just add (moreover, additionally)?\nWho reads this paragraph? In the abstract and introduction, state every link; in technical methods, specialists can fill small gaps.\n\nEvidence: Experimental putting known information before new speeds comprehension (Haviland and Clark 1974), and how much to spell out depends on the reader’s background (McNamara et al. 1996). Expert for topic sentences (Fahrig; Heard 2016)."
   },
   {
-    "objectID": "resources/logistic-growth.html#in-r",
-    "href": "resources/logistic-growth.html#in-r",
-    "title": "Logistic growth",
-    "section": "In R",
-    "text": "In R\nSolving it numerically is overkill given the closed form, but the numerical setup generalises to models that have no analytical solution, so it’s worth having:\nlibrary(deSolve)\nlibrary(ggplot2)\n\nlogistic &lt;- function(t, state, parms) {\n  with(as.list(c(state, parms)), {\n    dN &lt;- r * N * (1 - N / K)\n    list(dN)\n  })\n}\n\nout &lt;- ode(\n  y     = c(N = 10),\n  times = seq(0, 40, by = 0.1),\n  func  = logistic,\n  parms = c(r = 0.4, K = 200)\n) |&gt; as.data.frame()\n\nggplot(out, aes(times, N)) +\n  geom_hline(yintercept = 200, linetype = \"dashed\", colour = \"#c0563f\") +\n  geom_line(linewidth = 1, colour = \"#2c6e63\") +\n  labs(x = \"Time\", y = \"Population size N(t)\") +\n  theme_minimal(base_size = 13)\n\n\n\n\n\n\nMaking code chunks executable\n\n\n\nThe block above is a plain fenced block (```r), so it’s displayed but not run — the site renders on any machine, with or without R. To have Quarto actually execute a chunk and embed the resulting ggplot, change the fence to ```{r} and add chunk options underneath:\n```{r}\n#| label: fig-logistic\n#| fig-cap: \"Logistic growth towards carrying capacity.\"\n#| code-fold: show\n\n# ... your code ...\n```\nThat switches the page to the knitr engine, so R and the packages used need to be installed wherever you render. Since you render locally in RStudio, that’s fine."
+    "objectID": "writing/level-by-level.html#sentence",
+    "href": "writing/level-by-level.html#sentence",
+    "title": "Writing a paper, level by level",
+    "section": "Sentence",
+    "text": "Sentence\nGoal: the reader understands the sentence on the first read.\n\n\n\n\n\n\n\nPosition\nWhat goes there\n\n\n\n\nStart (topic position)\nOld information: who or what the sentence is about.\n\n\nSubject and verb\nThe character and its action, early and close together.\n\n\nEnd (stress position)\nThe new, important point. Readers weight it most.\n\n\n\nWrite\n\nFind the main character and the action.\nMake them the subject and verb, close together, near the start.\nPut the new, important information at the end.\nSplit the sentence if it carries more than one new idea.\nFor a result, state its direction and size, not just that groups differed.\n\n\n\nBefore\nAn analysis of the relationship between winter minimum temperature and the survival of overwintering larvae was performed.\n\n\nAfter\nWe tested whether colder winters reduced the survival of overwintering larvae.\n\n\n\n\nBefore\nStand age was the strongest predictor of attack, according to our model.\n\n\nAfter\nIn our model, the strongest predictor of attack was stand age.\n\n\n\n\nBefore\nAttack rates differed between young and mature stands (Table 1).\n\n\nAfter\nMature stands were attacked about twice as often as young stands (Table 1).\n\n\nEvidence: Experimental readers recalled important ideas better when actions were verbs rather than nouns (Spyridakis and Isakson 1998) and misread passive sentences more often than active ones (Ferreira 2003). Experimental keeping linked words close lowers processing cost in controlled sentences (Gibson 1998), but in natural reading the effect appeared only at nouns (Demberg and Keller 2008): mixed. Expert for stress position (Gopen and Swan 1990; Williams and Bizup)."
   },
   {
-    "objectID": "resources/logistic-growth.html#assumptions-worth-remembering",
-    "href": "resources/logistic-growth.html#assumptions-worth-remembering",
-    "title": "Logistic growth",
-    "section": "Assumptions worth remembering",
-    "text": "Assumptions worth remembering\nThe logistic model earns its simplicity by assuming a great deal:\n\nDensity dependence is linear. Real per-capita growth rates often decline non-linearly, and the theta-logistic model exists precisely to relax this.\nNo time lags. Individuals respond to current density instantly. Adding a delay to the density term is enough to generate oscillations.\nNo age or stage structure. Everyone reproduces identically, regardless of age or size.\nNo stochasticity. Both environmental variation and demographic noise are absent, which matters enormously at small N.\nClosed population. No immigration or emigration.\nConstant environment. r and K don’t vary through time.\n\nEach of these is a door to a more realistic model, and most of them are worth walking through only when the data demand it."
+    "objectID": "writing/level-by-level.html#word",
+    "href": "writing/level-by-level.html#word",
+    "title": "Writing a paper, level by level",
+    "section": "Word",
+    "text": "Word\nGoal: each word is precise, simple, and used the same way throughout.\n\nChoose one term per concept and keep it. Keep a term list for the paper.\nCut jargon and acronyms where you can; define the rest at first use.\nPrefer concrete words: organisms, places, numbers, processes.\nMatch hedges to the strength of the evidence.\nCut filler.\n\n\n\n\n\n\n\n\n\nInstead of\nWrite\nWhy\n\n\n\n\nutilize\nuse\nSame meaning, shorter.\n\n\nin order to\nto\nFiller.\n\n\nit is important to note that\n(cut)\nIf it matters, the sentence shows it.\n\n\nmay potentially suggest\nmay suggest\nOne hedge, matched to the evidence. Do not cut the last one.\n\n\noutbreak … epidemic … infestation\noutbreak, every time\nSynonyms make readers think you mean different things.\n\n\nspatiotemporal dynamics\nwhere and when beetles spread\nConcrete over abstract.\n\n\n\nEvidence: Experimental needlessly complex words lowered readers’ opinion of the writer (Oppenheimer 2006); jargon lowered processing fluency even when definitions were given (Bullock et al. 2019); hedged news stories made scientists seem more trustworthy to lay readers (Jensen 2008). Correlational more jargon in titles and abstracts went with fewer citations (Martínez and Mammola 2021). Descriptive 79% of acronyms in the literature are used fewer than ten times (Barnett and Doubleday 2020)."
   },
   {
-    "objectID": "resources/logistic-growth.html#further-reading",
-    "href": "resources/logistic-growth.html#further-reading",
-    "title": "Logistic growth",
-    "section": "Further reading",
-    "text": "Further reading\n\nVerhulst, P.-F. (1838). Notice sur la loi que la population suit dans son accroissement. The original.\nKingsland, S. (1995). Modeling Nature. On how the logistic became central to ecology, and the arguments it caused.\n[Add the textbook chapters you actually point students at.]\n\n\n\nThis page is the template. Copy it when writing a new resource — the structure (intuition → mathematics → interactive figure → code → assumptions) transfers to most modelling topics."
+    "objectID": "writing/level-by-level.html#how-big-is-each-part",
+    "href": "writing/level-by-level.html#how-big-is-each-part",
+    "title": "Writing a paper, level by level",
+    "section": "How big is each part?",
+    "text": "How big is each part?\nCount the jobs first, then check the length. The sizes below are what is typical in the papers I read, not targets.\n\nIntroduction~1,000 words · 18%5–7 paragraphs\nMethods~1,600 words · 30%7–15 paragraphs\nResults~900 words · 18%5–10 paragraphs\nDiscussion~1,600 words · 30%7–12 paragraphs\n\nWidths show each section’s median share of the text; each small box is one paragraph at the median; ranges are the middle half of papers. Descriptive\n\nCount the jobs. One paragraph per question, prediction, analysis or finding.\nCheck the budget. Paragraphs ≈ section words ÷ 160.\nCheck each paragraph. Over about 250 words, it probably holds two ideas. Under about 60 words, merge it or develop it.\n\n\n\n\n\n\n\n\nSection\nParagraph slots, in order\n\n\n\n\nIntroduction\nBig question (1) · what is known (2–4) · the gap (1) · question and numbered predictions (1)\n\n\nMethods\nOverview · one per data source · one per model or measurement · one per analysis, in prediction order · software and code\n\n\nResults\nOptional data overview · one or two per finding, finding first, in prediction order\n\n\nDiscussion\nThe answer · one or two per finding · limitations (in the middle) · implications · back to the big question\n\n\n\nA methods paper has different slots; the paper brief gives both versions.\nWhere these numbers come from. A script read the PDFs in my Zotero library, found the four section headings, and split each section into paragraphs from the page layout. It kept 148 research papers, mostly in forest insect ecology. Tables and captions were left out, so Results look shorter than they are, and the Discussion includes any Conclusions section.\n\nMedian (middle half of papers), n = 148.\n\n\nSection\nWords\nParagraphs\nWords per paragraph\n\n\n\n\nIntroduction\n998 (805–1,159)\n6 (5–7)\n160 (135–183)\n\n\nMethods\n1,606 (1,047–2,298)\n10 (7–15)\n157 (134–185)\n\n\nResults\n926 (650–1,442)\n7 (5–10)\n146 (118–170)\n\n\nDiscussion\n1,608 (1,224–2,114)\n9 (7–12)\n173 (142–196)"
+  },
+  {
+    "objectID": "writing/level-by-level.html#the-practice-loop",
+    "href": "writing/level-by-level.html#the-practice-loop",
+    "title": "Writing a paper, level by level",
+    "section": "The practice loop",
+    "text": "The practice loop\nGuides describe good writing; getting better at it takes practice. Work on one skill at a time, with quick feedback and repetition (Kellogg 2008).\n\n\nThe practice loop: pick one skill, study a model, rewrite your own passage, get quick feedback, log the pattern, then start again.\n\n\n\n\n\n\n1 · Pick one skill\n2 · Study a model\n3 · Rewrite yours\n4 · Quick feedback\n5 · Log the pattern\nOne skillper session\n\n\n\nPick one skill from your recurring problems: stress position, topic sentences, hidden verbs.\nStudy a model: a short passage from a well-written paper that does it well, with what it does named.\nRewrite a passage of your own applying that one skill.\nGet quick feedback on that skill only, then do one more round.\nLog the pattern in a personal style guide when a habit is fixed or keeps returning.\n\nEvidence: studying models and sentence combining both improved writing in a meta-analysis of school students, so their transfer to research writing is assumed (Graham and Perin 2007). Peer feedback improved writing quality across 60 studies (Wei and Liu 2024). No schedule is prescribed: writing every day is not shown to beat other routines (Sword 2016)."
+  },
+  {
+    "objectID": "writing/level-by-level.html#how-strong-is-this-advice",
+    "href": "writing/level-by-level.html#how-strong-is-this-advice",
+    "title": "Writing a paper, level by level",
+    "section": "How strong is this advice?",
+    "text": "How strong is this advice?\n\n\n\n\n\n\n\n\nLabel\nMeaning\nExample\n\n\n\n\nExperimental\nTested by changing a text and measuring readers. Most tests used short texts and student or lay readers.\nMore accessible abstracts improved readers’ understanding and confidence (Freeling et al. 2021).\n\n\nCorrelational\nLinks between writing features and citations. They show associations, not causes.\nMore narrative abstracts were cited more (Hillier et al. 2016).\n\n\nDescriptive\nTrends in the literature.\nAbstracts have become harder to read since 1881 (Plavén-Sigray et al. 2017).\n\n\nExpert\nAdvice from experienced writers and editors. It rests on how readers process text but is untested.\nMost of the structure above.\n\n\n\nReadability formulas, which count word and sentence length, are not a measure of clarity: in 4,191 forestry abstracts they showed no link with citations (Jiang et al. 2026). Use sentence length only as a warning sign."
+  },
+  {
+    "objectID": "writing/level-by-level.html#sources",
+    "href": "writing/level-by-level.html#sources",
+    "title": "Writing a paper, level by level",
+    "section": "Sources",
+    "text": "Sources\nGuides. Gopen GD, Swan JA (1990) The science of scientific writing. American Scientist. · Heard SB (2016) The Scientist’s Guide to Writing. Princeton University Press. · Magnusson WE (1996) How to write backwards. Bulletin of the Ecological Society of America 77:88. · McGill B (2016) The 5 pivotal paragraphs in a paper. Dynamic Ecology. · Mensh B, Kording K (2017) Ten simple rules for structuring papers. PLOS Computational Biology. · Olson R (2015) Houston, We Have a Narrative. University of Chicago Press. · Williams JM, Bizup J. Style: Lessons in Clarity and Grace. · Fahrig L. How to write a scientific paper that people will want to read (and cite!), workshop slides.\nResearch.\n\nBarnett A, Doubleday Z (2020) The growth of acronyms in the scientific literature. eLife 9:e60080.\nBullock OM et al. (2019) Jargon as a barrier to effective science communication. Public Understanding of Science.\nDemberg V, Keller F (2008) Data from eye-tracking corpora as evidence for theories of syntactic processing complexity. Cognition 109:193–210.\nFerreira F (2003) The misinterpretation of noncanonical sentences. Cognitive Psychology 47:164–203.\nFreeling B (now Ryba R) et al. (2021) Better writing in scientific publications builds reader confidence and understanding. Frontiers in Psychology 12:714321.\nGibson E (1998) Linguistic complexity: locality of syntactic dependencies. Cognition 68:1–76.\nGraham S, Perin D (2007) Writing Next. Alliance for Excellent Education.\nHaviland SE, Clark HH (1974) What’s new? Journal of Verbal Learning and Verbal Behavior 13:512–521.\nHillier A, Kelly RP, Klinger T (2016) Narrative style influences citation frequency in climate change science. PLOS ONE.\nJensen JD (2008) Scientific uncertainty in news coverage of cancer research: effects of hedging on scientists’ and journalists’ credibility. Human Communication Research. doi:10.1111/j.1468-2958.2008.00324.x\nJiang C et al. (2026) Abstract readability across knowledge domains and citation impact in forestry-related research. Forests 17:998.\nKellogg RT (2008) Training writing skills: a cognitive developmental perspective. Journal of Writing Research 1:1–26.\nLorch RF, Lemarié J, Chen HT (2013) Signaling topic structure via headings or preview sentences. Psicología Educativa 19:59–66.\nMartínez A, Mammola S (2021) Specialized terminology reduces the number of citations of scientific papers. Proceedings of the Royal Society B 288:20202581.\nMcNamara DS et al. (1996) Are good texts always better? Cognition and Instruction.\nOppenheimer DM (2006) Consequences of erudite vernacular utilized irrespective of necessity. Applied Cognitive Psychology 20:139–156.\nPaiva CE, Lima JPSN, Paiva BSR (2012) Articles with short titles describing the results are cited more often. Clinics 67:509–513.\nPlavén-Sigray P et al. (2017) The readability of scientific texts is decreasing over time. eLife 6:e27725.\nDo declarative titles affect readers’ perceptions of research findings? A randomized trial (2016) Research Integrity and Peer Review 1.\nSpyridakis JH, Isakson CS (1998) Nominalizations vs. denominalizations. Journal of Technical Writing and Communication 28:163–188.\nSword H (2016) ‘Write every day!’: a mantra dismantled. International Journal for Academic Development 21:312–322.\nWei W, Liu Y (2024) Incorporating peer feedback in academic writing: a systematic review. Frontiers in Psychology.\n\n\nDeveloped with AI assistance (Claude); I checked every source cited. Text and figures are shared under CC BY 4.0: reuse them freely with credit."
   },
   {
     "objectID": "resources/global-sensitivity-analysis.html",
@@ -196,6 +252,62 @@
     "text": "Further reading\n\nSaltelli, A. et al. (2008). Global Sensitivity Analysis: The Primer. The standard reference.\nLamboni, M., Monod, H. & Makowski, D. (2011). Multivariate sensitivity analysis to measure global contribution of input factors in dynamic models. Reliability Engineering & System Safety. The GSI.\nMarino, S. et al. (2008). A methodology for performing global uncertainty and sensitivity analysis in systems biology. Journal of Theoretical Biology. The LHS/PRCC route, widely used in epidemiology.\nThe multisensi, sensitivity and sensobol R packages.\n\n\nThe winter tick model behind this page was built at the PIMS summer school on Mathematics of Multiscale Interactions, 2026."
   },
   {
+    "objectID": "resources/logistic-growth.html",
+    "href": "resources/logistic-growth.html",
+    "title": "Logistic growth",
+    "section": "",
+    "text": "The simplest population model says each individual contributes offspring at a constant per-capita rate r:\n\n\\frac{dN}{dt} = rN\n\nwhich gives N(t) = N_0 e^{rt}. This is a fine description of a population that has just arrived somewhere empty, and a terrible description of one that has been there a while — it predicts unbounded growth forever.\nThe fix is to let the per-capita growth rate decline as the population fills up. The logistic model makes that decline linear:\n\n\\frac{1}{N}\\frac{dN}{dt} = r\\left(1 - \\frac{N}{K}\\right)\n\nRead the right-hand side as the correction term it is. When N \\ll K, the bracket is close to 1 and growth is nearly exponential. When N = K, the bracket is zero and growth stops. When N &gt; K, the bracket is negative and the population declines. The parameter K — the carrying capacity — is the density at which births exactly balance deaths.\nRearranged, this is the form you’ll usually see:\n\n\\frac{dN}{dt} = rN\\left(1 - \\frac{N}{K}\\right)"
+  },
+  {
+    "objectID": "resources/logistic-growth.html#the-problem-with-exponential-growth",
+    "href": "resources/logistic-growth.html#the-problem-with-exponential-growth",
+    "title": "Logistic growth",
+    "section": "",
+    "text": "The simplest population model says each individual contributes offspring at a constant per-capita rate r:\n\n\\frac{dN}{dt} = rN\n\nwhich gives N(t) = N_0 e^{rt}. This is a fine description of a population that has just arrived somewhere empty, and a terrible description of one that has been there a while — it predicts unbounded growth forever.\nThe fix is to let the per-capita growth rate decline as the population fills up. The logistic model makes that decline linear:\n\n\\frac{1}{N}\\frac{dN}{dt} = r\\left(1 - \\frac{N}{K}\\right)\n\nRead the right-hand side as the correction term it is. When N \\ll K, the bracket is close to 1 and growth is nearly exponential. When N = K, the bracket is zero and growth stops. When N &gt; K, the bracket is negative and the population declines. The parameter K — the carrying capacity — is the density at which births exactly balance deaths.\nRearranged, this is the form you’ll usually see:\n\n\\frac{dN}{dt} = rN\\left(1 - \\frac{N}{K}\\right)"
+  },
+  {
+    "objectID": "resources/logistic-growth.html#play-with-it",
+    "href": "resources/logistic-growth.html#play-with-it",
+    "title": "Logistic growth",
+    "section": "Play with it",
+    "text": "Play with it\nThe logistic equation has a closed-form solution, which is unusual and convenient:\n\nN(t) = \\frac{K}{1 + \\left(\\frac{K - N_0}{N_0}\\right)e^{-rt}}\n\nMove the sliders and watch what each parameter actually controls.\n\n\nviewof r = Inputs.range([0.05, 1.5], {value: 0.4, step: 0.05, label: \"Intrinsic growth rate r\"})\n\n\n\n\n\n\n\nviewof K = Inputs.range([20, 400], {value: 200, step: 10, label: \"Carrying capacity K\"})\n\n\n\n\n\n\n\nviewof N0 = Inputs.range([1, 400], {value: 10, step: 1, label: \"Initial population N₀\"})\n\n\n\n\n\n\n\ntraj = {\n  const out = [];\n  for (let t = 0; t &lt;= 40; t += 0.2) {\n    const N = K / (1 + ((K - N0) / N0) * Math.exp(-r * t));\n    out.push({t: t, N: N});\n  }\n  return out;\n}\n\n\n\n\n\n\n\nPlot.plot({\n  width: Math.min(width, 720),\n  height: 380,\n  marginLeft: 60,\n  marginBottom: 45,\n  style: {fontSize: \"13px\", background: \"transparent\"},\n  x: {label: \"Time →\", grid: true},\n  y: {label: \"↑ Population N(t)\", grid: true,\n      domain: [0, Math.max(K, N0) * 1.15]},\n  marks: [\n    Plot.ruleY([K], {stroke: \"#c0563f\", strokeDasharray: \"5,4\"}),\n    Plot.text([{t: 39, N: K}], {x: \"t\", y: \"N\", text: [\"K\"],\n      dy: -10, fill: \"#c0563f\", fontWeight: \"bold\"}),\n    Plot.line(traj, {x: \"t\", y: \"N\", stroke: \"#2c6e63\", strokeWidth: 2.5}),\n    Plot.ruleY([0], {stroke: \"#999\"})\n  ]\n})\n\n\n\n\n\n\n\nThree things are worth noticing as you move the sliders:\n\nr controls the speed, not the destination. Every trajectory ends at K regardless of r — a larger r just gets there sooner. This is why r and K are often described as separable “how fast” and “how much” parameters.\nStarting above K decays smoothly down to it. Set N_0 &gt; K: there is no overshoot, no oscillation. The continuous-time logistic model simply cannot produce cycles. (Its discrete-time cousin can, and does — that’s a separate resource.)\nThe inflection sits at exactly K/2. Growth is fastest when the population is at half its carrying capacity, which is the origin of the maximum sustainable yield idea in fisheries management."
+  },
+  {
+    "objectID": "resources/logistic-growth.html#where-the-growth-rate-peaks",
+    "href": "resources/logistic-growth.html#where-the-growth-rate-peaks",
+    "title": "Logistic growth",
+    "section": "Where the growth rate peaks",
+    "text": "Where the growth rate peaks\nThat third point falls straight out of the model. The growth rate dN/dt is a quadratic in N:\n\n\\frac{dN}{dt} = rN - \\frac{r}{K}N^2\n\nDifferentiate with respect to N and set to zero:\n\n\\frac{d}{dN}\\left(\\frac{dN}{dt}\\right) = r - \\frac{2r}{K}N = 0\n\\quad \\Longrightarrow \\quad\nN^* = \\frac{K}{2}\n\nso the maximum growth rate is r K / 4, achieved at half carrying capacity."
+  },
+  {
+    "objectID": "resources/logistic-growth.html#stability",
+    "href": "resources/logistic-growth.html#stability",
+    "title": "Logistic growth",
+    "section": "Stability",
+    "text": "Stability\nThe model has two equilibria, where dN/dt = 0: extinction at N = 0 and the carrying capacity at N = K. To classify them, evaluate the derivative of f(N) = rN(1 - N/K):\n\nf'(N) = r - \\frac{2r}{K}N\n\nAt N = 0: f'(0) = r &gt; 0, so extinction is unstable — a small population grows away from zero. At N = K: f'(K) = -r &lt; 0, so the carrying capacity is stable — perturbations in either direction decay back to it, at rate r.\nThis is the whole qualitative story of the model, and it’s why the continuous logistic is well-behaved to the point of being boring: one attracting state, approached monotonically from anywhere."
+  },
+  {
+    "objectID": "resources/logistic-growth.html#in-r",
+    "href": "resources/logistic-growth.html#in-r",
+    "title": "Logistic growth",
+    "section": "In R",
+    "text": "In R\nSolving it numerically is overkill given the closed form, but the numerical setup generalises to models that have no analytical solution, so it’s worth having:\nlibrary(deSolve)\nlibrary(ggplot2)\n\nlogistic &lt;- function(t, state, parms) {\n  with(as.list(c(state, parms)), {\n    dN &lt;- r * N * (1 - N / K)\n    list(dN)\n  })\n}\n\nout &lt;- ode(\n  y     = c(N = 10),\n  times = seq(0, 40, by = 0.1),\n  func  = logistic,\n  parms = c(r = 0.4, K = 200)\n) |&gt; as.data.frame()\n\nggplot(out, aes(times, N)) +\n  geom_hline(yintercept = 200, linetype = \"dashed\", colour = \"#c0563f\") +\n  geom_line(linewidth = 1, colour = \"#2c6e63\") +\n  labs(x = \"Time\", y = \"Population size N(t)\") +\n  theme_minimal(base_size = 13)\n\n\n\n\n\n\nMaking code chunks executable\n\n\n\nThe block above is a plain fenced block (```r), so it’s displayed but not run — the site renders on any machine, with or without R. To have Quarto actually execute a chunk and embed the resulting ggplot, change the fence to ```{r} and add chunk options underneath:\n```{r}\n#| label: fig-logistic\n#| fig-cap: \"Logistic growth towards carrying capacity.\"\n#| code-fold: show\n\n# ... your code ...\n```\nThat switches the page to the knitr engine, so R and the packages used need to be installed wherever you render. Since you render locally in RStudio, that’s fine."
+  },
+  {
+    "objectID": "resources/logistic-growth.html#assumptions-worth-remembering",
+    "href": "resources/logistic-growth.html#assumptions-worth-remembering",
+    "title": "Logistic growth",
+    "section": "Assumptions worth remembering",
+    "text": "Assumptions worth remembering\nThe logistic model earns its simplicity by assuming a great deal:\n\nDensity dependence is linear. Real per-capita growth rates often decline non-linearly, and the theta-logistic model exists precisely to relax this.\nNo time lags. Individuals respond to current density instantly. Adding a delay to the density term is enough to generate oscillations.\nNo age or stage structure. Everyone reproduces identically, regardless of age or size.\nNo stochasticity. Both environmental variation and demographic noise are absent, which matters enormously at small N.\nClosed population. No immigration or emigration.\nConstant environment. r and K don’t vary through time.\n\nEach of these is a door to a more realistic model, and most of them are worth walking through only when the data demand it."
+  },
+  {
+    "objectID": "resources/logistic-growth.html#further-reading",
+    "href": "resources/logistic-growth.html#further-reading",
+    "title": "Logistic growth",
+    "section": "Further reading",
+    "text": "Further reading\n\nVerhulst, P.-F. (1838). Notice sur la loi que la population suit dans son accroissement. The original.\nKingsland, S. (1995). Modeling Nature. On how the logistic became central to ecology, and the arguments it caused.\n[Add the textbook chapters you actually point students at.]\n\n\n\nThis page is the template. Copy it when writing a new resource — the structure (intuition → mathematics → interactive figure → code → assumptions) transfers to most modelling topics."
+  },
+  {
     "objectID": "publications.html",
     "href": "publications.html",
     "title": "Publications",
@@ -229,6 +341,41 @@
     "title": "Publications",
     "section": "Software",
     "text": "Software\n\n[packagename] — [one-line description of what it does] R package.\n\nGitHub Docs"
+  },
+  {
+    "objectID": "teaching.html",
+    "href": "teaching.html",
+    "title": "Teaching",
+    "section": "",
+    "text": "Placeholder. Adapt the headings to how your teaching is actually organised. Material you’re happy to share publicly can live under resources/ and be linked from here."
+  },
+  {
+    "objectID": "teaching.html#courses",
+    "href": "teaching.html#courses",
+    "title": "Teaching",
+    "section": "Courses",
+    "text": "Courses\n\n[Course title] — [Institution, Year]\n[Role: teaching assistant / lecturer / lab instructor. One or two sentences on the course content and level, plus the size of the group.]\nMaterials: [link to slides, problem sets, or a resource page]\n\n\n[Course title] — [Institution, Year]\n[…]"
+  },
+  {
+    "objectID": "teaching.html#workshops-and-short-courses",
+    "href": "teaching.html#workshops-and-short-courses",
+    "title": "Teaching",
+    "section": "Workshops and short courses",
+    "text": "Workshops and short courses\n\n[Workshop title] — [Venue, Year]\n[One or two sentences. If the material is online, link it.]"
+  },
+  {
+    "objectID": "teaching.html#supervision",
+    "href": "teaching.html#supervision",
+    "title": "Teaching",
+    "section": "Supervision",
+    "text": "Supervision\n\n[Student name] — [degree level], [year]. Project: [topic].\n[Student name] — [degree level], [year]. Project: [topic]."
+  },
+  {
+    "objectID": "teaching.html#teaching-philosophy",
+    "href": "teaching.html#teaching-philosophy",
+    "title": "Teaching",
+    "section": "Teaching philosophy",
+    "text": "Teaching philosophy\n[Optional — a short paragraph. Useful to have written down when applying for positions, and cheap to keep here.]"
   },
   {
     "objectID": "cv.html",
@@ -271,41 +418,6 @@
     "title": "CV",
     "section": "Service",
     "text": "Service\n\nReviewer for [Journal name]\n[Committee, outreach, or organising role]"
-  },
-  {
-    "objectID": "contact.html",
-    "href": "contact.html",
-    "title": "Contact",
-    "section": "",
-    "text": "Placeholder. Fill in the address and profile links. Anything you’d rather not make public, just delete the line.\nI’m happy to hear from people interested in the work, potential collaborators, and students looking for projects.\nEmail — kevan.rastello@gmail.com\nOffice — [Building, room number] [Department] [Institution] [Street address, City, Country]"
-  },
-  {
-    "objectID": "contact.html#elsewhere",
-    "href": "contact.html#elsewhere",
-    "title": "Contact",
-    "section": "Elsewhere",
-    "text": "Elsewhere\n\nGitHub\nGoogle Scholar — [add link]\nORCID — [add link]\nBluesky / Mastodon — [add link, or delete]"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Kevan Rastello",
-    "section": "",
-    "text": "PhD candidate in ecology and mathematical biology\n\nI study [one-sentence description of your research area — e.g. how spatial structure and demographic stochasticity shape population persistence]. My work combines mathematical models with data to understand [the systems you work on].\nAlongside my research I write explainers — interactive walkthroughs of the models and methods I use, aimed at anyone who wants to build intuition rather than just read the equations."
-  },
-  {
-    "objectID": "index.html#explore",
-    "href": "index.html#explore",
-    "title": "Kevan Rastello",
-    "section": "Explore",
-    "text": "Explore\n\n\nResearch\nCurrent projects, questions I’m working on, and the systems I study.\n\n\nResources\nInteractive explainers on population models, dynamical systems, and methods.\n\n\nPublications\nPapers, preprints, and the code and data behind them.\n\n\nTeaching\nCourses, lecture material, and student supervision."
-  },
-  {
-    "objectID": "index.html#recent",
-    "href": "index.html#recent",
-    "title": "Kevan Rastello",
-    "section": "Recent",
-    "text": "Recent\n\nPlaceholder. A short running list of news — new preprint, talk given, resource published. Delete this section if you’d rather not maintain it.\n\n\n[Month Year] — New resource: Logistic growth\n[Month Year] — Preprint posted: [title]\n[Month Year] — Talk at [conference]"
   },
   {
     "objectID": "research.html",
@@ -357,13 +469,6 @@
     "text": "Funding\n[Optional — grants and fellowships supporting this work.]"
   },
   {
-    "objectID": "resources/index.html",
-    "href": "resources/index.html",
-    "title": "Resources",
-    "section": "",
-    "text": "Explainers on the models and methods I use — written to build intuition, with interactive figures you can push around rather than static plots you have to take on faith.\nEach page states the assumptions plainly, works through the mathematics, and shows the R code so you can reproduce everything.\n\nPlaceholder. One worked example is live below. New resources are just new .qmd files dropped in this folder — they appear here automatically, no index to maintain. See resources/_template.qmd for a starting point.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGlobal sensitivity analysis\n\n\n25 min\n\n\n\nsensitivity analysis\n\n\nuncertainty\n\n\nmethods\n\n\nR\n\n\n\nWhich of your uncertain parameters is actually driving the uncertainty in your prediction — and how to compute that properly, step by step.\n\n\n\nAug 15, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLogistic growth\n\n\n6 min\n\n\n\npopulation dynamics\n\n\nODEs\n\n\nintuition\n\n\n\nWhy populations stop growing: density dependence, carrying capacity, and the shape of the S-curve.\n\n\n\nAug 14, 2026\n\n\n\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "talks.html",
     "href": "talks.html",
     "title": "Talks & Posters",
@@ -390,5 +495,54 @@
     "title": "Talks & Posters",
     "section": "Posters",
     "text": "Posters\n\n[Poster title] [Conference name], [City], [Month Year].\n\nPoster PDF"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Kevan Rastello",
+    "section": "",
+    "text": "PhD candidate in ecology and mathematical biology\n\nI study [one-sentence description of your research area — e.g. how spatial structure and demographic stochasticity shape population persistence]. My work combines mathematical models with data to understand [the systems you work on].\nAlongside my research I write explainers — interactive walkthroughs of the models and methods I use, aimed at anyone who wants to build intuition rather than just read the equations."
+  },
+  {
+    "objectID": "index.html#explore",
+    "href": "index.html#explore",
+    "title": "Kevan Rastello",
+    "section": "Explore",
+    "text": "Explore\n\n\nResearch\nCurrent projects, questions I’m working on, and the systems I study.\n\n\nResources\nInteractive explainers on population models, dynamical systems, and methods.\n\n\nPublications\nPapers, preprints, and the code and data behind them.\n\n\nTeaching\nCourses, lecture material, and student supervision."
+  },
+  {
+    "objectID": "index.html#recent",
+    "href": "index.html#recent",
+    "title": "Kevan Rastello",
+    "section": "Recent",
+    "text": "Recent\n\nPlaceholder. A short running list of news — new preprint, talk given, resource published. Delete this section if you’d rather not maintain it.\n\n\n[Month Year] — New resource: Logistic growth\n[Month Year] — Preprint posted: [title]\n[Month Year] — Talk at [conference]"
+  },
+  {
+    "objectID": "resources/index.html",
+    "href": "resources/index.html",
+    "title": "Resources",
+    "section": "",
+    "text": "Explainers on the models and methods I use — written to build intuition, with interactive figures you can push around rather than static plots you have to take on faith.\nEach page states the assumptions plainly, works through the mathematics, and shows the R code so you can reproduce everything.\n\nPlaceholder. One worked example is live below. New resources are just new .qmd files dropped in this folder — they appear here automatically, no index to maintain. See resources/_template.qmd for a starting point.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGlobal sensitivity analysis\n\n\n25 min\n\n\n\nsensitivity analysis\n\n\nuncertainty\n\n\nmethods\n\n\nR\n\n\n\nWhich of your uncertain parameters is actually driving the uncertainty in your prediction — and how to compute that properly, step by step.\n\n\n\nAug 15, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLogistic growth\n\n\n6 min\n\n\n\npopulation dynamics\n\n\nODEs\n\n\nintuition\n\n\n\nWhy populations stop growing: density dependence, carrying capacity, and the shape of the S-curve.\n\n\n\nAug 14, 2026\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "contact.html",
+    "href": "contact.html",
+    "title": "Contact",
+    "section": "",
+    "text": "Placeholder. Fill in the address and profile links. Anything you’d rather not make public, just delete the line.\nI’m happy to hear from people interested in the work, potential collaborators, and students looking for projects.\nEmail — kevan.rastello@gmail.com\nOffice — [Building, room number] [Department] [Institution] [Street address, City, Country]"
+  },
+  {
+    "objectID": "contact.html#elsewhere",
+    "href": "contact.html#elsewhere",
+    "title": "Contact",
+    "section": "Elsewhere",
+    "text": "Elsewhere\n\nGitHub\nGoogle Scholar — [add link]\nORCID — [add link]\nBluesky / Mastodon — [add link, or delete]"
+  },
+  {
+    "objectID": "writing/index.html",
+    "href": "writing/index.html",
+    "title": "Writing",
+    "section": "",
+    "text": "Notes on writing scientific papers clearly, from the whole paper down to a single word. They combine the guides I learned from with the research that tests them, and every rule carries a label for how strong its evidence is.\nExperimental tested by changing a text and measuring readers · Correlational linked to citations, not proven to cause them · Descriptive a trend in the literature · Expert advice from experienced writers and editors, untested\n\n\n\n\n\n\n\n\n\n\nWriting a paper, level by level\n\n\n15 min\n\n\n\nstructure\n\n\nclarity\n\n\nevidence\n\n\n\nA method for clear scientific writing, from the whole paper down to a single word, with the evidence behind each rule.\n\n\n\nOct 23, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nStart writing: the paper brief\n\n\n11 min\n\n\n\nplanning\n\n\nstructure\n\n\nevidence\n\n\n\nAnswer these questions before drafting, and the outline of the paper writes itself. With versions for regular and methods papers.\n\n\n\nOct 23, 2026\n\n\n\n\n\n\n\n\nNo matching items\n\n\n\nDeveloped with AI assistance (Claude); I checked every source cited. Text and figures are shared under CC BY 4.0: reuse them freely with credit."
   }
 ]

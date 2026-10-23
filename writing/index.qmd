@@ -1,0 +1,26 @@
+---
+title: "Writing"
+listing:
+  id: writing-listing
+  contents: "*.qmd"
+  type: grid
+  sort: "date desc"
+  categories: true
+  fields: [image, title, description, categories, date, reading-time]
+  image-height: "180px"
+  feed: true
+---
+
+Notes on writing scientific papers clearly, from the whole paper down to a single
+word. They combine the guides I learned from with the research that tests them,
+and every rule carries a label for how strong its evidence is.
+
+[Experimental]{.ev .ev-e} tested by changing a text and measuring readers ·
+[Correlational]{.ev .ev-c} linked to citations, not proven to cause them ·
+[Descriptive]{.ev .ev-d} a trend in the literature ·
+[Expert]{.ev .ev-g} advice from experienced writers and editors, untested
+
+::: {#writing-listing}
+:::
+
+{{< include _about.qmd >}}

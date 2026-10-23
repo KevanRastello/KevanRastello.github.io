@@ -1,43 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://kevanrastello.github.io/teaching.html</loc>
-    <lastmod>2026-08-15T18:22:17.239Z</lastmod>
+    <loc>https://kevanrastello.github.io/writing/start-writing.html</loc>
+    <lastmod>2026-10-23T22:50:57.083Z</lastmod>
   </url>
   <url>
-    <loc>https://kevanrastello.github.io/resources/logistic-growth.html</loc>
-    <lastmod>2026-08-15T18:22:16.713Z</lastmod>
+    <loc>https://kevanrastello.github.io/writing/level-by-level.html</loc>
+    <lastmod>2026-10-23T22:50:55.575Z</lastmod>
   </url>
   <url>
     <loc>https://kevanrastello.github.io/resources/global-sensitivity-analysis.html</loc>
-    <lastmod>2026-08-15T18:22:15.713Z</lastmod>
+    <lastmod>2026-10-23T22:50:54.303Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kevanrastello.github.io/resources/logistic-growth.html</loc>
+    <lastmod>2026-10-23T22:50:52.191Z</lastmod>
   </url>
   <url>
     <loc>https://kevanrastello.github.io/publications.html</loc>
-    <lastmod>2026-08-15T18:22:13.901Z</lastmod>
+    <lastmod>2026-10-23T22:50:51.019Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kevanrastello.github.io/teaching.html</loc>
+    <lastmod>2026-10-23T22:50:50.407Z</lastmod>
   </url>
   <url>
     <loc>https://kevanrastello.github.io/cv.html</loc>
-    <lastmod>2026-08-15T18:22:13.130Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kevanrastello.github.io/contact.html</loc>
-    <lastmod>2026-08-15T18:22:12.775Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kevanrastello.github.io/index.html</loc>
-    <lastmod>2026-08-15T18:22:13.520Z</lastmod>
+    <lastmod>2026-10-23T22:50:49.799Z</lastmod>
   </url>
   <url>
     <loc>https://kevanrastello.github.io/research.html</loc>
-    <lastmod>2026-08-15T18:22:14.315Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kevanrastello.github.io/resources/index.html</loc>
-    <lastmod>2026-08-15T18:22:16.159Z</lastmod>
+    <lastmod>2026-10-23T22:50:50.095Z</lastmod>
   </url>
   <url>
     <loc>https://kevanrastello.github.io/talks.html</loc>
-    <lastmod>2026-08-15T18:22:16.972Z</lastmod>
+    <lastmod>2026-10-23T22:50:50.715Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kevanrastello.github.io/index.html</loc>
+    <lastmod>2026-10-23T22:50:51.359Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kevanrastello.github.io/resources/index.html</loc>
+    <lastmod>2026-10-23T22:50:52.731Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kevanrastello.github.io/contact.html</loc>
+    <lastmod>2026-10-23T22:50:54.595Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kevanrastello.github.io/writing/index.html</loc>
+    <lastmod>2026-10-23T22:50:56.083Z</lastmod>
   </url>
 </urlset>

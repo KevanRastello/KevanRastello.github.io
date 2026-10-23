@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-10-23">
+<meta name="description" content="A method for clear scientific writing, from the whole paper down to a single word, with the evidence behind each rule.">
+
+<title>Kevan Rastello - Writing a paper, level by level</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../assets/logo.svg" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Kevan Rastello</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../research.html" rel="" target="">
+ <span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../resources/index.html" rel="" target="">
+ <span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../writing/index.html" rel="" target="">
+ <span class="menu-text">Writing</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../publications.html" rel="" target="">
+ <span class="menu-text">Publications</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../teaching.html" rel="" target="">
+ <span class="menu-text">Teaching</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../talks.html" rel="" target="">
+ <span class="menu-text">Talks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../cv.html" rel="" target="">
+ <span class="menu-text">CV</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../contact.html" rel="" target="">
+ <span class="menu-text">Contact</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/KevanRastello" rel="" target=""><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-workflow" id="toc-the-workflow" class="nav-link active" data-scroll-target="#the-workflow">The workflow</a></li>
+  <li><a href="#paper" id="toc-paper" class="nav-link" data-scroll-target="#paper">Paper</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section">Section</a></li>
+  <li><a href="#paragraph" id="toc-paragraph" class="nav-link" data-scroll-target="#paragraph">Paragraph</a></li>
+  <li><a href="#sentence" id="toc-sentence" class="nav-link" data-scroll-target="#sentence">Sentence</a></li>
+  <li><a href="#word" id="toc-word" class="nav-link" data-scroll-target="#word">Word</a></li>
+  <li><a href="#how-big-is-each-part" id="toc-how-big-is-each-part" class="nav-link" data-scroll-target="#how-big-is-each-part">How big is each part?</a></li>
+  <li><a href="#the-practice-loop" id="toc-the-practice-loop" class="nav-link" data-scroll-target="#the-practice-loop">The practice loop</a></li>
+  <li><a href="#how-strong-is-this-advice" id="toc-how-strong-is-this-advice" class="nav-link" data-scroll-target="#how-strong-is-this-advice">How strong is this advice?</a></li>
+  <li><a href="#sources" id="toc-sources" class="nav-link" data-scroll-target="#sources">Sources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Writing a paper, level by level</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">structure</div>
+    <div class="quarto-category">clarity</div>
+    <div class="quarto-category">evidence</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    A method for clear scientific writing, from the whole paper down to a single word, with the evidence behind each rule.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 23, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Each level of a paper holds one thing. A paper carries one message, a section does one job, a paragraph develops one idea, and a sentence adds one new point. Plan and revise from the outside in: a perfect sentence inside a paragraph you later cut is wasted effort.</p>
+<div class="levels" aria-label="The five levels of a paper">
+<div><span>Paper <em>1 message</em></span>
+<div><span>Section <em>1 job</em></span>
+<div><span>Paragraph <em>1 idea</em></span>
+<div><span>Sentence <em>1 new point</em></span>
+<div><span>Word <em>1 term per concept</em></span></div>
+</div></div></div></div>
+</div>
+<p>The same pattern repeats at every scale: context, then content, then conclusion. Every rule below carries a label for how strong its evidence is: <span class="ev ev-e">Experimental</span> <span class="ev ev-c">Correlational</span> <span class="ev ev-d">Descriptive</span> <span class="ev ev-g">Expert</span>. They are explained <a href="#how-strong-is-this-advice">at the end</a>.</p>
+<section id="the-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="the-workflow">The workflow</h2>
+<ol type="1">
+<li><strong>Message.</strong> Make the figures, then write the take-home message in one or two sentences. Leave it a day, then revise it.</li>
+<li><strong>Skeleton.</strong> Put the figures in order. Draft the five pivotal paragraphs first (see <a href="#section">Section</a>), then one topic sentence for every other paragraph.</li>
+<li><strong>Draft.</strong> Write fast and do not polish. A common order is Methods, Results, Discussion, Introduction, Abstract, Title.</li>
+<li><strong>Revise from the top down.</strong> Paper, sections, paragraphs, sentences, words.</li>
+<li><strong>Test with a reader.</strong> Someone outside your subfield restates the message in their own words.</li>
+</ol>
+<p>To plan before drafting, the <a href="../writing/start-writing.html">paper brief</a> turns stages 1 and 2 into a list of questions.</p>
+</section>
+<section id="paper" class="level2">
+<h2 class="anchored" data-anchor-id="paper">Paper</h2>
+<p><strong>Goal:</strong> the reader finishes with one message they can repeat.</p>
+<p><strong>Write</strong></p>
+<ol type="1">
+<li>Write the take-home message in one sentence: what the result changes, not only what you found.</li>
+<li>Write the story as <em>And, But, Therefore</em>.</li>
+<li>Choose the three to five figures that carry the message and order them as an argument.</li>
+<li>Keep hypotheses, predictions, analyses, results and discussion points in the same order everywhere.</li>
+<li>Write a working title that states the finding, not the topic.</li>
+</ol>
+<p><strong>Check</strong></p>
+<ul>
+<li>Can a colleague restate the message after reading only the abstract?</li>
+<li>Does every section serve the message? What does not goes to the supplement or out.</li>
+<li>If the Introduction lists three predictions, do Methods, Results and Discussion follow the same three, in the same order?</li>
+<li>Is any conclusion stronger than the results support?</li>
+</ul>
+<p><strong>Example</strong> (invented, on a mountain pine beetle forecasting topic)</p>
+<blockquote class="blockquote">
+<p><strong>And</strong> mountain pine beetle outbreaks have killed pine over large areas of western Canada, and managers must decide where to act a year in advance. <strong>But</strong> most outbreak maps describe where beetles are now, not where they will spread next. <strong>Therefore</strong> we built a model that forecasts spread one year ahead and tested it against past outbreak records.</p>
+</blockquote>
+<div class="ba">
+<div class="before">
+<p>A result</p>
+<p>Beetle spread was lower after winters with colder minimum temperatures.</p>
+</div>
+<div class="after">
+<p>A take-home message</p>
+<p>Forecasts of next year’s spread should weight winter minimum temperature more than current models do.</p>
+</div>
+</div>
+<p>A result says what you found; a take-home message says what it changes. The same goes for titles: “Investigating the dynamics of beetle spread using a forecasting framework” names a topic, while “Cold winters slow beetle spread the following year” states a finding. Use the second kind only when your results support it.</p>
+<p><em>Evidence:</em> <span class="ev ev-g">Expert</span> for the steps (Fahrig; Magnusson 1996; Mensh and Kording 2017; Olson 2015). <span class="ev ev-c">Correlational</span> more narrative abstracts and short, result-stating titles are cited more (Hillier et al.&nbsp;2016; Paiva et al. 2012). <span class="ev ev-e">Experimental</span> result-stating titles did not change how strongly readers believed the findings (<em>Research Integrity and Peer Review</em>, 2016), so they help readers find a paper rather than persuade them.</p>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section">Section</h2>
+<p><strong>Goal:</strong> each section does one job, and together they form an hourglass.</p>
+<div class="writing-figure" style="max-width:15rem">
+<svg viewbox="0 0 240 330" role="img" aria-labelledby="hg-t">
+<title id="hg-t">Hourglass shape of a paper. The Introduction narrows from broad to specific, Methods and Results stay narrow, the Discussion widens back out. Numbered pins mark the five pivotal paragraphs.</title>
+<rect class="plain" x="58" y="4" width="124" height="34" rx="4"></rect>
+<text class="label" x="120" y="26" text-anchor="middle">Abstract</text>
+<polygon class="fill" points="10,52 230,52 160,128 80,128"></polygon>
+<text class="label" x="120" y="86" text-anchor="middle">Introduction</text>
+<text class="small" x="120" y="104" text-anchor="middle">broad → specific</text>
+<rect class="plain" x="80" y="140" width="80" height="44" rx="2"></rect>
+<text class="label" x="120" y="167" text-anchor="middle">Methods</text>
+<rect class="plain" x="80" y="192" width="80" height="44" rx="2"></rect>
+<text class="label" x="120" y="219" text-anchor="middle">Results</text>
+<polygon class="fill" points="80,248 160,248 230,324 10,324"></polygon>
+<text class="label" x="120" y="290" text-anchor="middle">Discussion</text>
+<text class="small" x="120" y="308" text-anchor="middle">specific → broad</text>
+<circle class="pin" cx="72" cy="21" r="8"></circle><text class="pin-text" x="72" y="24.5" text-anchor="middle">5</text>
+<circle class="pin" cx="38" cy="64" r="8"></circle><text class="pin-text" x="38" y="67.5" text-anchor="middle">1</text>
+<circle class="pin" cx="88" cy="117" r="8"></circle><text class="pin-text" x="88" y="120.5" text-anchor="middle">2</text>
+<circle class="pin" cx="90" cy="260" r="8"></circle><text class="pin-text" x="90" y="263.5" text-anchor="middle">3</text>
+<circle class="pin" cx="38" cy="312" r="8"></circle><text class="pin-text" x="38" y="315.5" text-anchor="middle">4</text>
+</svg>
+</div>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 75%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Section</th>
+<th style="text-align: left;">Its job</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Abstract</td>
+<td style="text-align: left;">The whole story in small: context, gap, approach, main result with numbers, implication.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Introduction</td>
+<td style="text-align: left;">From the broad problem, to what is known, to the gap, ending with the aim of this paper.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Methods</td>
+<td style="text-align: left;">Enough to reproduce the work, in the same order as the Results.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Results</td>
+<td style="text-align: left;">One finding per paragraph. Each paragraph opens with the finding, not the method.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Discussion</td>
+<td style="text-align: left;">The answer first, then how it fits current knowledge, limitations, and implications.</td>
+</tr>
+</tbody>
+</table>
+<p>The numbered pins are the <strong>five pivotal paragraphs</strong> (McGill 2016): (1) the big question, (2) this paper’s question, (3) the main answer, (4) back to the big question, and (5) the abstract. Draft them first; the rest fills in between.</p>
+<p><strong>Check</strong></p>
+<ul>
+<li>Read only the first sentence of each paragraph. Do they tell the story alone?</li>
+<li>Does the Introduction end on exactly the question the Discussion answers, stated without methods?</li>
+<li>Are the limitations in the middle of the Discussion? The first and last paragraphs carry the emphasis.</li>
+<li>Does the Discussion add meaning, or repeat the Results?</li>
+</ul>
+<div class="ba">
+<div class="before">
+<p>Opens with the method</p>
+<p>We fitted a generalized additive model with winter minimum temperature as a predictor of spread.</p>
+</div>
+<div class="after">
+<p>Opens with the finding</p>
+<p>Beetles spread less after colder winters (Fig. 2). We tested this with a generalized additive model…</p>
+</div>
+</div>
+<p><em>Evidence:</em> <span class="ev ev-g">Expert</span> for structure (McGill 2016; Mensh and Kording 2017; Heard 2016). <span class="ev ev-e">Experimental</span> headings improve readers’ memory of a text’s topic structure (Lorch et al.&nbsp;2013).</p>
+</section>
+<section id="paragraph" class="level2">
+<h2 class="anchored" data-anchor-id="paragraph">Paragraph</h2>
+<p><strong>Goal:</strong> one idea, stated first, then developed, with each sentence linked to the one before.</p>
+<table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 66%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Part</th>
+<th style="text-align: left;">What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Link <em>(optional)</em></td>
+<td style="text-align: left;">A few words tying this paragraph to the last: “In contrast”, “This pattern”.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic sentence</td>
+<td style="text-align: left;">The paragraph’s point, stated as a claim. Skimming first sentences should give the argument.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Support, 3–4 sentences</td>
+<td style="text-align: left;">Evidence, reasoning, citations, figure references. Each opens with something the reader already has.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Close <em>(optional)</em></td>
+<td style="text-align: left;">What the point means, or a hand-off to the next paragraph. Not a summary.</td>
+</tr>
+</tbody>
+</table>
+<p>In the 148 research papers I measured from my own reading library, a typical paragraph ran about 160 words and five to six sentences.</p>
+<p><strong>Example</strong> (invented numbers). Shading marks <span class="old">information the reader already has</span> and <span class="new">what each sentence adds</span>:</p>
+<blockquote class="blockquote">
+<p>Forecasts of beetle spread need <span class="new">an accurate map of current infestations</span>. <span class="old">These maps</span> come mainly from <span class="new">annual aerial surveys</span>. <span class="old">Aerial surveys</span>, however, record trees attacked the previous year, so <span class="new">every forecast starts one year behind the outbreak</span>.</p>
+</blockquote>
+<p>Each sentence picks up what the previous one ended on, then adds one new thing at its end.</p>
+<p><strong>Check</strong></p>
+<ul>
+<li>Can you sum up the paragraph in one line? If you need two, split it.</li>
+<li>Do the sentence subjects form a chain the reader can follow?</li>
+<li>Do transitions show logic (because, however, therefore) rather than just add (moreover, additionally)?</li>
+<li>Who reads this paragraph? In the abstract and introduction, state every link; in technical methods, specialists can fill small gaps.</li>
+</ul>
+<p><em>Evidence:</em> <span class="ev ev-e">Experimental</span> putting known information before new speeds comprehension (Haviland and Clark 1974), and how much to spell out depends on the reader’s background (McNamara et al.&nbsp;1996). <span class="ev ev-g">Expert</span> for topic sentences (Fahrig; Heard 2016).</p>
+</section>
+<section id="sentence" class="level2">
+<h2 class="anchored" data-anchor-id="sentence">Sentence</h2>
+<p><strong>Goal:</strong> the reader understands the sentence on the first read.</p>
+<table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 66%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Position</th>
+<th style="text-align: left;">What goes there</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Start (topic position)</td>
+<td style="text-align: left;">Old information: who or what the sentence is about.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Subject and verb</td>
+<td style="text-align: left;">The character and its action, early and close together.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">End (stress position)</td>
+<td style="text-align: left;">The new, important point. Readers weight it most.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Write</strong></p>
+<ol type="1">
+<li>Find the main character and the action.</li>
+<li>Make them the subject and verb, close together, near the start.</li>
+<li>Put the new, important information at the end.</li>
+<li>Split the sentence if it carries more than one new idea.</li>
+<li>For a result, state its direction and size, not just that groups differed.</li>
+</ol>
+<div class="ba">
+<div class="before">
+<p>Before</p>
+<p>An analysis of the relationship between winter minimum temperature and the survival of overwintering larvae was performed.</p>
+</div>
+<div class="after">
+<p>After</p>
+<p>We tested whether colder winters reduced the survival of overwintering larvae.</p>
+</div>
+</div>
+<div class="ba">
+<div class="before">
+<p>Before</p>
+<p>Stand age was the strongest predictor of attack, <span class="new">according to our model</span>.</p>
+</div>
+<div class="after">
+<p>After</p>
+<p>In our model, the strongest predictor of attack was <span class="new">stand age</span>.</p>
+</div>
+</div>
+<div class="ba">
+<div class="before">
+<p>Before</p>
+<p>Attack rates differed between young and mature stands (Table 1).</p>
+</div>
+<div class="after">
+<p>After</p>
+<p>Mature stands were attacked about twice as often as young stands (Table 1).</p>
+</div>
+</div>
+<p><em>Evidence:</em> <span class="ev ev-e">Experimental</span> readers recalled important ideas better when actions were verbs rather than nouns (Spyridakis and Isakson 1998) and misread passive sentences more often than active ones (Ferreira 2003). <span class="ev ev-e">Experimental</span> keeping linked words close lowers processing cost in controlled sentences (Gibson 1998), but in natural reading the effect appeared only at nouns (Demberg and Keller 2008): mixed. <span class="ev ev-g">Expert</span> for stress position (Gopen and Swan 1990; Williams and Bizup).</p>
+</section>
+<section id="word" class="level2">
+<h2 class="anchored" data-anchor-id="word">Word</h2>
+<p><strong>Goal:</strong> each word is precise, simple, and used the same way throughout.</p>
+<ol type="1">
+<li>Choose one term per concept and keep it. Keep a term list for the paper.</li>
+<li>Cut jargon and acronyms where you can; define the rest at first use.</li>
+<li>Prefer concrete words: organisms, places, numbers, processes.</li>
+<li>Match hedges to the strength of the evidence.</li>
+<li>Cut filler.</li>
+</ol>
+<table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Instead of</th>
+<th>Write</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>utilize</td>
+<td>use</td>
+<td>Same meaning, shorter.</td>
+</tr>
+<tr class="even">
+<td>in order to</td>
+<td>to</td>
+<td>Filler.</td>
+</tr>
+<tr class="odd">
+<td>it is important to note that</td>
+<td><em>(cut)</em></td>
+<td>If it matters, the sentence shows it.</td>
+</tr>
+<tr class="even">
+<td>may potentially suggest</td>
+<td>may suggest</td>
+<td>One hedge, matched to the evidence. Do not cut the last one.</td>
+</tr>
+<tr class="odd">
+<td>outbreak … epidemic … infestation</td>
+<td>outbreak, every time</td>
+<td>Synonyms make readers think you mean different things.</td>
+</tr>
+<tr class="even">
+<td>spatiotemporal dynamics</td>
+<td>where and when beetles spread</td>
+<td>Concrete over abstract.</td>
+</tr>
+</tbody>
+</table>
+<p><em>Evidence:</em> <span class="ev ev-e">Experimental</span> needlessly complex words lowered readers’ opinion of the writer (Oppenheimer 2006); jargon lowered processing fluency even when definitions were given (Bullock et al.&nbsp;2019); hedged news stories made scientists seem more trustworthy to lay readers (Jensen 2008). <span class="ev ev-c">Correlational</span> more jargon in titles and abstracts went with fewer citations (Martínez and Mammola 2021). <span class="ev ev-d">Descriptive</span> 79% of acronyms in the literature are used fewer than ten times (Barnett and Doubleday 2020).</p>
+</section>
+<section id="how-big-is-each-part" class="level2">
+<h2 class="anchored" data-anchor-id="how-big-is-each-part">How big is each part?</h2>
+<p>Count the jobs first, then check the length. The sizes below are what is typical in the papers I read, not targets.</p>
+<div class="paper-map" aria-label="Typical size of each section">
+<div><strong>Introduction</strong><small>~1,000 words · 18%</small><small>5–7 paragraphs</small><div class="ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+<div><strong>Methods</strong><small>~1,600 words · 30%</small><small>7–15 paragraphs</small><div class="ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+<div><strong>Results</strong><small>~900 words · 18%</small><small>5–10 paragraphs</small><div class="ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+<div><strong>Discussion</strong><small>~1,600 words · 30%</small><small>7–12 paragraphs</small><div class="ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+</div>
+<p>Widths show each section’s median share of the text; each small box is one paragraph at the median; ranges are the middle half of papers. <span class="ev ev-d">Descriptive</span></p>
+<ol type="1">
+<li><strong>Count the jobs.</strong> One paragraph per question, prediction, analysis or finding.</li>
+<li><strong>Check the budget.</strong> Paragraphs ≈ section words ÷ 160.</li>
+<li><strong>Check each paragraph.</strong> Over about 250 words, it probably holds two ideas. Under about 60 words, merge it or develop it.</li>
+</ol>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 75%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Section</th>
+<th style="text-align: left;">Paragraph slots, in order</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Introduction</td>
+<td style="text-align: left;">Big question (1) · what is known (2–4) · the gap (1) · question and numbered predictions (1)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Methods</td>
+<td style="text-align: left;">Overview · one per data source · one per model or measurement · one per analysis, in prediction order · software and code</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Results</td>
+<td style="text-align: left;">Optional data overview · one or two per finding, finding first, in prediction order</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Discussion</td>
+<td style="text-align: left;">The answer · one or two per finding · limitations (in the middle) · implications · back to the big question</td>
+</tr>
+</tbody>
+</table>
+<p>A methods paper has different slots; the <a href="../writing/start-writing.html">paper brief</a> gives both versions.</p>
+<p><strong>Where these numbers come from.</strong> A script read the PDFs in my Zotero library, found the four section headings, and split each section into paragraphs from the page layout. It kept 148 research papers, mostly in forest insect ecology. Tables and captions were left out, so Results look shorter than they are, and the Discussion includes any Conclusions section.</p>
+<table class="table">
+<caption>Median (middle half of papers), n = 148.</caption>
+<thead>
+<tr class="header">
+<th>Section</th>
+<th>Words</th>
+<th>Paragraphs</th>
+<th>Words per paragraph</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Introduction</td>
+<td>998 (805–1,159)</td>
+<td>6 (5–7)</td>
+<td>160 (135–183)</td>
+</tr>
+<tr class="even">
+<td>Methods</td>
+<td>1,606 (1,047–2,298)</td>
+<td>10 (7–15)</td>
+<td>157 (134–185)</td>
+</tr>
+<tr class="odd">
+<td>Results</td>
+<td>926 (650–1,442)</td>
+<td>7 (5–10)</td>
+<td>146 (118–170)</td>
+</tr>
+<tr class="even">
+<td>Discussion</td>
+<td>1,608 (1,224–2,114)</td>
+<td>9 (7–12)</td>
+<td>173 (142–196)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-practice-loop" class="level2">
+<h2 class="anchored" data-anchor-id="the-practice-loop">The practice loop</h2>
+<p>Guides describe good writing; getting better at it takes practice. Work on one skill at a time, with quick feedback and repetition (Kellogg 2008).</p>
+<div class="writing-figure" style="max-width:25rem">
+<svg viewbox="0 0 400 300" role="img" aria-labelledby="loop-t">
+<title id="loop-t">The practice loop: pick one skill, study a model, rewrite your own passage, get quick feedback, log the pattern, then start again.</title>
+<circle class="ring" cx="200" cy="160" r="118"></circle>
+<polygon class="arrow" points="275.0,68.7 268.8,56.7 261.8,66.5"></polygon>
+<polygon class="arrow" points="310.1,203.1 319.5,193.6 308.1,189.9"></polygon>
+<polygon class="arrow" points="193.0,278.0 205.0,284.0 205.0,272.0"></polygon>
+<polygon class="arrow" points="85.6,189.8 83.6,203.1 95.0,199.4"></polygon>
+<polygon class="arrow" points="136.3,60.4 123.1,62.6 130.1,72.3"></polygon>
+<rect class="plain" x="136.0" y="25.0" width="128" height="34" rx="17" style="stroke:#2c6e63"></rect><text class="label" style="font-size:12px" x="200.0" y="46.5" text-anchor="middle">1 · Pick one skill</text>
+<rect class="plain" x="248.2" y="106.5" width="128" height="34" rx="17" style="stroke:#2c6e63"></rect><text class="label" style="font-size:12px" x="312.2" y="128.0" text-anchor="middle">2 · Study a model</text>
+<rect class="plain" x="205.4" y="238.5" width="128" height="34" rx="17" style="stroke:#2c6e63"></rect><text class="label" style="font-size:12px" x="269.4" y="260.0" text-anchor="middle">3 · Rewrite yours</text>
+<rect class="plain" x="66.6" y="238.5" width="128" height="34" rx="17" style="stroke:#2c6e63"></rect><text class="label" style="font-size:12px" x="130.6" y="260.0" text-anchor="middle">4 · Quick feedback</text>
+<rect class="plain" x="23.8" y="106.5" width="128" height="34" rx="17" style="stroke:#2c6e63"></rect><text class="label" style="font-size:12px" x="87.8" y="128.0" text-anchor="middle">5 · Log the pattern</text>
+<text class="label" x="200" y="160" text-anchor="middle">One skill</text><text class="small" x="200" y="177" text-anchor="middle">per session</text>
+</svg>
+</div>
+<ol type="1">
+<li><strong>Pick one skill</strong> from your recurring problems: stress position, topic sentences, hidden verbs.</li>
+<li><strong>Study a model:</strong> a short passage from a well-written paper that does it well, with what it does named.</li>
+<li><strong>Rewrite a passage of your own</strong> applying that one skill.</li>
+<li><strong>Get quick feedback</strong> on that skill only, then do one more round.</li>
+<li><strong>Log the pattern</strong> in a personal style guide when a habit is fixed or keeps returning.</li>
+</ol>
+<p><em>Evidence:</em> studying models and sentence combining both improved writing in a meta-analysis of school students, so their transfer to research writing is assumed (Graham and Perin 2007). Peer feedback improved writing quality across 60 studies (Wei and Liu 2024). No schedule is prescribed: writing every day is not shown to beat other routines (Sword 2016).</p>
+</section>
+<section id="how-strong-is-this-advice" class="level2">
+<h2 class="anchored" data-anchor-id="how-strong-is-this-advice">How strong is this advice?</h2>
+<table class="table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 38%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Label</th>
+<th style="text-align: left;">Meaning</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="ev ev-e">Experimental</span></td>
+<td style="text-align: left;">Tested by changing a text and measuring readers. Most tests used short texts and student or lay readers.</td>
+<td style="text-align: left;">More accessible abstracts improved readers’ understanding and confidence (Freeling et al.&nbsp;2021).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="ev ev-c">Correlational</span></td>
+<td style="text-align: left;">Links between writing features and citations. They show associations, not causes.</td>
+<td style="text-align: left;">More narrative abstracts were cited more (Hillier et al.&nbsp;2016).</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="ev ev-d">Descriptive</span></td>
+<td style="text-align: left;">Trends in the literature.</td>
+<td style="text-align: left;">Abstracts have become harder to read since 1881 (Plavén-Sigray et al.&nbsp;2017).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="ev ev-g">Expert</span></td>
+<td style="text-align: left;">Advice from experienced writers and editors. It rests on how readers process text but is untested.</td>
+<td style="text-align: left;">Most of the structure above.</td>
+</tr>
+</tbody>
+</table>
+<p>Readability formulas, which count word and sentence length, are not a measure of clarity: in 4,191 forestry abstracts they showed no link with citations (Jiang et al.&nbsp;2026). Use sentence length only as a warning sign.</p>
+</section>
+<section id="sources" class="level2">
+<h2 class="anchored" data-anchor-id="sources">Sources</h2>
+<p><strong>Guides.</strong> Gopen GD, Swan JA (1990) The science of scientific writing. <em>American Scientist</em>. · Heard SB (2016) <em>The Scientist’s Guide to Writing</em>. Princeton University Press. · Magnusson WE (1996) How to write backwards. <em>Bulletin of the Ecological Society of America</em> 77:88. · McGill B (2016) <a href="https://dynamicecology.wordpress.com/2016/02/24/the-5-pivotal-paragraphs-in-a-paper/">The 5 pivotal paragraphs in a paper</a>. <em>Dynamic Ecology</em>. · Mensh B, Kording K (2017) Ten simple rules for structuring papers. <em>PLOS Computational Biology</em>. · Olson R (2015) <em>Houston, We Have a Narrative</em>. University of Chicago Press. · Williams JM, Bizup J. <em>Style: Lessons in Clarity and Grace</em>. · Fahrig L. <em>How to write a scientific paper that people will want to read (and cite!)</em>, workshop slides.</p>
+<p><strong>Research.</strong></p>
+<ul>
+<li>Barnett A, Doubleday Z (2020) The growth of acronyms in the scientific literature. <em>eLife</em> 9:e60080.</li>
+<li>Bullock OM et al.&nbsp;(2019) Jargon as a barrier to effective science communication. <em>Public Understanding of Science</em>.</li>
+<li>Demberg V, Keller F (2008) Data from eye-tracking corpora as evidence for theories of syntactic processing complexity. <em>Cognition</em> 109:193–210.</li>
+<li>Ferreira F (2003) The misinterpretation of noncanonical sentences. <em>Cognitive Psychology</em> 47:164–203.</li>
+<li>Freeling B (now Ryba R) et al.&nbsp;(2021) Better writing in scientific publications builds reader confidence and understanding. <em>Frontiers in Psychology</em> 12:714321.</li>
+<li>Gibson E (1998) Linguistic complexity: locality of syntactic dependencies. <em>Cognition</em> 68:1–76.</li>
+<li>Graham S, Perin D (2007) <em>Writing Next</em>. Alliance for Excellent Education.</li>
+<li>Haviland SE, Clark HH (1974) What’s new? <em>Journal of Verbal Learning and Verbal Behavior</em> 13:512–521.</li>
+<li>Hillier A, Kelly RP, Klinger T (2016) Narrative style influences citation frequency in climate change science. <em>PLOS ONE</em>.</li>
+<li>Jensen JD (2008) Scientific uncertainty in news coverage of cancer research: effects of hedging on scientists’ and journalists’ credibility. <em>Human Communication Research</em>. <a href="https://doi.org/10.1111/j.1468-2958.2008.00324.x">doi:10.1111/j.1468-2958.2008.00324.x</a></li>
+<li>Jiang C et al.&nbsp;(2026) Abstract readability across knowledge domains and citation impact in forestry-related research. <em>Forests</em> 17:998.</li>
+<li>Kellogg RT (2008) Training writing skills: a cognitive developmental perspective. <em>Journal of Writing Research</em> 1:1–26.</li>
+<li>Lorch RF, Lemarié J, Chen HT (2013) Signaling topic structure via headings or preview sentences. <em>Psicología Educativa</em> 19:59–66.</li>
+<li>Martínez A, Mammola S (2021) Specialized terminology reduces the number of citations of scientific papers. <em>Proceedings of the Royal Society B</em> 288:20202581.</li>
+<li>McNamara DS et al.&nbsp;(1996) Are good texts always better? <em>Cognition and Instruction</em>.</li>
+<li>Oppenheimer DM (2006) Consequences of erudite vernacular utilized irrespective of necessity. <em>Applied Cognitive Psychology</em> 20:139–156.</li>
+<li>Paiva CE, Lima JPSN, Paiva BSR (2012) Articles with short titles describing the results are cited more often. <em>Clinics</em> 67:509–513.</li>
+<li>Plavén-Sigray P et al.&nbsp;(2017) The readability of scientific texts is decreasing over time. <em>eLife</em> 6:e27725.</li>
+<li><em>Do declarative titles affect readers’ perceptions of research findings? A randomized trial</em> (2016) <em>Research Integrity and Peer Review</em> 1.</li>
+<li>Spyridakis JH, Isakson CS (1998) Nominalizations vs.&nbsp;denominalizations. <em>Journal of Technical Writing and Communication</em> 28:163–188.</li>
+<li>Sword H (2016) ‘Write every day!’: a mantra dismantled. <em>International Journal for Academic Development</em> 21:312–322.</li>
+<li>Wei W, Liu Y (2024) Incorporating peer feedback in academic writing: a systematic review. <em>Frontiers in Psychology</em>.</li>
+</ul>
+<div class="writing-about">
+<p>Developed with AI assistance (Claude); I checked every source cited. Text and figures are shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>: reuse them freely with credit.</p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp("https:\/\/kevanrastello\.github\.io");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© 2026 Kevan Rastello</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/KevanRastello">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="mailto:kevan.rastello@gmail.com">
+      <i class="bi bi-envelope" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
