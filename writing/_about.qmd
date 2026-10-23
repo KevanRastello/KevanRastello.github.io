@@ -1,0 +1,5 @@
+::: {.writing-about}
+Developed with AI assistance (Claude); I checked every source cited. Text and
+figures are shared under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/):
+reuse them freely with credit.
+:::

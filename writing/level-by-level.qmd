@@ -1,0 +1,443 @@
+---
+title: "Writing a paper, level by level"
+description: "A method for clear scientific writing, from the whole paper down to a single word, with the evidence behind each rule."
+date: 2026-10-23
+categories: [structure, clarity, evidence]
+image: /assets/thumb-writing-levels.svg
+---
+
+Each level of a paper holds one thing. A paper carries one message, a section does
+one job, a paragraph develops one idea, and a sentence adds one new point. Plan and
+revise from the outside in: a perfect sentence inside a paragraph you later cut is
+wasted effort.
+
+```{=html}
+<div class="levels" aria-label="The five levels of a paper">
+<div><span>Paper <em>1 message</em></span>
+<div><span>Section <em>1 job</em></span>
+<div><span>Paragraph <em>1 idea</em></span>
+<div><span>Sentence <em>1 new point</em></span>
+<div><span>Word <em>1 term per concept</em></span></div>
+</div></div></div></div>
+</div>
+```
+
+The same pattern repeats at every scale: context, then content, then conclusion.
+Every rule below carries a label for how strong its evidence is:
+[Experimental]{.ev .ev-e} [Correlational]{.ev .ev-c} [Descriptive]{.ev .ev-d}
+[Expert]{.ev .ev-g}. They are explained [at the end](#how-strong-is-this-advice).
+
+## The workflow
+
+1. **Message.** Make the figures, then write the take-home message in one or two
+   sentences. Leave it a day, then revise it.
+2. **Skeleton.** Put the figures in order. Draft the five pivotal paragraphs first
+   (see [Section](#section)), then one topic sentence for every other paragraph.
+3. **Draft.** Write fast and do not polish. A common order is Methods, Results,
+   Discussion, Introduction, Abstract, Title.
+4. **Revise from the top down.** Paper, sections, paragraphs, sentences, words.
+5. **Test with a reader.** Someone outside your subfield restates the message in
+   their own words.
+
+To plan before drafting, the [paper brief](start-writing.qmd) turns stages 1 and 2
+into a list of questions.
+
+## Paper
+
+**Goal:** the reader finishes with one message they can repeat.
+
+**Write**
+
+1. Write the take-home message in one sentence: what the result changes, not only
+   what you found.
+2. Write the story as *And, But, Therefore*.
+3. Choose the three to five figures that carry the message and order them as an
+   argument.
+4. Keep hypotheses, predictions, analyses, results and discussion points in the
+   same order everywhere.
+5. Write a working title that states the finding, not the topic.
+
+**Check**
+
+- Can a colleague restate the message after reading only the abstract?
+- Does every section serve the message? What does not goes to the supplement or out.
+- If the Introduction lists three predictions, do Methods, Results and Discussion
+  follow the same three, in the same order?
+- Is any conclusion stronger than the results support?
+
+**Example** (invented, on a mountain pine beetle forecasting topic)
+
+> **And** mountain pine beetle outbreaks have killed pine over large areas of
+> western Canada, and managers must decide where to act a year in advance.
+> **But** most outbreak maps describe where beetles are now, not where they will
+> spread next. **Therefore** we built a model that forecasts spread one year ahead
+> and tested it against past outbreak records.
+
+:::: {.ba}
+::: {.before}
+A result
+
+Beetle spread was lower after winters with colder minimum temperatures.
+:::
+::: {.after}
+A take-home message
+
+Forecasts of next year's spread should weight winter minimum temperature more
+than current models do.
+:::
+::::
+
+A result says what you found; a take-home message says what it changes. The same
+goes for titles: "Investigating the dynamics of beetle spread using a forecasting
+framework" names a topic, while "Cold winters slow beetle spread the following
+year" states a finding. Use the second kind only when your results support it.
+
+*Evidence:* [Expert]{.ev .ev-g} for the steps (Fahrig; Magnusson 1996; Mensh and
+Kording 2017; Olson 2015). [Correlational]{.ev .ev-c} more narrative abstracts and
+short, result-stating titles are cited more (Hillier et al. 2016; Paiva et al.
+2012). [Experimental]{.ev .ev-e} result-stating titles did not change how strongly
+readers believed the findings (*Research Integrity and Peer Review*, 2016), so
+they help readers find a paper rather than persuade them.
+
+## Section
+
+**Goal:** each section does one job, and together they form an hourglass.
+
+```{=html}
+<div class="writing-figure" style="max-width:15rem">
+<svg viewBox="0 0 240 330" role="img" aria-labelledby="hg-t">
+<title id="hg-t">Hourglass shape of a paper. The Introduction narrows from broad to specific, Methods and Results stay narrow, the Discussion widens back out. Numbered pins mark the five pivotal paragraphs.</title>
+<rect class="plain" x="58" y="4" width="124" height="34" rx="4"/>
+<text class="label" x="120" y="26" text-anchor="middle">Abstract</text>
+<polygon class="fill" points="10,52 230,52 160,128 80,128"/>
+<text class="label" x="120" y="86" text-anchor="middle">Introduction</text>
+<text class="small" x="120" y="104" text-anchor="middle">broad → specific</text>
+<rect class="plain" x="80" y="140" width="80" height="44" rx="2"/>
+<text class="label" x="120" y="167" text-anchor="middle">Methods</text>
+<rect class="plain" x="80" y="192" width="80" height="44" rx="2"/>
+<text class="label" x="120" y="219" text-anchor="middle">Results</text>
+<polygon class="fill" points="80,248 160,248 230,324 10,324"/>
+<text class="label" x="120" y="290" text-anchor="middle">Discussion</text>
+<text class="small" x="120" y="308" text-anchor="middle">specific → broad</text>
+<circle class="pin" cx="72" cy="21" r="8"/><text class="pin-text" x="72" y="24.5" text-anchor="middle">5</text>
+<circle class="pin" cx="38" cy="64" r="8"/><text class="pin-text" x="38" y="67.5" text-anchor="middle">1</text>
+<circle class="pin" cx="88" cy="117" r="8"/><text class="pin-text" x="88" y="120.5" text-anchor="middle">2</text>
+<circle class="pin" cx="90" cy="260" r="8"/><text class="pin-text" x="90" y="263.5" text-anchor="middle">3</text>
+<circle class="pin" cx="38" cy="312" r="8"/><text class="pin-text" x="38" y="315.5" text-anchor="middle">4</text>
+</svg>
+</div>
+```
+
+| Section | Its job |
+|:--|:--------|
+| Abstract | The whole story in small: context, gap, approach, main result with numbers, implication. |
+| Introduction | From the broad problem, to what is known, to the gap, ending with the aim of this paper. |
+| Methods | Enough to reproduce the work, in the same order as the Results. |
+| Results | One finding per paragraph. Each paragraph opens with the finding, not the method. |
+| Discussion | The answer first, then how it fits current knowledge, limitations, and implications. |
+
+The numbered pins are the **five pivotal paragraphs** (McGill 2016): (1) the big
+question, (2) this paper's question, (3) the main answer, (4) back to the big
+question, and (5) the abstract. Draft them first; the rest fills in between.
+
+**Check**
+
+- Read only the first sentence of each paragraph. Do they tell the story alone?
+- Does the Introduction end on exactly the question the Discussion answers, stated
+  without methods?
+- Are the limitations in the middle of the Discussion? The first and last
+  paragraphs carry the emphasis.
+- Does the Discussion add meaning, or repeat the Results?
+
+:::: {.ba}
+::: {.before}
+Opens with the method
+
+We fitted a generalized additive model with winter minimum temperature as a
+predictor of spread.
+:::
+::: {.after}
+Opens with the finding
+
+Beetles spread less after colder winters (Fig. 2). We tested this with a
+generalized additive model…
+:::
+::::
+
+*Evidence:* [Expert]{.ev .ev-g} for structure (McGill 2016; Mensh and Kording 2017;
+Heard 2016). [Experimental]{.ev .ev-e} headings improve readers' memory of a text's
+topic structure (Lorch et al. 2013).
+
+## Paragraph
+
+**Goal:** one idea, stated first, then developed, with each sentence linked to the
+one before.
+
+| Part | What it does |
+|:---|:-------|
+| Link *(optional)* | A few words tying this paragraph to the last: "In contrast", "This pattern". |
+| Topic sentence | The paragraph's point, stated as a claim. Skimming first sentences should give the argument. |
+| Support, 3–4 sentences | Evidence, reasoning, citations, figure references. Each opens with something the reader already has. |
+| Close *(optional)* | What the point means, or a hand-off to the next paragraph. Not a summary. |
+
+In the 148 research papers I measured from my own reading library, a typical
+paragraph ran about 160 words and five to six sentences.
+
+**Example** (invented numbers). Shading marks
+[information the reader already has]{.old} and [what each sentence adds]{.new}:
+
+> Forecasts of beetle spread need [an accurate map of current infestations]{.new}.
+> [These maps]{.old} come mainly from [annual aerial surveys]{.new}.
+> [Aerial surveys]{.old}, however, record trees attacked the previous year, so
+> [every forecast starts one year behind the outbreak]{.new}.
+
+Each sentence picks up what the previous one ended on, then adds one new thing at
+its end.
+
+**Check**
+
+- Can you sum up the paragraph in one line? If you need two, split it.
+- Do the sentence subjects form a chain the reader can follow?
+- Do transitions show logic (because, however, therefore) rather than just add
+  (moreover, additionally)?
+- Who reads this paragraph? In the abstract and introduction, state every link; in
+  technical methods, specialists can fill small gaps.
+
+*Evidence:* [Experimental]{.ev .ev-e} putting known information before new speeds
+comprehension (Haviland and Clark 1974), and how much to spell out depends on the
+reader's background (McNamara et al. 1996). [Expert]{.ev .ev-g} for topic
+sentences (Fahrig; Heard 2016).
+
+## Sentence
+
+**Goal:** the reader understands the sentence on the first read.
+
+| Position | What goes there |
+|:---|:-------|
+| Start (topic position) | Old information: who or what the sentence is about. |
+| Subject and verb | The character and its action, early and close together. |
+| End (stress position) | The new, important point. Readers weight it most. |
+
+**Write**
+
+1. Find the main character and the action.
+2. Make them the subject and verb, close together, near the start.
+3. Put the new, important information at the end.
+4. Split the sentence if it carries more than one new idea.
+5. For a result, state its direction and size, not just that groups differed.
+
+:::: {.ba}
+::: {.before}
+Before
+
+An analysis of the relationship between winter minimum temperature and the
+survival of overwintering larvae was performed.
+:::
+::: {.after}
+After
+
+We tested whether colder winters reduced the survival of overwintering larvae.
+:::
+::::
+
+:::: {.ba}
+::: {.before}
+Before
+
+Stand age was the strongest predictor of attack, [according to our model]{.new}.
+:::
+::: {.after}
+After
+
+In our model, the strongest predictor of attack was [stand age]{.new}.
+:::
+::::
+
+:::: {.ba}
+::: {.before}
+Before
+
+Attack rates differed between young and mature stands (Table 1).
+:::
+::: {.after}
+After
+
+Mature stands were attacked about twice as often as young stands (Table 1).
+:::
+::::
+
+*Evidence:* [Experimental]{.ev .ev-e} readers recalled important ideas better when
+actions were verbs rather than nouns (Spyridakis and Isakson 1998) and misread
+passive sentences more often than active ones (Ferreira 2003).
+[Experimental]{.ev .ev-e} keeping linked words close lowers processing cost in
+controlled sentences (Gibson 1998), but in natural reading the effect appeared only
+at nouns (Demberg and Keller 2008): mixed. [Expert]{.ev .ev-g} for stress position
+(Gopen and Swan 1990; Williams and Bizup).
+
+## Word
+
+**Goal:** each word is precise, simple, and used the same way throughout.
+
+1. Choose one term per concept and keep it. Keep a term list for the paper.
+2. Cut jargon and acronyms where you can; define the rest at first use.
+3. Prefer concrete words: organisms, places, numbers, processes.
+4. Match hedges to the strength of the evidence.
+5. Cut filler.
+
+| Instead of | Write | Why |
+|---|---|---|
+| utilize | use | Same meaning, shorter. |
+| in order to | to | Filler. |
+| it is important to note that | *(cut)* | If it matters, the sentence shows it. |
+| may potentially suggest | may suggest | One hedge, matched to the evidence. Do not cut the last one. |
+| outbreak … epidemic … infestation | outbreak, every time | Synonyms make readers think you mean different things. |
+| spatiotemporal dynamics | where and when beetles spread | Concrete over abstract. |
+
+*Evidence:* [Experimental]{.ev .ev-e} needlessly complex words lowered readers'
+opinion of the writer (Oppenheimer 2006); jargon lowered processing fluency even
+when definitions were given (Bullock et al. 2019); hedged news stories made
+scientists seem more trustworthy to lay readers (Jensen 2008). [Correlational]{.ev .ev-c} more
+jargon in titles and abstracts went with fewer citations (Martínez and Mammola
+2021). [Descriptive]{.ev .ev-d} 79% of acronyms in the literature are used fewer
+than ten times (Barnett and Doubleday 2020).
+
+## How big is each part?
+
+Count the jobs first, then check the length. The sizes below are what is typical in
+the papers I read, not targets.
+
+```{=html}
+<div class="paper-map" aria-label="Typical size of each section">
+<div><strong>Introduction</strong><small>~1,000 words · 18%</small><small>5–7 paragraphs</small><div class="ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+<div><strong>Methods</strong><small>~1,600 words · 30%</small><small>7–15 paragraphs</small><div class="ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+<div><strong>Results</strong><small>~900 words · 18%</small><small>5–10 paragraphs</small><div class="ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+<div><strong>Discussion</strong><small>~1,600 words · 30%</small><small>7–12 paragraphs</small><div class="ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+</div>
+```
+
+Widths show each section's median share of the text; each small box is one
+paragraph at the median; ranges are the middle half of papers.
+[Descriptive]{.ev .ev-d}
+
+1. **Count the jobs.** One paragraph per question, prediction, analysis or finding.
+2. **Check the budget.** Paragraphs ≈ section words ÷ 160.
+3. **Check each paragraph.** Over about 250 words, it probably holds two ideas.
+   Under about 60 words, merge it or develop it.
+
+| Section | Paragraph slots, in order |
+|:--|:--------|
+| Introduction | Big question (1) · what is known (2–4) · the gap (1) · question and numbered predictions (1) |
+| Methods | Overview · one per data source · one per model or measurement · one per analysis, in prediction order · software and code |
+| Results | Optional data overview · one or two per finding, finding first, in prediction order |
+| Discussion | The answer · one or two per finding · limitations (in the middle) · implications · back to the big question |
+
+A methods paper has different slots; the [paper brief](start-writing.qmd) gives
+both versions.
+
+**Where these numbers come from.** A script read the PDFs in my Zotero library,
+found the four section headings, and split each section into paragraphs from the
+page layout. It kept 148 research papers, mostly in forest insect ecology. Tables
+and captions were left out, so Results look shorter than they are, and the
+Discussion includes any Conclusions section.
+
+| Section | Words | Paragraphs | Words per paragraph |
+|---|---|---|---|
+| Introduction | 998 (805–1,159) | 6 (5–7) | 160 (135–183) |
+| Methods | 1,606 (1,047–2,298) | 10 (7–15) | 157 (134–185) |
+| Results | 926 (650–1,442) | 7 (5–10) | 146 (118–170) |
+| Discussion | 1,608 (1,224–2,114) | 9 (7–12) | 173 (142–196) |
+
+: Median (middle half of papers), n = 148.
+
+## The practice loop
+
+Guides describe good writing; getting better at it takes practice. Work on one
+skill at a time, with quick feedback and repetition (Kellogg 2008).
+
+```{=html}
+<div class="writing-figure" style="max-width:25rem">
+<svg viewBox="0 0 400 300" role="img" aria-labelledby="loop-t">
+<title id="loop-t">The practice loop: pick one skill, study a model, rewrite your own passage, get quick feedback, log the pattern, then start again.</title>
+<circle class="ring" cx="200" cy="160" r="118"/>
+<polygon class="arrow" points="275.0,68.7 268.8,56.7 261.8,66.5"/>
+<polygon class="arrow" points="310.1,203.1 319.5,193.6 308.1,189.9"/>
+<polygon class="arrow" points="193.0,278.0 205.0,284.0 205.0,272.0"/>
+<polygon class="arrow" points="85.6,189.8 83.6,203.1 95.0,199.4"/>
+<polygon class="arrow" points="136.3,60.4 123.1,62.6 130.1,72.3"/>
+<rect class="plain" x="136.0" y="25.0" width="128" height="34" rx="17" style="stroke:#2c6e63"/><text class="label" style="font-size:12px" x="200.0" y="46.5" text-anchor="middle">1 · Pick one skill</text>
+<rect class="plain" x="248.2" y="106.5" width="128" height="34" rx="17" style="stroke:#2c6e63"/><text class="label" style="font-size:12px" x="312.2" y="128.0" text-anchor="middle">2 · Study a model</text>
+<rect class="plain" x="205.4" y="238.5" width="128" height="34" rx="17" style="stroke:#2c6e63"/><text class="label" style="font-size:12px" x="269.4" y="260.0" text-anchor="middle">3 · Rewrite yours</text>
+<rect class="plain" x="66.6" y="238.5" width="128" height="34" rx="17" style="stroke:#2c6e63"/><text class="label" style="font-size:12px" x="130.6" y="260.0" text-anchor="middle">4 · Quick feedback</text>
+<rect class="plain" x="23.8" y="106.5" width="128" height="34" rx="17" style="stroke:#2c6e63"/><text class="label" style="font-size:12px" x="87.8" y="128.0" text-anchor="middle">5 · Log the pattern</text>
+<text class="label" x="200" y="160" text-anchor="middle">One skill</text><text class="small" x="200" y="177" text-anchor="middle">per session</text>
+</svg>
+</div>
+```
+
+1. **Pick one skill** from your recurring problems: stress position, topic
+   sentences, hidden verbs.
+2. **Study a model:** a short passage from a well-written paper that does it well,
+   with what it does named.
+3. **Rewrite a passage of your own** applying that one skill.
+4. **Get quick feedback** on that skill only, then do one more round.
+5. **Log the pattern** in a personal style guide when a habit is fixed or keeps
+   returning.
+
+*Evidence:* studying models and sentence combining both improved writing in a
+meta-analysis of school students, so their transfer to research writing is assumed
+(Graham and Perin 2007). Peer feedback improved writing quality across 60 studies
+(Wei and Liu 2024). No schedule is prescribed: writing every day is not shown to
+beat other routines (Sword 2016).
+
+## How strong is this advice?
+
+| Label | Meaning | Example |
+|:--|:----|:----|
+| [Experimental]{.ev .ev-e} | Tested by changing a text and measuring readers. Most tests used short texts and student or lay readers. | More accessible abstracts improved readers' understanding and confidence (Freeling et al. 2021). |
+| [Correlational]{.ev .ev-c} | Links between writing features and citations. They show associations, not causes. | More narrative abstracts were cited more (Hillier et al. 2016). |
+| [Descriptive]{.ev .ev-d} | Trends in the literature. | Abstracts have become harder to read since 1881 (Plavén-Sigray et al. 2017). |
+| [Expert]{.ev .ev-g} | Advice from experienced writers and editors. It rests on how readers process text but is untested. | Most of the structure above. |
+
+Readability formulas, which count word and sentence length, are not a measure of
+clarity: in 4,191 forestry abstracts they showed no link with citations (Jiang et
+al. 2026). Use sentence length only as a warning sign.
+
+## Sources
+
+**Guides.** Gopen GD, Swan JA (1990) The science of scientific writing. *American
+Scientist*. · Heard SB (2016) *The Scientist's Guide to Writing*. Princeton
+University Press. · Magnusson WE (1996) How to write backwards. *Bulletin of the
+Ecological Society of America* 77:88. · McGill B (2016) [The 5 pivotal paragraphs
+in a paper](https://dynamicecology.wordpress.com/2016/02/24/the-5-pivotal-paragraphs-in-a-paper/).
+*Dynamic Ecology*. · Mensh B, Kording K (2017) Ten simple rules for structuring
+papers. *PLOS Computational Biology*. · Olson R (2015) *Houston, We Have a
+Narrative*. University of Chicago Press. · Williams JM, Bizup J. *Style: Lessons
+in Clarity and Grace*. · Fahrig L. *How to write a scientific paper that people
+will want to read (and cite!)*, workshop slides.
+
+**Research.**
+
+- Barnett A, Doubleday Z (2020) The growth of acronyms in the scientific literature. *eLife* 9:e60080.
+- Bullock OM et al. (2019) Jargon as a barrier to effective science communication. *Public Understanding of Science*.
+- Demberg V, Keller F (2008) Data from eye-tracking corpora as evidence for theories of syntactic processing complexity. *Cognition* 109:193–210.
+- Ferreira F (2003) The misinterpretation of noncanonical sentences. *Cognitive Psychology* 47:164–203.
+- Freeling B (now Ryba R) et al. (2021) Better writing in scientific publications builds reader confidence and understanding. *Frontiers in Psychology* 12:714321.
+- Gibson E (1998) Linguistic complexity: locality of syntactic dependencies. *Cognition* 68:1–76.
+- Graham S, Perin D (2007) *Writing Next*. Alliance for Excellent Education.
+- Haviland SE, Clark HH (1974) What's new? *Journal of Verbal Learning and Verbal Behavior* 13:512–521.
+- Hillier A, Kelly RP, Klinger T (2016) Narrative style influences citation frequency in climate change science. *PLOS ONE*.
+- Jensen JD (2008) Scientific uncertainty in news coverage of cancer research: effects of hedging on scientists' and journalists' credibility. *Human Communication Research*. [doi:10.1111/j.1468-2958.2008.00324.x](https://doi.org/10.1111/j.1468-2958.2008.00324.x)
+- Jiang C et al. (2026) Abstract readability across knowledge domains and citation impact in forestry-related research. *Forests* 17:998.
+- Kellogg RT (2008) Training writing skills: a cognitive developmental perspective. *Journal of Writing Research* 1:1–26.
+- Lorch RF, Lemarié J, Chen HT (2013) Signaling topic structure via headings or preview sentences. *Psicología Educativa* 19:59–66.
+- Martínez A, Mammola S (2021) Specialized terminology reduces the number of citations of scientific papers. *Proceedings of the Royal Society B* 288:20202581.
+- McNamara DS et al. (1996) Are good texts always better? *Cognition and Instruction*.
+- Oppenheimer DM (2006) Consequences of erudite vernacular utilized irrespective of necessity. *Applied Cognitive Psychology* 20:139–156.
+- Paiva CE, Lima JPSN, Paiva BSR (2012) Articles with short titles describing the results are cited more often. *Clinics* 67:509–513.
+- Plavén-Sigray P et al. (2017) The readability of scientific texts is decreasing over time. *eLife* 6:e27725.
+- *Do declarative titles affect readers' perceptions of research findings? A randomized trial* (2016) *Research Integrity and Peer Review* 1.
+- Spyridakis JH, Isakson CS (1998) Nominalizations vs. denominalizations. *Journal of Technical Writing and Communication* 28:163–188.
+- Sword H (2016) 'Write every day!': a mantra dismantled. *International Journal for Academic Development* 21:312–322.
+- Wei W, Liu Y (2024) Incorporating peer feedback in academic writing: a systematic review. *Frontiers in Psychology*.
+
+{{< include _about.qmd >}}

@@ -1,0 +1,215 @@
+---
+title: "Start writing: the paper brief"
+description: "Answer these questions before drafting, and the outline of the paper writes itself. With versions for regular and methods papers."
+date: 2026-10-23
+categories: [planning, structure, evidence]
+image: /assets/thumb-paper-brief.svg
+resources:
+  - _downloads/paper-brief.docx
+  - _downloads/paper-brief.md
+---
+
+A blank page is hard; a list of questions is not. This brief asks the questions a
+paper has to answer, in an order that builds the outline as you go. Each answer
+feeds a specific paragraph, so a finished brief is a finished skeleton.
+
+**Download the brief to fill in:** [Word (.docx)](_downloads/paper-brief.docx) ·
+[Markdown (.md)](_downloads/paper-brief.md)
+
+How to use it:
+
+1. Choose the paper type (Step 0).
+2. Answer Blocks A to D in writing, in order.
+3. Pass the four gates.
+4. Turn each slot into a topic sentence, then draft paragraph by paragraph, using
+   the [level-by-level method](level-by-level.qmd).
+
+## Step 0: choose the paper type
+
+Decide this first, because six of the questions change with the type. A regular
+paper answers a question about nature; a methods paper offers a way of doing
+something that others can reuse.
+
+| | Regular paper | Methods paper |
+|---|---|---|
+| Take-home message is about | The system: species, forests, outbreaks | The procedure: how to compare, measure, forecast |
+| Introduction ends on | A question and numbered predictions | A gap in existing methods, independent of any study system |
+| Core of the paper | Results that answer the predictions | The method, then its evaluation |
+| Evidence | Data from the study system | Simulations across a range of conditions, comparison with alternatives, error rates |
+| Case study | Is the paper | One short worked example, often a single figure |
+| Discussion | What the finding means for ecology or management | When to use the method, its limits, how to implement it |
+
+**Test 1.** Draft the take-home message roughly. If its subject is the system, it
+is a regular paper; if its subject is a procedure, it is a methods paper.
+
+**Test 2.** Would the paper still matter if the case study were a different species
+or region? If yes, it leans methods. A good methods paper is about the method, not
+the study system (Ellison 2023).
+
+If a project holds both a new method and a new finding, two papers are often
+clearer than one. Methods journals also set the format: at *Methods in Ecology and
+Evolution*, a Research Article (a new general method) and a Workflow (a new
+pipeline of existing procedures) run to 8,000 words, and an Application or
+Practical Tool to 4,000.
+
+## Writing backwards: what it gains, what it costs
+
+The brief starts from your results and works back to the question, following
+Magnusson's "write backwards" method: conclusions first, then only the results,
+methods, discussion and introduction they need. It is worth using, but only with
+safeguards, because its main risk is quietly rewriting the question to fit the
+answer.
+
+| | What happens | Evidence |
+|:---|:--------|:--|
+| **Gain:** content before style | The story is fixed first; style is easier to correct afterwards. | [Expert]{.ev .ev-g} |
+| **Gain:** report what matters | You stop reporting every analysis in the order you ran it (Heard 2016). | [Expert]{.ev .ev-g} |
+| **Gain:** planning improves the text | Outlining before drafting produced better documents than not outlining (Kellogg 1988). | [Experimental]{.ev .ev-e} |
+| **Gain:** an easier start | You begin from what you know best: your results and figures. | [Expert]{.ev .ev-g} |
+| **Cost:** HARKing | Writing the Introduction last invites presenting an unexpected finding as if it had been predicted (Kerr 1998). 51% of 807 ecologists and evolutionary biologists admitted doing so at least once (Fraser et al. 2018). | Survey |
+| **Cost:** selective reporting | "Only the results the conclusions need" can slide into dropping inconvenient ones. 64% admitted not reporting non-significant results (Fraser et al. 2018). | Survey |
+| **Cost:** overselling | Conclusion-first framing can push claims past the evidence. | [Expert]{.ev .ev-g} |
+| **Cost:** locking in too early | Outlining improves text quality but can stop the new ideas that come from drafting, at least for some writers (Galbraith and Baaijen 2018). | [Experimental]{.ev .ev-e}, early |
+
+The brief keeps the gains and blocks the costs with five safeguards:
+
+1. **Record the original question first.** Question C1 asks what you set out to
+   test before you saw the results. Anything not in it is reported as exploratory.
+2. **List the results that do not fit.** Question B3 has a line for them; they stay
+   in the paper.
+3. **Calibrate claims.** Each conclusion carries the hedge its evidence needs.
+4. **Leave room to discover.** If you cannot answer B1 yet, write a rough
+   discussion freely first, outline what you wrote, then return to the brief.
+5. **Change the plan for a reason.** Revise the brief when a better story appears,
+   but only if you can say why it is better (Heard 2016).
+
+## Block A: reader and venue
+
+| # | Question | Feeds |
+|:-|:--------|:---|
+| A1 | Who is the reader? Name one real person outside your subfield who should understand the paper. | How much each section spells out |
+| A2 | Target journal, article type and word limit. Paragraph budget = words ÷ 160. | Paragraph count per section |
+| A3 | Regular or methods paper (Step 0)? One line on why. | Which template and question versions |
+
+How much to spell out depends on what the reader already knows (McNamara et al.
+1996), and experts misjudge what novices find hard (Hinds 1999). A named reader
+makes both concrete. [Experimental]{.ev .ev-e}
+
+## Block B: the answer first
+
+| # | Question | Feeds |
+|:-|:--------|:---|
+| B1 | Your conclusions: at most five, one sentence each, no "however". **Methods paper:** what the method does better than existing ones, with numbers. | Discussion ¶1; abstract |
+| B2 | Your figures (about five at most) and tables (about four), in the order that best tells the story. One line each: what should the reader see? | Results, one or two ¶ per figure |
+| B3 | The results each conclusion needs, with direction, size and figure. Then, separately: **results that do not fit the conclusions.** **Methods paper:** performance results (accuracy, error rates, sensitivity) and the comparison with alternatives. | Results ¶; Discussion limitations |
+| B4 | The take-home message in one sentence: not what you found, but what it changes. Leave it a day, then revise. | Last sentence of the abstract; Discussion ¶1; title |
+| B5 | The central question and its answer, in two sentences. | Introduction last ¶; Discussion ¶1 |
+
+From Magnusson (conclusions, then only the results they need), Heard (figure
+shuffling and the two-sentence mini-summary) and Fahrig (the take-home message as
+an implication). [Expert]{.ev .ev-g}
+
+## Block C: the question and the argument
+
+Answer C1 from your notes or proposal, not from memory of the results.
+
+| # | Question | Feeds |
+|:-|:--------|:---|
+| C1 | **The original question and predictions**, as they stood before you saw the results. Mark any that changed, and any new ones: those are reported as exploratory. **Methods paper:** the performance claims you set out to test. | Introduction last ¶; the order of everything after it |
+| C2 | Numbered predictions, P1, P2…, in the order the paper will answer them. | Introduction last ¶; Methods, Results and Discussion order |
+| C3 | The big question your field cares about, and your pitch: resolves a controversy · a gap that blocks a wider goal · blocks a practical problem · a model system for a wider field · a new path to a hard goal. **Methods paper:** the task researchers need to do, in any system. | Introduction ¶1; Discussion last ¶ |
+| C4 | What the reader must know first: two to four points, each with its key references. **Methods paper:** how the task is done now, and where that falls short. | Introduction ¶2–4 |
+| C5 | The gap and why it matters, without "no studies have" or "to increase our understanding". **Methods paper:** the gap in methods, stated without your study system. | Introduction gap ¶ |
+| C6 | For each prediction: the data and analysis needed, and only those. **Methods paper:** the method's components and assumptions, the simulation design, the alternatives compared, the case study. | Methods ¶, in prediction order |
+| C7 | The story in three lines: *And* (context), *But* (gap), *Therefore* (what you did and found). | Abstract; Introduction arc |
+
+From Heard (the story summary and the five pitches), Fahrig (flow-through order),
+McGill (the pivotal first paragraph), Olson (And, But, Therefore) and Ellison
+(methods papers). [Expert]{.ev .ev-g}
+
+## Block D: meaning and limits
+
+| # | Question | Feeds |
+|:-|:--------|:---|
+| D1 | For each conclusion: does it agree with, extend or contradict earlier work? Name the papers. | Discussion ¶2–5, in prediction order |
+| D2 | The limitations that could change a conclusion, and by how much. **Methods paper:** the method's assumptions, and when someone should not use it. | Discussion middle, never first or last |
+| D3 | What changes for management or theory? **Methods paper:** how to implement it; where the code and data are. | Discussion implications ¶ |
+| D4 | A working title that states the finding: short, no question mark. **Methods paper:** a title that says what the method does. | Title |
+| D5 | What you are leaving out, and why: not relevant, redundant, or a separate paper. Conflicting results never go here. | Supplement or another paper |
+
+## Four gates before drafting
+
+- [ ] **Message.** B4 is one sentence, states an implication, and passes the Step 0
+  test. You left it a day and revised it. Your reader from A1 could repeat it.
+- [ ] **Honesty.** C1 came from your notes, not your results. Every prediction not
+  in C1 is labelled exploratory. B3 lists the results that do not fit, and D5
+  hides none of them.
+- [ ] **Order.** The predictions in C2, figures in B2, analyses in C6 and
+  comparisons in D1 all follow the same order.
+- [ ] **Budget.** The paragraph count from the tables below fits the A2 budget. If
+  it is over, cut a prediction or move it to the supplement before writing.
+
+## Where each answer goes
+
+When the gates pass, write one topic sentence per slot from its answers. That list
+is your skeleton. Then draft each paragraph as link, topic sentence, three or four
+supporting sentences, and close.
+
+**Regular paper.** Typical paragraph counts are from [148 papers I
+measured](level-by-level.qmd#how-big-is-each-part).
+
+| Section | Paragraph slot | Built from |
+|:---|:------|:--|
+| Introduction (5–7 ¶) | Big question | C3 |
+| | What the reader must know (2–4 ¶) | C4 |
+| | The gap | C5 |
+| | Question and numbered predictions | C1, C2, B5 |
+| Methods (7–15 ¶) | Overview | C6, C7 |
+| | Data, then one ¶ per model or measurement, then one per analysis | C6, in C2 order |
+| Results (5–10 ¶) | One or two ¶ per finding, finding first | B2, B3, in C2 order |
+| Discussion (7–12 ¶) | The answer | B1, B4, B5 |
+| | One or two ¶ per finding | D1 |
+| | Limitations, in the middle | D2, B3 |
+| | Implications | D3 |
+| | Back to the big question | C3, B4 |
+| Abstract and title | Context, gap, approach, result, implication | C7, B3, B4, D4 |
+
+**Methods paper.** Sizes are not measured; use the journal's limit (A2).
+
+| Section | Paragraph slot | Built from |
+|:---|:------|:--|
+| Introduction | The task researchers need to do | C3 |
+| | How it is done now, and where that falls short | C4 |
+| | The gap in methods | C5 |
+| | What the new method does | B4, C1 |
+| Method | Overview, then one ¶ per component, assumptions stated | C6 |
+| Evaluation | Simulation design | C6 |
+| | One ¶ per performance result; comparison with alternatives | B2, B3 |
+| Case study | One or two ¶, often one figure | B2, C6 |
+| Discussion | What the method does better | B1, D1 |
+| | When to use it, and when not, in the middle | D2 |
+| | Implementation, code and data | D3 |
+| | Back to the task | C3, B4 |
+
+## Sources
+
+**Guides.** Fahrig L. *How to write a scientific paper that people will want to
+read (and cite!)*, workshop slides. · Heard SB (2016) *The Scientist's Guide to
+Writing*, ch. 7 and 16. Princeton University Press. · Magnusson WE (1996) How to
+write backwards. *Bulletin of the Ecological Society of America* 77:88. · McGill B
+(2016) [The 5 pivotal paragraphs in a
+paper](https://dynamicecology.wordpress.com/2016/02/24/the-5-pivotal-paragraphs-in-a-paper/).
+*Dynamic Ecology*. · Olson R (2015) *Houston, We Have a Narrative*.
+
+**Research and journal policy.**
+
+- Ellison AM (2023) Plus ça change, plus c'est la même chose: on our quattuordecennial, a good Methods paper still is not about my friend the dolphin. *Methods in Ecology and Evolution* 14:2904–2906.
+- Fraser H, Parker T, Nakagawa S, Barnett A, Fidler F (2018) Questionable research practices in ecology and evolution. *PLOS ONE* 13:e0200303.
+- Galbraith D, Baaijen VM (2018) The work of writing: raiding the inarticulate. *Educational Psychologist*.
+- Hinds PJ (1999) The curse of expertise: the effects of expertise and debiasing methods on prediction of novice performance. *Journal of Experimental Psychology: Applied*.
+- Kellogg RT (1988) Attentional overload and writing performance: effects of rough draft and outline strategies. *Journal of Experimental Psychology: Learning, Memory, and Cognition* 14:355–365.
+- Kerr NL (1998) HARKing: hypothesizing after the results are known. *Personality and Social Psychology Review*.
+- McNamara DS, Kintsch E, Songer NB, Kintsch W (1996) Are good texts always better? *Cognition and Instruction*.
+- *Methods in Ecology and Evolution* (2026) [Manuscript type flowchart](https://methodsblog.com/wp-content/uploads/2026/04/mee-manuscript-type-flowchart.pdf).
+
+{{< include _about.qmd >}}
